@@ -4,7 +4,7 @@ Created on Sun Mar 08 12:59:42 2015
 
 @author: A30123
 modified date: Mar 13 2015
-description: Program for combining multiple events from seperate csv files
+description: Program for combining multiple events from seperate csv files. Combines arbitrary number of events.
 """
 
 #########################################################################################################
