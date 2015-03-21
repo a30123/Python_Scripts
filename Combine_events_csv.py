@@ -81,7 +81,7 @@ number_of_events=len(files_in_folder)
 length_of_list=len(runindex_list)
 
 emptyarray=np.array(["" for x in range(number_of_events)],dtype=object)
-final_matrix=np.array([emptyarray for x in range(length_of_list)],dtype=object)
+final_matrix=np.array([emptyarray for x in range(length_of_list+1)],dtype=object)
 
 
 for i in range(number_of_events):
@@ -90,11 +90,12 @@ for i in range(number_of_events):
     
     zero_one,inverse_indices=np.unique(temp_event_list,return_inverse=True)
     labels=np.array(["",(number_of_events-i)],dtype=object)  
-    final_matrix[:,i]=labels[inverse_indices]
+    final_matrix[-length_of_list:,i]=labels[inverse_indices]
+    final_matrix[0,i]=files_in_folder[i].replace(".csv","")
     
     
-final_matrix=np.column_stack((np.array(range(length_of_list)),final_matrix))
-final_matrix=np.column_stack((runindex_list,final_matrix))
+final_matrix=np.column_stack((np.concatenate((np.array(["step increments"]),np.array(range(length_of_list)))),final_matrix))
+final_matrix=np.column_stack((np.concatenate((np.array(["run index"]),runindex_list)),final_matrix))
 
 
 
