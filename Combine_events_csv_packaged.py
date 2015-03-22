@@ -60,7 +60,7 @@ def write_array_to_csv(filename_path,listname):
 ########################################################################################################
 #######################################   INITIALIZING        ##########################################
 ########################################################################################################
-folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150308_combine_events//where_I_put_the_files"
+folder_to_read_from=os.path.join(os.getcwd(),"..")
 runindex_filename="run_index.csv"
 output_filename="output.csv"
 
@@ -68,10 +68,9 @@ output_filename="output.csv"
 #######################################   MAIN PROGRAM        ##########################################
 ########################################################################################################
 tstart = time.time()
-
 complete_dirpath_to_read_runindexlist=os.path.normpath(os.path.join(folder_to_read_from,runindex_filename))
 complete_dirpath_to_write=os.path.normpath(os.path.join(folder_to_read_from,output_filename))
-complete_dirpath_to_event_folder=os.path.normpath(os.path.join(folder_to_read_from,"just events"))
+complete_dirpath_to_event_folder=os.path.normpath(os.path.join(folder_to_read_from,"events_I_want_to_combine"))
 
 files_in_folder = os.listdir(complete_dirpath_to_event_folder)
 
