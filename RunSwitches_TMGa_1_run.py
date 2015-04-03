@@ -126,6 +126,7 @@ for i in range(1040,len(files_in_folder)):
     
     
     if (no_of_switch_points>5):
+                
         
         switch_points=np.zeros(no_of_switch_points+2)
         switch_points[1:-1]=np.nonzero(diff_run_list)[0]
@@ -138,7 +139,8 @@ for i in range(1040,len(files_in_folder)):
         nonzero_list.append(length_between_switch_points)
         
         types_of_lengths, counts=np.unique(length_between_switch_points,return_counts=True)
-
+        
+        
         if max(counts)>5:
             freq_switch_region_list.append(1)
             number_of_freq_switch.append(max(counts))
@@ -147,11 +149,9 @@ for i in range(1040,len(files_in_folder)):
             just_increments=np.array(range(len(counts)))
             position_of_freq_switch=just_increments[yes_no_freq_switch]
 
-            
             counts2=counts
             
-            clean_i=0
-            temp_run_list=run_list
+            temp_run_list=get_variables_from_csv(single_file_path,sensor_variables)
             lower_bound=[]
             upper_bound=[]
             x=0
@@ -168,7 +168,7 @@ for i in range(1040,len(files_in_folder)):
                 position_now=0
                 flag=True
  
-                while (position_now<no_of_positions-5 and flag):
+                while (position_now<no_of_positions and flag):
                     position_to_start_with=positions_of_that_length[position_now]
                     moving_position=position_to_start_with
                     position_to_add=1
@@ -180,13 +180,18 @@ for i in range(1040,len(files_in_folder)):
                         flag=False
                     else:
                         position_now=position_now+position_to_add
+                        temp_lower_bound=switch_points[position_to_start_with]    
+                        temp_upper_bound=switch_points[moving_position+1]
+                        temp_run_list[temp_lower_bound:temp_upper_bound]=np.zeros((temp_upper_bound-temp_lower_bound,1))
                 
                 if flag==False:
                     lower_bound=switch_points[position_to_start_with]    
                     upper_bound=switch_points[moving_position+1]
+                    temp_run_list[lower_bound:upper_bound]=np.zeros((upper_bound-lower_bound,1))
                 else:
                     lower_bound=0
                     upper_bound=0.01
+                   
                     
                 x=1
                               
