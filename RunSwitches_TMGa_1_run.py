@@ -94,6 +94,7 @@ def write_array_to_csv(filename_path,listname):
 sensor_variables=["TMGa_1.run"]#-------------------------------------"sensor variable of interest"
 folder_to_read_from="E://MovedFromD//CSV//TS1//MO1group_line_run_2363runs//setpoint//"#--------------------------------------------"folder to access"
 path_to_save_figures="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150327_RunSwitches//figures2"#----------------------------"folder to save output to"
+path_to_save_csv_files="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150327_RunSwitches//CSV"#----------------------------"folder to save output to"
 
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
@@ -107,8 +108,8 @@ files_in_folder.sort(key=extract_serial_number)
 
 
 length_between_switches_list=[]
-
-for i in range(2300,len(files_in_folder)):
+yes_no_freq_switch_region_list=[]
+for i in range(1240,len(files_in_folder)):
     #--------------------------------------------------------------------------------file path name for single csv file
     single_file_path=os.path.join(folder_to_read_from, files_in_folder[i])
 
@@ -122,6 +123,7 @@ for i in range(2300,len(files_in_folder)):
     
     no_of_switch_points=len(np.nonzero(diff_run_list)[0])
     
+    yes_no_freq_switch_region=np.zeros(len(run_list))
     
     if (no_of_switch_points>5):
                 
@@ -184,6 +186,7 @@ for i in range(2300,len(files_in_folder)):
                     lower_bound=switch_points[position_to_start_with]    
                     upper_bound=switch_points[moving_position+1]
                     temp_run_list[lower_bound:upper_bound]=np.zeros((upper_bound-lower_bound,1))
+                    yes_no_freq_switch_region[lower_bound:upper_bound]=np.ones(upper_bound-lower_bound)
                 else:
                     lower_bound=0
                     upper_bound=0.01
@@ -200,10 +203,17 @@ for i in range(2300,len(files_in_folder)):
         length_between_switches_list.append("less than 5 switches")
         lower_bound=0
         upper_bound=0.01
-            
+    
+    ##Save CSV
+    figure_filename3=str(extract_serial_number(files_in_folder[i]))+'.csv'
+    complete_path_to_save_csv=os.path.normpath(os.path.join(path_to_save_csv_files,figure_filename3))
+    write_array_to_csv(complete_path_to_save_csv,yes_no_freq_switch_region)
+
+    
+    ###MAke figure    
     plt.figure(figsize=(10,6))
     plt.plot(run_list)
-    plt.axvspan(lower_bound, upper_bound, facecolor='g', alpha=0.8)
+    plt.axvspan(lower_bound, upper_bound, facecolor='darkgoldenrod', alpha=0.8)
     
    # figure_filename2=files_in_folder[i].replace('.csv','.png')
     figure_filename2=str(extract_serial_number(files_in_folder[i]))+'.png'
