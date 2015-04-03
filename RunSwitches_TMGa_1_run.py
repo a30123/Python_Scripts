@@ -109,8 +109,9 @@ nonzero_list=[]
 freq_switch_region_list=[]
 number_of_freq_switch=[]
 interval_lengths_of_freq_switch=[]
+length_between_switches_list=[]
 
-for i in range(1230,len(files_in_folder)):
+for i in range(1240,len(files_in_folder)):
     #--------------------------------------------------------------------------------file path name for single csv file
     single_file_path=os.path.join(folder_to_read_from, files_in_folder[i])
 
@@ -134,7 +135,7 @@ for i in range(1230,len(files_in_folder)):
         switch_points[0]=0
 
         length_between_switch_points=switch_points[1:]-switch_points[:-1]
-        
+        length_between_switches_list.append(length_between_switch_points)
         
         nonzero_list.append(length_between_switch_points)
         
@@ -223,6 +224,7 @@ for i in range(1230,len(files_in_folder)):
         nonzero_list.append("none")
         freq_switch_region_list.append(0)
         number_of_freq_switch.append(0)
+        length_between_switches_list.append("less than 5 switches")
         interval_lengths_of_freq_switch.append(0)
         lower_bound=0
         upper_bound=0.01
@@ -250,6 +252,7 @@ for i in range(1230,len(files_in_folder)):
 #write_array_to_csv("Try_20150327_RunSwitches//TMGa_1_run_exist_freq_switch.csv",freq_switch_region_list)
 #write_array_to_csv("Try_20150327_RunSwitches//TMGa_1_run_number_of_freq_switch.csv",number_of_freq_switch)
 #write_array_to_csv("Try_20150327_RunSwitches//TMGa_1_interval_lengths_of_freq_switch.csv",interval_lengths_of_freq_switch)
+write_array_to_csv("C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150327_RunSwitches//TMGa_1_lengths_between_switches.csv",length_between_switches_list)
 
 
 print('RUN TIME: %.2f secs' % (time.time()-tstart))
