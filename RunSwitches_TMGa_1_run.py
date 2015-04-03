@@ -105,13 +105,10 @@ tstart = time.time()
 files_in_folder = os.listdir(folder_to_read_from) 
 files_in_folder.sort(key=extract_serial_number)
 
-nonzero_list=[]
-freq_switch_region_list=[]
-number_of_freq_switch=[]
-interval_lengths_of_freq_switch=[]
+
 length_between_switches_list=[]
 
-for i in range(1240,len(files_in_folder)):
+for i in range(2300,len(files_in_folder)):
     #--------------------------------------------------------------------------------file path name for single csv file
     single_file_path=os.path.join(folder_to_read_from, files_in_folder[i])
 
@@ -137,15 +134,12 @@ for i in range(1240,len(files_in_folder)):
         length_between_switch_points=switch_points[1:]-switch_points[:-1]
         length_between_switches_list.append(length_between_switch_points)
         
-        nonzero_list.append(length_between_switch_points)
+       
         
         types_of_lengths, counts=np.unique(length_between_switch_points,return_counts=True)
         
         
-        if max(counts)>5:
-            freq_switch_region_list.append(1)
-            number_of_freq_switch.append(max(counts))
-            
+        if max(counts)>5:           
             yes_no_freq_switch=(counts==max(counts)) 
             just_increments=np.array(range(len(counts)))
             position_of_freq_switch=just_increments[yes_no_freq_switch]
@@ -158,8 +152,6 @@ for i in range(1240,len(files_in_folder)):
             x=0
             while (x==0):#(max(counts2)>5)and (no_of_switch_points>5)):
                 one_length=types_of_lengths[position_of_freq_switch[0]]
-
-                interval_lengths_of_freq_switch.append(one_length)
 
                 just_increments2=np.array(range(len(length_between_switch_points)))
                 its_that_length=(length_between_switch_points<one_length+20)*(length_between_switch_points>one_length-20)
@@ -199,33 +191,13 @@ for i in range(1240,len(files_in_folder)):
                     
                 x=1
                               
-#                temp_run_list[lower_bound[clean_i],upper_bound[clean_i]]=np.zeros(upper_bound[clean_i]-lower_bound[clean_i]+1)
-#                clean_i=clean_i+1
-#                temp_diff_run_list=temp_run_list[1:]-temp_run_list[:-1]
-#                no_of_switch_points=len(np.nonzero(temp_diff_run_list)[0])
-#                switch_points=np.zeros(no_of_switch_points+2)
-#                switch_points[1:-1]=np.nonzero(diff_run_list)[0]
-#                switch_points[-1]=(len(run_list)-1)
-#                switch_points[0]=0
-#                length_between_switch_points=switch_points[1:]-switch_points[:-1]
-#        
-#                types_of_lengths, counts2=np.unique(length_between_switch_points,return_counts=True)
-#                
-#                interval_with_freq_switch=(counts2==max(counts2)) 
-#                just_increments=np.array(range(len(counts2)))
-#            
+            
         else:
-            freq_switch_region_list.append(0)
-            number_of_freq_switch.append(0)
-            interval_lengths_of_freq_switch.append(0)
+            
             lower_bound=0
             upper_bound=0.01
     else:
-        nonzero_list.append("none")
-        freq_switch_region_list.append(0)
-        number_of_freq_switch.append(0)
         length_between_switches_list.append("less than 5 switches")
-        interval_lengths_of_freq_switch.append(0)
         lower_bound=0
         upper_bound=0.01
             
@@ -248,10 +220,6 @@ for i in range(1240,len(files_in_folder)):
     plt.savefig(complete_path_to_save_figure)
     plt.clf()    
 
-#write_list_to_csv("Try_20150327_RunSwitches//TMGa_1_NonZero2.csv",nonzero_list)
-#write_array_to_csv("Try_20150327_RunSwitches//TMGa_1_run_exist_freq_switch.csv",freq_switch_region_list)
-#write_array_to_csv("Try_20150327_RunSwitches//TMGa_1_run_number_of_freq_switch.csv",number_of_freq_switch)
-#write_array_to_csv("Try_20150327_RunSwitches//TMGa_1_interval_lengths_of_freq_switch.csv",interval_lengths_of_freq_switch)
 write_array_to_csv("C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150327_RunSwitches//TMGa_1_lengths_between_switches.csv",length_between_switches_list)
 
 
