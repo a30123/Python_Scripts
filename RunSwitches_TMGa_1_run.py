@@ -93,7 +93,7 @@ def write_array_to_csv(filename_path,listname):
 #########################################################################################################
 sensor_variables=["TMGa_1.run"]#-------------------------------------"sensor variable of interest"
 folder_to_read_from="E://MovedFromD//CSV//TS1//MO1group_line_run_2363runs//setpoint//"#--------------------------------------------"folder to access"
-path_to_save_figures="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150327_RunSwitches//figures2"#----------------------------"folder to save output to"
+path_to_save_figures="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150327_RunSwitches//PNG"#----------------------------"folder to save output to"
 path_to_save_csv_files="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150327_RunSwitches//CSV"#----------------------------"folder to save output to"
 
 #########################################################################################################
@@ -109,7 +109,7 @@ files_in_folder.sort(key=extract_serial_number)
 
 length_between_switches_list=[]
 yes_no_freq_switch_region_list=[]
-for i in range(1240,len(files_in_folder)):
+for i in range(len(files_in_folder)):
     #--------------------------------------------------------------------------------file path name for single csv file
     single_file_path=os.path.join(folder_to_read_from, files_in_folder[i])
 
