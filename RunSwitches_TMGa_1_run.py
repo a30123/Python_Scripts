@@ -165,21 +165,21 @@ for i in range(1040,len(files_in_folder)):
                 positions_of_that_length=just_increments2[its_that_length]
             
                 no_of_positions=len(positions_of_that_length)
-                ij=0
+                position_now=0
                 flag=True
  
-                while (ij<no_of_positions-5 and flag):
-                    position_to_start_with=positions_of_that_length[ij]
+                while (position_now<no_of_positions-5 and flag):
+                    position_to_start_with=positions_of_that_length[position_now]
                     moving_position=position_to_start_with
-                    jj=1
+                    position_to_add=1
                     while (sum(positions_of_that_length==(moving_position+2))>0):
                         moving_position=moving_position+2
-                        jj=jj+1
+                        position_to_add=position_to_add+1
                         
-                    if(jj>5):
+                    if(position_to_add>5):
                         flag=False
                     else:
-                        ij=ij+jj
+                        position_now=position_now+position_to_add
                 
                 if flag==False:
                     lower_bound=switch_points[position_to_start_with]    
@@ -239,9 +239,9 @@ for i in range(1040,len(files_in_folder)):
     plt.clf()    
 
 #write_list_to_csv("Try_20150327_RunSwitches//TMGa_1_NonZero2.csv",nonzero_list)
-write_array_to_csv("Try_20150327_RunSwitches//TMGa_1_run_exist_freq_switch.csv",freq_switch_region_list)
-write_array_to_csv("Try_20150327_RunSwitches//TMGa_1_run_number_of_freq_switch.csv",number_of_freq_switch)
-write_array_to_csv("Try_20150327_RunSwitches//TMGa_1_interval_lengths_of_freq_switch.csv",interval_lengths_of_freq_switch)
+#write_array_to_csv("Try_20150327_RunSwitches//TMGa_1_run_exist_freq_switch.csv",freq_switch_region_list)
+#write_array_to_csv("Try_20150327_RunSwitches//TMGa_1_run_number_of_freq_switch.csv",number_of_freq_switch)
+#write_array_to_csv("Try_20150327_RunSwitches//TMGa_1_interval_lengths_of_freq_switch.csv",interval_lengths_of_freq_switch)
 
 
 print('RUN TIME: %.2f secs' % (time.time()-tstart))
