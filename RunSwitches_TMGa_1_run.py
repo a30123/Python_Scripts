@@ -110,7 +110,7 @@ freq_switch_region_list=[]
 number_of_freq_switch=[]
 interval_lengths_of_freq_switch=[]
 
-for i in range(1040,len(files_in_folder)):
+for i in range(1230,len(files_in_folder)):
     #--------------------------------------------------------------------------------file path name for single csv file
     single_file_path=os.path.join(folder_to_read_from, files_in_folder[i])
 
@@ -161,7 +161,7 @@ for i in range(1040,len(files_in_folder)):
                 interval_lengths_of_freq_switch.append(one_length)
 
                 just_increments2=np.array(range(len(length_between_switch_points)))
-                its_that_length=(length_between_switch_points==one_length)
+                its_that_length=(length_between_switch_points<one_length+20)*(length_between_switch_points>one_length-20)
                 positions_of_that_length=just_increments2[its_that_length]
             
                 no_of_positions=len(positions_of_that_length)
@@ -172,9 +172,12 @@ for i in range(1040,len(files_in_folder)):
                     position_to_start_with=positions_of_that_length[position_now]
                     moving_position=position_to_start_with
                     position_to_add=1
-                    while (sum(positions_of_that_length==(moving_position+2))>0):
+                    other_length=length_between_switch_points[positions_of_that_length[position_now]+1]
+                    compare_length=length_between_switch_points[positions_of_that_length[position_now]+1]
+                    while (sum(positions_of_that_length==(moving_position+2))>0 and other_length+20>compare_length and other_length-20<compare_length):
                         moving_position=moving_position+2
                         position_to_add=position_to_add+1
+                        compare_length=length_between_switch_points[positions_of_that_length[position_now+position_to_add-1]+1]
                         
                     if(position_to_add>5):
                         flag=False
