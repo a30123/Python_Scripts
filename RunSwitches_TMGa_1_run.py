@@ -148,7 +148,7 @@ for i in range(1240,len(files_in_folder)):
 
             counts2=counts
             
-            temp_run_list=get_variables_from_csv(single_file_path,sensor_variables)
+            #temp_run_list=get_variables_from_csv(single_file_path,sensor_variables)
             lower_bound=[]
             upper_bound=[]
             x=0
@@ -180,12 +180,12 @@ for i in range(1240,len(files_in_folder)):
                         position_now=position_now+position_to_add
                         temp_lower_bound=switch_points[position_to_start_with]    
                         temp_upper_bound=switch_points[moving_position+1]
-                        temp_run_list[temp_lower_bound:temp_upper_bound]=np.zeros((temp_upper_bound-temp_lower_bound,1))
+                        #temp_run_list[temp_lower_bound:temp_upper_bound]=np.zeros((temp_upper_bound-temp_lower_bound,1))
                 
                 if flag==False:
                     lower_bound=switch_points[position_to_start_with]    
                     upper_bound=switch_points[moving_position+1]
-                    temp_run_list[lower_bound:upper_bound]=np.zeros((upper_bound-lower_bound,1))
+                    #temp_run_list[lower_bound:upper_bound]=np.zeros((upper_bound-lower_bound,1))
                     yes_no_freq_switch_region[lower_bound:upper_bound]=np.ones(upper_bound-lower_bound)
                 else:
                     lower_bound=0
