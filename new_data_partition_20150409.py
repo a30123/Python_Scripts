@@ -118,10 +118,12 @@ def adjusted_length(step_steplabel_file_path):
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
 
+#sensor_variables=['TMAl_1.source']#-------------------------------------"sensor variable of interest"
+#setpoint_folder='E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint'
+sensor_variables=['Heater.temp']
+setpoint_folder='E://MovedFromD//CSV//TS1//Heater_2363runs//setpoint'
+output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150411_HCKu_20150409_heater'
 
-sensor_variables=['TMAl_1.source']#-------------------------------------"sensor variable of interest"
-setpoint_folder='G://setpoint'
-output_folder='G://Output'
 #setpoint_folder='D://HCKu//TMAlgroup//setpoint'
 #output_folder='D://HCKu//TMAlgroup//Output'
 #serial_number=1491
@@ -405,8 +407,8 @@ for u in range(len(files_in_folder)):
     
 #        categorylist=np.concatenate((np.zeros(zero_step),categorylist),axis=0)
         
-        complete_path_to_save_segmentlist=os.path.normpath(os.path.join(complete_dirpath_to_save_segmentlist,files_in_folder[u]))
-        figure_filename2=files_in_folder[u].replace('.csv','.png')
+        complete_path_to_save_segmentlist=os.path.normpath(os.path.join(complete_dirpath_to_save_segmentlist,justnumbertemp))
+        figure_filename2=justnumbertemp.replace('.csv','.png')
         complete_path_to_save_figure=os.path.normpath(os.path.join(complete_dirpath_to_save_figure,figure_filename2))
         
         write_array_to_csv(complete_path_to_save_segmentlist,categorylist)
@@ -432,4 +434,5 @@ for u in range(len(files_in_folder)):
 #    print('Reading CSV file:',justnumbertemp) 
     
     print('-----------------------------------------')
-
+complete_path_to_save_doesnotwork=os.path.normpath(os.path.join(output_folder,"doesnotwork.csv"))
+write_array_to_csv(complete_path_to_save_doesnotwork,doesnotwork)
