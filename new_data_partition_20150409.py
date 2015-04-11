@@ -156,7 +156,7 @@ for u in range(len(files_in_folder)):
     single_file_path=os.path.join(setpoint_folder, files_in_folder[u])
 
 #--------------------------------------------------------------------------------prints end of filename
-    runnumberbylogfile=re.search('(\d+-setpoint)',files_in_folder[u])
+    runnumberbylogfile=re.search('(\d+-setpoint.csv)',files_in_folder[u])
 
     justnumbertemp=runnumberbylogfile.group(0)
     
