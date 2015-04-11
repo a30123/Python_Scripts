@@ -56,7 +56,7 @@ def get_variable_from_csv_alternative(csvpathfilename, listofvariablename):
     return np.array(thelist)
     
 def write_array_to_csv(filename_path,listname):
-#    import csv
+    import csv
      
     runnumberfile=open(filename_path,'w',newline='')
     wr=csv.writer(runnumberfile,quoting=csv.QUOTE_ALL)
@@ -85,7 +85,7 @@ def extract_serial_number(filename):
 #    import re
     extract_regular_expression=re.search('(_\d+-setpoint)',filename)
     serial_number_string=extract_regular_expression.group(0)
-    serial_number_string=serial_number_string.replace('-setpoint','')
+    serial_number_string=serial_number_string.replace('-','')
     serial_number_string=serial_number_string.replace('_','') 
     value_of_number=int(serial_number_string)
     return value_of_number
@@ -112,16 +112,18 @@ def adjusted_length(step_steplabel_file_path):
             zero_step=(i+1)
             break
                 
-    return ((len(xxx)-int(zero_step))), mmm, mmmm
+    return ((len(xxx)-int(zero_step))), mmm
     
 #########################################################################################################
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
 
-sensor_variables=['Heater.temp']#-------------------------------------"sensor variable of interest"
-setpoint_folder='E://MovedFromD//CSV//TS1//Heater_2363runs//setpoint'
-output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150410_HCKu_new_data_partition'
 
+sensor_variables=['TMAl_1.source']#-------------------------------------"sensor variable of interest"
+setpoint_folder='G://setpoint'
+output_folder='G://Output'
+#setpoint_folder='D://HCKu//TMAlgroup//setpoint'
+#output_folder='D://HCKu//TMAlgroup//Output'
 #serial_number=1491
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
@@ -129,13 +131,12 @@ output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_
 
 tstart = time.time()
 
-files_in_folder = os.listdir(setpoint_folder)
-files_in_folder.sort(key=extract_serial_number) 
+files_in_folder = os.listdir(setpoint_folder) 
 
 complete_dirpath_to_save_segmentlist=os.path.normpath(os.path.join(output_folder,"CSV"))    
 ensure_dir(complete_dirpath_to_save_segmentlist)
 
-complete_dirpath_to_save_figure=os.path.normpath(os.path.join(output_folder,"PNG"))    
+complete_dirpath_to_save_figure=os.path.normpath(os.path.join(output_folder,"FIG"))    
 ensure_dir(complete_dirpath_to_save_figure)
 
 doesnotwork=[]
@@ -164,7 +165,7 @@ for u in range(len(files_in_folder)):
         
         AA=get_variable_from_csv(single_file_path, sensor_variables)
         
-        modified_length, mmm, mmmm=adjusted_length(single_file_path)  
+        modified_length, mmm=adjusted_length(single_file_path)  
    
         A=AA[-modified_length:]
         m=mmm[-modified_length:]
@@ -228,55 +229,65 @@ for u in range(len(files_in_folder)):
                     if i==0 and G[i,1]==0 and G[i+1,1]-G[i,2]>2:
                         P[ttt,1]=G[i,2]+1
                         P[ttt,2]=G[i+1,1]-1
-#                        if np.mean(A_difference[P[ttt,1]:P[ttt,2]])>0.01 and np.mean(A_difference[P[ttt,1]:P[ttt,2]])<=0.1:
-#                            P[ttt,0]=5
-#                        elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])>0.1:
-#                            P[ttt,0]=3
-#                        elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])>-0.1 and np.mean(A_difference[P[ttt,1]:P[ttt,2]])<=-0.01:
-#                            P[ttt,0]=6
-#                        elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])<-0.1:
-#                            P[ttt,0]=2
+                        if np.mean(A_difference[P[ttt,1]:P[ttt,2]])>0.01 and np.mean(A_difference[P[ttt,1]:P[ttt,2]])<=0.1:
+                            P[ttt,0]=5
+                        elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])>0.1:
+                            P[ttt,0]=3
+                        elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])>-0.1 and np.mean(A_difference[P[ttt,1]:P[ttt,2]])<=-0.01:
+                            P[ttt,0]=6
+                        elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])<-0.1:
+                            P[ttt,0]=2
                         
                         ttt=ttt+1
                     elif i==0 and G[i,1]!=0 and G[i,1]>2:
                         P[ttt,1]=0
                         P[ttt,2]=G[i,1]-1
-#                        if np.mean(A_difference[P[ttt,1]:P[ttt,2]])>0.01 and np.mean(A_difference[P[ttt,1]:P[ttt,2]])<=0.1:
-#                            P[ttt,0]=5
-#                        elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])>0.1:
-#                            P[ttt,0]=3
-#                        elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])>-0.1 and np.mean(A_difference[P[ttt,1]:P[ttt,2]])<=-0.01:
-#                            P[ttt,0]=6
-#                        elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])<-0.1:
-#                            P[ttt,0]=2
+                        if np.mean(A_difference[P[ttt,1]:P[ttt,2]])>0.01 and np.mean(A_difference[P[ttt,1]:P[ttt,2]])<=0.1:
+                            P[ttt,0]=5
+                        elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])>0.1:
+                            P[ttt,0]=3
+                        elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])>-0.1 and np.mean(A_difference[P[ttt,1]:P[ttt,2]])<=-0.01:
+                            P[ttt,0]=6
+                        elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])<-0.1:
+                            P[ttt,0]=2
                             
                         ttt=ttt+1
                     elif i!=0 and G[i,1]!=0 and G[i+1,1]-G[i,2]>2:
                         P[ttt,1]=G[i,2]+1
                         P[ttt,2]=G[i+1,1]-1
-#                        if np.mean(A_difference[P[ttt,1]:P[ttt,2]])>0.01 and np.mean(A_difference[P[ttt,1]:P[ttt,2]])<=0.1:
-#                            P[ttt,0]=5
-#                        elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])>0.1:
-#                            P[ttt,0]=3
-#                        elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])>-0.1 and np.mean(A_difference[P[ttt,1]:P[ttt,2]])<=-0.01:
-#                            P[ttt,0]=6
-#                        elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])<-0.1:
-#                            P[ttt,0]=2
+                        if np.mean(A_difference[P[ttt,1]:P[ttt,2]])>0.01 and np.mean(A_difference[P[ttt,1]:P[ttt,2]])<=0.1:
+                            P[ttt,0]=5
+                        elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])>0.1:
+                            P[ttt,0]=3
+                        elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])>-0.1 and np.mean(A_difference[P[ttt,1]:P[ttt,2]])<=-0.01:
+                            P[ttt,0]=6
+                        elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])<-0.1:
+                            P[ttt,0]=2
                         ttt=ttt+1
                 if i==len(G)-1 and G[i,2]!=len(A)-1:
                     P[ttt,1]=G[-1,2]+1
                     P[ttt,2]=len(A)-1
-#                    if np.mean(A_difference[P[ttt,1]:P[ttt,2]])>0.01 and np.mean(A_difference[P[ttt,1]:P[ttt,2]])<=0.1:
-#                        P[ttt,0]=5
-#                    elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])>0.1:
-#                        P[ttt,0]=3
-#                    elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])>-0.1 and np.mean(A_difference[P[ttt,1]:P[ttt,2]])<=-0.01:
-#                        P[ttt,0]=6
-#                    elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])<-0.1:
-#                        P[ttt,0]=2
+                    if np.mean(A_difference[P[ttt,1]:P[ttt,2]])>0.01 and np.mean(A_difference[P[ttt,1]:P[ttt,2]])<=0.1:
+                        P[ttt,0]=5
+                    elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])>0.1:
+                        P[ttt,0]=3
+                    elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])>-0.1 and np.mean(A_difference[P[ttt,1]:P[ttt,2]])<=-0.01:
+                        P[ttt,0]=6
+                    elif np.mean(A_difference[P[ttt,1]:P[ttt,2]])<-0.1:
+                        P[ttt,0]=2
                 
             no_P=np.count_nonzero(P[:,1]!=-1)
-            P=P[:no_P,:]       
+            P=P[:no_P,:]
+
+        yyy=0
+        PP=np.zeros((len(P),3))
+        for i in range(len(P)):
+            if P[i,0]==-1:
+#                PP[yyy,1]=P[i,1]
+                for j in range(int(P[i,1])+1,int(P[i,2]-2)):
+                    if math.fabs(math.fabs(A_difference[j])-math.fabs(A_difference[j+1]))>0.1:
+                        print(j)
+                        yyy=yyy+1
         
         # partition completed
         
@@ -289,44 +300,23 @@ for u in range(len(files_in_folder)):
         plt.figure(figsize=(14,6))
         plt.plot(A)
         
-        m_P=np.zeros((len(m),1))
-        for j in range(len(P)):
-            if P[j,0]==-1:
-                m_P[int(P[j,1]):int(P[j,2])+1]=mmm[int(P[j,1]):int(P[j,2])+1]
-                pp,ppp=np.unique(mmm[int(P[j,1]):int(P[j,2])+1],return_counts=True)
-                pppp=np.zeros((len(pp)+1,1))
-                pppp[0]=int(P[j,1])
-                for i in range(1,len(pp)+1):
-                    pppp[i]=np.count_nonzero(m_P==pp[i-1])
-
-                pppp=np.cumsum(pppp)
-                for i in range(len(pppp)-1):
-                    if np.mean(A_difference[pppp[i]:pppp[i+1]])>0.01 and np.mean(A_difference[pppp[i]:pppp[i+1]])<=0.1:
-                        plt.axvspan(pppp[i], pppp[i+1], facecolor='m', alpha=0.5)
-                    elif np.mean(A_difference[pppp[i]:pppp[i+1]])>0.1:
-                        plt.axvspan(pppp[i], pppp[i+1], facecolor='y', alpha=1)
-                    elif np.mean(A_difference[pppp[i]:pppp[i+1]])>-0.1 and np.mean(A_difference[pppp[i]:pppp[i+1]])<=-0.01:
-                        plt.axvspan(pppp[i], pppp[i+1], facecolor='k', alpha=0.2)
-                    elif np.mean(A_difference[pppp[i]:pppp[i+1]])<-0.1:
-                        plt.axvspan(pppp[i], pppp[i+1], facecolor='r', alpha=1)
-        
         for g in range(len(G)):
             plt.axvspan(G[g,1], G[g,2], facecolor='c', alpha=0.5)
         
-#        for p in range(len(P)):
-#            if P[p,0]==2:
-#                plt.axvspan(P[p,1], P[p,2], facecolor='r', alpha=1)
-#            elif P[p,0]==3:
-#                plt.axvspan(P[p,1], P[p,2], facecolor='y', alpha=1)
-#            elif P[p,0]==5:
-#                plt.axvspan(P[p,1], P[p,2], facecolor='m', alpha=0.5)
-#            elif P[p,0]==6:
-#                plt.axvspan(P[p,1], P[p,2], facecolor='k', alpha=0.2)
+        for p in range(len(P)):
+            if P[p,0]==2:
+                plt.axvspan(P[p,1], P[p,2], facecolor='r', alpha=1)
+            elif P[p,0]==3:
+                plt.axvspan(P[p,1], P[p,2], facecolor='y', alpha=1)
+            elif P[p,0]==5:
+                plt.axvspan(P[p,1], P[p,2], facecolor='m', alpha=0.5)
+            elif P[p,0]==6:
+                plt.axvspan(P[p,1], P[p,2], facecolor='k', alpha=0.2)
         
         for j in range(0, k):
-            if k>1 and section[j+1]-section[j]>3 and max(A_difference[section[j]+1:section[j+1]-1])*min(A_difference[section[j]+1:section[j+1]-1])<0:#fluctuation
+            if k>1 and section[j+1]-section[j]>3 and max(A_difference[section[j]+1:section[j+1]-1])*min(A_difference[section[j]+1:section[j+1]-1]) < 0:#fluctuation
                 categorylist[section[j]:(section[j+1])]=1*np.ones((section[j+1]-section[j]))
-#                plt.axvspan(section[j], section[j+1], facecolor='g', alpha=1)
+                plt.axvspan(section[j], section[j+1], facecolor='g', alpha=1)
                 
 #                for i in range(len(G)):
 #                    if section[j]<G[i,2] and section[j]>G[i,1]:
@@ -415,14 +405,14 @@ for u in range(len(files_in_folder)):
     
 #        categorylist=np.concatenate((np.zeros(zero_step),categorylist),axis=0)
         
-        complete_path_to_save_segmentlist=os.path.normpath(os.path.join(complete_dirpath_to_save_segmentlist,justnumbertemp))
-        figure_filename2=justnumbertemp.replace('.csv','.png')
+        complete_path_to_save_segmentlist=os.path.normpath(os.path.join(complete_dirpath_to_save_segmentlist,files_in_folder[u]))
+        figure_filename2=files_in_folder[u].replace('.csv','.png')
         complete_path_to_save_figure=os.path.normpath(os.path.join(complete_dirpath_to_save_figure,figure_filename2))
         
         write_array_to_csv(complete_path_to_save_segmentlist,categorylist)
 
         plt.xlim(0,len(A)-1)
-#        plt.xlim(6620,7000)
+#        plt.xlim(13120,13131)
         plt.grid()
         plt.xlabel("Time(s)",fontsize=16)
         plt.ylabel("Setpoint",fontsize=16) 
@@ -438,10 +428,8 @@ for u in range(len(files_in_folder)):
 #        print('Reading CSV file:',justnumbertemp)
 #        print('run',u)
         print('No valid StepLabel in this run!!!')
-        doesnotwork.append(justnumbertemp)
+        doesnotwork.append(u)
 #    print('Reading CSV file:',justnumbertemp) 
     
     print('-----------------------------------------')
 
-complete_path_to_save_doesnotwork=os.path.normpath(os.path.join(output_folder,"doesnotwork.csv"))
-write_array_to_csv(complete_path_to_save_doesnotwork,doesnotwork)
