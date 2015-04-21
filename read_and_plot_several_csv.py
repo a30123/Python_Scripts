@@ -117,12 +117,14 @@ for i in range(len(files_in_folder)):
     single_file_path=os.path.join(folder_to_read_from, files_in_folder[i])
 
     #--------------------------------------------------------------------------------prints serial number
-    print('Reading CSV file:',extract_serial_number(files_in_folder[i]))
+    serial_number=extract_serial_number(files_in_folder[i])
+    print('Reading CSV file:',serial_number)
 
     #--------------------------------------------------------------------------------reads values from csv file of specified sensor variable
     values_read_from_file=read_single_variable_as_stringlist_csv(single_file_path,sensor_variables)
     
     #----------------------------------------------------------------------------------plots the values and saves as png file into designated folder    
-    plot_and_save_list_values(values_read_from_file,path_to_save_figures,files_in_folder[i])
+    plot_and_save_list_values(values_read_from_file,path_to_save_figures,str(serial_number)+".csv")
+    #plot_and_save_list_values(values_read_from_file,path_to_save_figures,files_in_folder[i])
     
 
