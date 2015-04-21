@@ -1,0 +1,121 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Feb  6 09:25:44 2015
+
+@author: A30123
+"""
+###########################################################################################################
+import os #-------------------------------------------------------Miscellaneous operating system interfaces
+#import numpy as np #----------------------------------------------array manipulation, scientific computing
+#import csv#-------------------------------------------------------read write csv files
+#import matplotlib.pyplot as plt  #--------------------------------John Hunter's  2D plotting library
+#import re #-------------------------------------------------------regular expressions
+############################################################################################################
+
+
+
+
+
+
+
+
+
+############################################################################################################
+#------------------------------SMALL FUNCTIONS--------------------------------------------------------------
+############################################################################################################
+
+#####################################
+#reference:    http://stackoverflow.com/questions/273192/check-if-a-directory-exists-and-create-it-if-necessary     
+def ensure_dir(f):
+    import os
+    d=os.path.abspath(f)
+    if not os.path.exists(d):
+        os.makedirs(d)
+#####################################
+        
+
+        
+#####################################        
+def plot_and_save_list_values(valuelist,pathname,figure_filename):
+    import matplotlib.pyplot as plt  #--------------------------------John Hunter's  2D plotting library
+
+    complete_dirpath_to_save_figures=os.path.normpath(os.path.join(os.getcwd(),pathname))    
+    ensure_dir(complete_dirpath_to_save_figures)
+    figure_filename2=figure_filename.replace('.csv','.png')
+    complete_path_to_save_figure=os.path.normpath(os.path.join(complete_dirpath_to_save_figures,figure_filename2))
+    
+       
+    plt.plot(valuelist)
+    plt.savefig(complete_path_to_save_figure)
+    plt.clf()
+#####################################
+
+
+
+#####################################    
+#HCKu's code for retrieving variable values
+def get_variables_from_csv(csvpathfilename, listofvariablename):
+    import csv
+    import numpy as np      
+    
+    reader = csv.reader(open(csvpathfilename, 'r'), delimiter=',')
+    tempArr = np.array(list(reader))
+    tags = tempArr[0,:]
+        
+    variablearrays=np.zeros((np.shape(tempArr)[0] - 1, np.shape(np.array(listofvariablename))[0]))
+    for j in range(0, np.shape(np.array(listofvariablename))[0]):
+        for i in range(0,np.shape(tempArr)[1]):
+            if tags[i] == np.array(listofvariablename)[j]:
+                variablearrays[0:, j] = tempArr[1:, i].astype('float')
+        
+    return variablearrays    
+######################################
+
+
+######################################
+def extract_serial_number(filename):
+    import re
+    extract_regular_expression=re.search('(_\d+-current)',filename)
+    serial_number_string=extract_regular_expression.group(0)
+    serial_number_string=serial_number_string.replace('-current','')
+    serial_number_string=serial_number_string.replace('_','') 
+    value_of_number=int(serial_number_string)
+    return value_of_number
+#######################################
+
+
+
+
+
+
+
+
+##########################################################################
+#-------------------------------------MAIN------------------------------
+########################################################################## 
+
+#intialize "sensor variable of interest","folder to accesss", and "folder to save output to"
+sensor_variables=["TMAl_1.press"]#-------------------------------------"sensor variable of interest"
+folder_to_read_from="Test"#--------------------------------------------"folder to access"
+path_to_save_figures="Output//value_plots"#----------------------------"folder to save output to"
+
+
+
+folder_path=os.path.normpath(os.path.join(os.getcwd(),folder_to_read_from))
+files_in_folder = os.listdir(folder_path) 
+files_in_folder.sort(key=extract_serial_number)
+
+for i in range(len(files_in_folder)):
+    #--------------------------------------------------------------------------------file path name for single csv file
+    single_file_path=os.path.join(folder_to_read_from, files_in_folder[i])
+
+    #--------------------------------------------------------------------------------prints serial number
+    print('Reading CSV file:',extract_serial_number(files_in_folder[i]))
+
+    #--------------------------------------------------------------------------------reads values from csv file of specified sensor variable
+    values_read_from_file=get_variables_from_csv(single_file_path,sensor_variables)
+    
+    #----------------------------------------------------------------------------------plots the values and saves as png file into designated folder    
+    plot_and_save_list_values(values_read_from_file,path_to_save_figures,files_in_folder[i])
+    
+
