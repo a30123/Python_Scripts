@@ -99,7 +99,7 @@ def extract_serial_number(filename):
 #########################################################################################################
 
 #intialize "sensor variable of interest","folder to accesss", and "folder to save output to"
-sensor_variables=["Vent.vac"]#-------------------------------------"sensor variable of interest"
+sensor_variables="Vent.vac"#-------------------------------------"sensor variable of interest"
 folder_to_read_from="E://MovedFromD//CSV//TS1//Vac_2363runs//setpoint"#--------------------------------------------"folder to access"
 path_to_save_figures="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150421_VentVac_switch//Output"#----------------------------"folder to save output to"
 
@@ -109,8 +109,7 @@ path_to_save_figures="C://Users//A30123.ITRI//Documents//Python Scripts//New_for
 #########################################################################################################
 
 
-folder_path=os.path.normpath(os.path.join(os.getcwd(),folder_to_read_from))
-files_in_folder = os.listdir(folder_path) 
+files_in_folder = os.listdir(folder_to_read_from) 
 files_in_folder.sort(key=extract_serial_number)
 
 for i in range(len(files_in_folder)):
@@ -121,7 +120,7 @@ for i in range(len(files_in_folder)):
     print('Reading CSV file:',extract_serial_number(files_in_folder[i]))
 
     #--------------------------------------------------------------------------------reads values from csv file of specified sensor variable
-    values_read_from_file=get_variables_from_csv(single_file_path,sensor_variables)
+    values_read_from_file=read_single_variable_as_stringlist_csv(single_file_path,sensor_variables)
     
     #----------------------------------------------------------------------------------plots the values and saves as png file into designated folder    
     plot_and_save_list_values(values_read_from_file,path_to_save_figures,files_in_folder[i])
