@@ -50,25 +50,10 @@ def plot_and_save_list_values(valuelist,pathname,figure_filename):
     plt.savefig(complete_path_to_save_figure)
     plt.clf()
     
-#HCKu's code for retrieving variable values
-def get_variables_from_csv(csvpathfilename, listofvariablename):
-#    import csv
-#    import numpy as np      
-    
-    reader = csv.reader(open(csvpathfilename, 'r'), delimiter=',')
-    tempArr = np.array(list(reader))
-    tags = tempArr[0,:]
-        
-    variablearrays=np.zeros((np.shape(tempArr)[0] - 1, np.shape(np.array(listofvariablename))[0]))
-    for j in range(0, np.shape(np.array(listofvariablename))[0]):
-        for i in range(0,np.shape(tempArr)[1]):
-            if tags[i] == np.array(listofvariablename)[j]:
-                variablearrays[0:, j] = tempArr[1:, i].astype('float')
-        
-    return variablearrays    
+
 def read_single_variable_as_stringlist_csv(csvpathfilename, variablename):
-    import csv
-    import numpy as np      
+#   import csv
+#   import numpy as np      
     
     notfirst=1
     thelist=[]
