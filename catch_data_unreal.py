@@ -167,7 +167,7 @@ for i in range(len(files_in_folder)):
     
     calculated_deviation=current_values-setpoint_values    
     
-    boolean_value=(abs(calculated_deviation-deviation_values*PhysMax/100)<1)
+    boolean_value=(abs(calculated_deviation-deviation_values*PhysMax/100)>1)
     
     if (sum(boolean_value)>100):
         event_list.append(1)
