@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Feb  6 09:25:44 2015
+Created on Fri Apr 23 2015
 
 @author: A30123
 """
@@ -172,9 +172,11 @@ for i in range(len(files_in_folder)):
     
     if (sum(boolean_value)>100):
         event_list.append(1)
+        duration_list.append(sum(boolean_value))
         
     else:
         event_list.append(0)
+        duration_list.append(0)
     #----------------------------------------------------------------------------------plots the values and saves as png file into designated folder    
      
-write_array_to_csv(path_to_save_list,event_list)
+write_array_to_csv(path_to_save_list,duration_list)
