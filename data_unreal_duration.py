@@ -103,7 +103,7 @@ def extract_serial_number(filename):
     return value_of_number
     
 def write_array_to_csv(filename_path,listname):
-    import csv
+#    import csv
      
     runnumberfile=open(filename_path,'w',newline='')
     wr=csv.writer(runnumberfile,quoting=csv.QUOTE_ALL)
