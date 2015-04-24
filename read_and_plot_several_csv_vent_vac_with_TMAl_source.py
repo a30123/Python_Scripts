@@ -113,7 +113,7 @@ sensor_variables="Vent.vac"#-------------------------------------"sensor variabl
 folder_to_read_from="E://MovedFromD//CSV//TS1//Vac_2363runs//setpoint"#--------------------------------------------"folder to access"
 sensor_variables2="TMAl_1.source"#-------------------------------------"sensor variable of interest"
 folder_to_read_from2="E://MovedFromD//CSV//TS1//MO1group_2363runs//deviation"#--------------------------------------------"folder to access"
-path_to_save_figures="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150422_VentVacWithTMAl//Output"#----------------------------"folder to save output to"
+path_to_save_figures="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150422_VentVacWithTMAl//Output2"#----------------------------"folder to save output to"
 
 
 #########################################################################################################
@@ -150,7 +150,7 @@ for i in range(len(files_in_folder)):
         plot_right_endpoint=min((run_length-1),(last_negative_one+15))
     else:
         plot_left_endpoint=0
-        plot_right_endpoint=(run_length-1)
+        plot_right_endpoint=(run_length)
     
     second_set_of_values=read_single_variable_as_stringlist_csv(single_file_path2,sensor_variables2)
 
