@@ -126,12 +126,21 @@ for i in range(len(files_in_folder)):
     
     yes_no_negative_one=(diff_values_from_file==(-1))
     yes_no_one=(diff_values_from_file==1)
-    if (sum(yes_no_negative_one)>0|sum(yes_no_negative_one)>0):
+    if ((sum(yes_no_negative_one)>0)|(sum(yes_no_one)>0)):
         just_increments=np.array(range(len(diff_values_from_file)))
-        position_of_negative_ones=just_increments[yes_no_negative_one]
-        last_negative_one=max(position_of_negative_ones)    
-        position_of_ones=just_increments[yes_no_one]
-        last_one=max(position_of_ones) 
+        if (sum(yes_no_negative_one)>0):
+            position_of_negative_ones=just_increments[yes_no_negative_one]
+            last_negative_one=max(position_of_negative_ones) 
+        else:
+            last_negative_one=0
+            
+        if (sum(yes_no_one)>0):
+            position_of_ones=just_increments[yes_no_one]
+            last_one=max(position_of_ones) 
+        else:
+            last_one=0
+            
+            
         if(last_one<last_negative_one):
             vent_vac_type_list.append("last close")
             vent_vac_type_list_label.append(-1)
