@@ -126,7 +126,7 @@ for i in range(len(files_in_folder)):
     
     yes_no_negative_one=(diff_values_from_file==(-1))
     yes_no_one=(diff_values_from_file==1)
-    if (sum(yes_no_negative_one)>0|sum(yes_no_negative_one)):
+    if (sum(yes_no_negative_one)>0|sum(yes_no_negative_one)>0):
         just_increments=np.array(range(len(diff_values_from_file)))
         position_of_negative_ones=just_increments[yes_no_negative_one]
         last_negative_one=max(position_of_negative_ones)    
@@ -144,4 +144,4 @@ for i in range(len(files_in_folder)):
     
      
 write_array_to_csv(path_to_save_csv+filename1,vent_vac_type_list)
-write_array_to_csv(path_to_save_csv+filename1,vent_vac_type_list_label)
+write_array_to_csv(path_to_save_csv+filename2,vent_vac_type_list_label)
