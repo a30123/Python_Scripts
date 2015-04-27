@@ -132,21 +132,22 @@ for i in range(len(files_in_folder)):
             position_of_negative_ones=just_increments[yes_no_negative_one]
             last_negative_one=max(position_of_negative_ones) 
         else:
-            last_negative_one=0
+            last_negative_one=(-1)
             
         if (sum(yes_no_one)>0):
             position_of_ones=just_increments[yes_no_one]
             last_one=max(position_of_ones) 
         else:
-            last_one=0
+            last_one=(-1)
             
             
         if(last_one<last_negative_one):
             vent_vac_type_list.append("last close")
             vent_vac_type_list_label.append(-1)
-        else:
+        elif(last_one>last_negative_one):
             vent_vac_type_list.append("last open")
             vent_vac_type_list_label.append(1)
+
     else:
         vent_vac_type_list.append("no switch")
         vent_vac_type_list_label.append(0)
