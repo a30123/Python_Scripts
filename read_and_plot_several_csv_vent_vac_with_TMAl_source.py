@@ -147,7 +147,7 @@ for i in range(len(files_in_folder)):
         position_of_negative_ones=just_increments[yes_no_negative_one]
         last_negative_one=max(position_of_negative_ones)        
         plot_left_endpoint=max(0,(last_negative_one-15))
-        plot_right_endpoint=min((run_length-1),(last_negative_one+15))
+        plot_right_endpoint=min((run_length),(last_negative_one+15))
     else:
         plot_left_endpoint=0
         plot_right_endpoint=(run_length)
