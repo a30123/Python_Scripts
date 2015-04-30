@@ -445,11 +445,12 @@ for u in range(len(files_in_folder)):
         segmentlist=np.zeros((len(G)+len(L),3))
         segmentlist=np.concatenate((G,L),axis=0)        
         
+        serial_number=extract_serial_number(files_in_folder[u])
+       
         segment_filename=str(serial_number)+'.csv'
         complete_path_to_save_segmentlist=os.path.normpath(os.path.join(complete_dirpath_to_save_segmentlist,segment_filename))
         write_array_to_csv(complete_path_to_save_segmentlist,segmentlist) 
         
-        serial_number=extract_serial_number(files_in_folder[u])
         figure_filename=str(serial_number)+'.png'
         complete_path_to_save_figure=os.path.normpath(os.path.join(complete_dirpath_to_save_figure,figure_filename))
 
