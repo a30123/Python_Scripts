@@ -38,43 +38,6 @@ def ensure_dir(f):
     if not os.path.exists(d):
         os.makedirs(d)
    
-def plot_and_save_list_values_cooler(valuelist,valuelist2,ll,rr,pathname,figure_filename):
-#    import matplotlib.pyplot as plt  #--------------------------------John Hunter's  2D plotting library
-#    from matplotlib import rc 
-    rc('mathtext',default='regular')    
-    
-    complete_dirpath_to_save_figures=os.path.normpath(os.path.join(os.getcwd(),pathname))    
-    ensure_dir(complete_dirpath_to_save_figures)
-    figure_filename2=figure_filename.replace('.csv','.png')
-    complete_path_to_save_figure=os.path.normpath(os.path.join(complete_dirpath_to_save_figures,figure_filename2))
-    
-    x_axis_range=np.arange(ll,rr)
-    sub_valuelist=valuelist[ll:(rr)]
-    sub_valuelist2=valuelist2[ll:(rr)]
-    fig=plt.figure()
-    ax=fig.add_subplot(111)
-    
-    lns1=ax.plot(x_axis_range,sub_valuelist,'-',label='vent.vac ')
-    
-    ax2=ax.twinx()
-    lns3=ax2.plot(x_axis_range,sub_valuelist2,'-r',label='TMAl_1.source deviation')
-    
-    lns=lns1+lns3
-    labs=[l.get_label() for l in lns]
-    ax.legend(lns,labs,loc=0)
-    
-    ax.grid()
-    ax.set_xlabel("time")
-    ax.set_ylabel(r"vent.vac")
-    ax2.set_ylabel(r"deviation")
-    ax2.set_ylim(min(sub_valuelist2),max(sub_valuelist2))
-    ax.set_ylim(min(sub_valuelist),max(sub_valuelist))    
-#    plt.plot(valuelist)
-#    plt.plot(valuelist2)
-    plt.show
-    plt.savefig(complete_path_to_save_figure)
-    plt.clf()
-    
 
 def read_single_variable_as_stringlist_csv(csvpathfilename, variablename):
 #   import csv
@@ -95,12 +58,44 @@ def read_single_variable_as_stringlist_csv(csvpathfilename, variablename):
     return np.array(thelist)    
 def extract_serial_number(filename):
 #    import re
-    extract_regular_expression=re.search('(_\d+-setpoint)',filename)
+    extract_regular_expression=re.search('(_\d+-current)',filename)
     serial_number_string=extract_regular_expression.group(0)
-    serial_number_string=serial_number_string.replace('-setpoint','')
+    serial_number_string=serial_number_string.replace('-current','')
     serial_number_string=serial_number_string.replace('_','') 
     value_of_number=int(serial_number_string)
     return value_of_number
+    
+def write_array_to_csv(filename_path,listname):
+#    import csv
+     
+    runnumberfile=open(filename_path,'w',newline='')
+    wr=csv.writer(runnumberfile,quoting=csv.QUOTE_ALL)
+    if type(listname)==list:
+        for item in listname:
+            wr.writerow([item])
+    elif type(listname)==np.ndarray:
+        if len(listname.shape)==1:
+            for item in listname:
+                wr.writerow([item])
+        else:
+            for item in listname:
+                wr.writerow(item)
+    else:
+        print("the structure you are writing is neither a list nor an np.ndarray")
+		
+    runnumberfile.close()
+    
+    
+def plot_and_save_list_values(valuelist,pathname,figure_filename):
+    complete_dirpath_to_save_figures=os.path.normpath(os.path.join(os.getcwd(),pathname))    
+    ensure_dir(complete_dirpath_to_save_figures)
+    figure_filename2=figure_filename.replace('.csv','.png')
+    complete_path_to_save_figure=os.path.normpath(os.path.join(complete_dirpath_to_save_figures,figure_filename2))
+    
+       
+    plt.plot(valuelist)
+    plt.savefig(complete_path_to_save_figure)
+    plt.clf()    
 #######################################
 
 
@@ -109,13 +104,12 @@ def extract_serial_number(filename):
 #########################################################################################################
 
 #intialize "sensor variable of interest","folder to accesss", and "folder to save output to"
-sensor_variables="Vent.vac"#-------------------------------------"sensor variable of interest"
-folder_to_read_from="E://MovedFromD//CSV//TS1//Vac_2363runs//setpoint"#--------------------------------------------"folder to access"
-sensor_variables2="TMAl_1.source"#-------------------------------------"sensor variable of interest"
+sensor_variable="TMAl_1.source"#-------------------------------------"sensor variable of interest"
+folder_to_read_from="E://MovedFromD//CSV//TS1//MO1group_2363runs//current"#--------------------------------------------"folder to access"
 folder_to_read_from2="E://MovedFromD//CSV//TS1//MO1group_2363runs//deviation"#--------------------------------------------"folder to access"
-path_to_save_figures="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150422_VentVacWithTMAl//Output2"#----------------------------"folder to save output to"
-
-
+path_to_save_csv="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150430_TMAl_1_source_relative_error//TMAl_relative_error_CSV"#----------------------------"folder to save output to"
+PhysMax=500
+path_to_save_png="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150430_TMAl_1_source_relative_error//TMAl_relative_error_PNG"
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
@@ -126,36 +120,28 @@ files_in_folder.sort(key=extract_serial_number)
 
 for i in range(len(files_in_folder)):
     #--------------------------------------------------------------------------------file path name for single csv file
-    
     temp_file_name=files_in_folder[i]    
-    single_file_path=os.path.join(folder_to_read_from, temp_file_name)
-    single_file_path2=os.path.join(folder_to_read_from2, temp_file_name.replace('-setpoint','-deviation'))
+    single_current_file_path=os.path.join(folder_to_read_from, temp_file_name)
+    single_deviation_file_path=os.path.join(folder_to_read_from2, temp_file_name.replace('-current','-deviation'))
 
     #--------------------------------------------------------------------------------prints serial number
     serial_number=extract_serial_number(files_in_folder[i])
     print('Reading CSV file:',serial_number)
 
     #--------------------------------------------------------------------------------reads values from csv file of specified sensor variable
-    values_read_from_file=read_single_variable_as_stringlist_csv(single_file_path,sensor_variables)
-    run_length=len(values_read_from_file)    
+    current_values=read_single_variable_as_stringlist_csv(single_current_file_path, sensor_variable)
+    deviation_values=read_single_variable_as_stringlist_csv(single_deviation_file_path, sensor_variable)    
+    error_values=np.array(deviation_values*PhysMax/100,dtype='float16')
+    reconstructed_setpoint=np.array(current_values-error_values)   
+    relative_error=np.divide(abs(error_values),reconstructed_setpoint)
     
-    diff_values_from_file=values_read_from_file[1:]-values_read_from_file[:-1]    
-    
-    yes_no_negative_one=(diff_values_from_file==(-1))
-    if (sum(yes_no_negative_one)>0):
-        just_increments=np.array(range(len(diff_values_from_file)))
-        position_of_negative_ones=just_increments[yes_no_negative_one]
-        last_negative_one=max(position_of_negative_ones)        
-        plot_left_endpoint=max(0,(last_negative_one-15))
-        plot_right_endpoint=min((run_length),(last_negative_one+15))
-    else:
-        plot_left_endpoint=0
-        plot_right_endpoint=(run_length)
-    
-    second_set_of_values=read_single_variable_as_stringlist_csv(single_file_path2,sensor_variables2)
-
+    relative_error_filename=str(serial_number)+'_relative_error.csv'
+    complete_path_to_save_csv=os.path.normpath(os.path.join(path_to_save_csv,relative_error_filename))
+  
+    ensure_dir(path_to_save_csv)
+    write_array_to_csv(complete_path_to_save_csv,relative_error)
+   
     #----------------------------------------------------------------------------------plots the values and saves as png file into designated folder    
-    plot_and_save_list_values_cooler(values_read_from_file,second_set_of_values,plot_left_endpoint,plot_right_endpoint,path_to_save_figures,str(serial_number)+".csv")
-    #plot_and_save_list_values(values_read_from_file,path_to_save_figures,files_in_folder[i])
     
-
+    ensure_dir(path_to_save_png)
+    plot_and_save_list_values(relative_error,path_to_save_png,relative_error_filename)
