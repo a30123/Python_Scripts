@@ -134,8 +134,8 @@ step_variable=['Step']
 #setpoint_folder='D://MOCVD-TS2//setpoint'
 #output_folder='D://MOCVD-TS2//Output2'
 #setpoint_folder='E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint'
-setpoint_folder='E://MovedFromD//CSV//TS2//TS2_NH3_1_source//setpoint'
-output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150429_new_data_partition_mfc_0416_modified//TS2_NH3'
+setpoint_folder='E://MovedFromD//CSV//TS1//NH3_1source_2330runs//setpoint'
+output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150429_new_data_partition_mfc_0416_modified//TS1_NH3'
 #setpoint_folder='D://HeaterTest//setpoint'
 #output_folder='D://HeaterTest//Output'
 #########################################################################################################
