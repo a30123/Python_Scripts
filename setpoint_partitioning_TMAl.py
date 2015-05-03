@@ -78,12 +78,32 @@ def extract_serial_number(filename):
     serial_number_string=serial_number_string.replace('_','') 
     value_of_number=int(serial_number_string)
     return value_of_number
+    
+def zero_step(Step_list):
+#    import numpy as np
+    mm2=(Step_list==0)
+    return_this=sum(mm2)
+#    
+#    nonzero_step=np.zeros((1,1))
+#    if min(mm)==0:
+#        zero_step=np.count_nonzero(mm==0)
+#        if zero_step==len(mm):
+#            zero_step=0
+#    else:
+#        nonzero_step=np.count_nonzero(mm==min(mm))
+#        for i in range(len(mm)):
+#            if mm[i]==min(mm):
+#                zero_step=(i+1)-nonzero_step
+                
+    return (int(return_this))
+    
 #########################################################################################################
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
 sensor_variables=['TMAl_1.source']#-------------------------------------"sensor variable of interest"
 step_variable=['Step']
-setpoint_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//setpoint'
+#setpoint_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//setpoint'
+setpoint_folder='E://Raw Data//CSV files//TS1_TMAl_Step//setpoint'
 output_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output'
 
 #########################################################################################################
@@ -102,7 +122,7 @@ complete_dirpath_to_save_figure=os.path.normpath(os.path.join(output_folder,"PNG
 ensure_dir(complete_dirpath_to_save_figure)
 
 doesnotwork=[]
-
+zero_step_list=[]
 for u in range(len(files_in_folder)):
     single_file_path=os.path.join(setpoint_folder, files_in_folder[u])
    
@@ -110,10 +130,13 @@ for u in range(len(files_in_folder)):
         serial_number=extract_serial_number(files_in_folder[u])
         print(serial_number)
         
+        All_variables=read_variables_as_stringlists_csv(single_file_path,["TMAl_1.source","Step"])
+        AA=np.array([[float(k)] for k in All_variables[:,0]])
+        mmm=np.array([[int(kk)] for kk in All_variables[:,1]])   
         
-        List=read_variables_as_stringlists_csv(single_file_path,["TMAl_1.source","Step"])
-        AA=np.array([[float(k)] for k in List[:,0]])
-        mmm=np.array([[int(kk)] for kk in List[:,1]])   
+        Zero_Step=zero_step(mmm)
+        zero_step_list.append(Zero_Step)
+        
     except ValueError:
         print('No valid StepLabel in this run!!!')
         doesnotwork.append(u)
