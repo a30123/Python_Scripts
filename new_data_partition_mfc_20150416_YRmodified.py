@@ -27,7 +27,23 @@ import pandas as pd
 #######################################   FUNCTIONS           ###########################################
 #########################################################################################################
 
-
+def read_variables_as_stringlists_csv(csvpathfilename, variablenames):
+#    import csv
+#    import numpy as np      
+    
+    notfirst=1
+    thelist=[]
+    
+    with open(csvpathfilename,'rU') as csvfile:
+        contents=csv.reader(csvfile)
+        for row in contents:
+            if notfirst==1:
+               whichcolumn=[row.index(i) for i in variablenames]
+               notfirst+=1
+            else:
+               thelist.append([row[j] for j in whichcolumn])
+        
+    return np.array(thelist)  
     
 def write_array_to_csv(filename_path,listname):
 #    import csv   
@@ -127,15 +143,15 @@ def sum_abs(difference_array):
 #########################################################################################################
 
 
-sensor_variables=['NH3_1.source']#-------------------------------------"sensor variable of interest"
+sensor_variables=['TMAl_1.source']#-------------------------------------"sensor variable of interest"
 step_variable=['Step']
 #setpoint_folder='D://setpoint'
 #output_folder='D://Output'
 #setpoint_folder='D://MOCVD-TS2//setpoint'
 #output_folder='D://MOCVD-TS2//Output2'
 #setpoint_folder='E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint'
-setpoint_folder='E://MovedFromD//CSV//TS1//NH3_1source_2330runs//setpoint'
-output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150429_new_data_partition_mfc_0416_modified//TS1_NH3'
+setpoint_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//setpoint'
+output_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output'
 #setpoint_folder='D://HeaterTest//setpoint'
 #output_folder='D://HeaterTest//Output'
 #########################################################################################################
@@ -169,14 +185,23 @@ for u in range(len(files_in_folder)):
         print(u_count)
         print(justnumbertemp)
         
-        All=pd.read_csv(single_file_path)
-        AA=np.asarray(All[:][sensor_variables])
-        mmm=np.asarray(All[:][step_variable])
-#        mmm=insert_value(np.asarray(All[:][step_variable]))
-
-#        AA=get_variable_from_csv(single_file_path, sensor_variables)
-#        mmm=get_variable_from_csv(single_file_path, step_variable)
         
+        List=read_variables_as_stringlists_csv(single_file_path,["TMAl_1.source","Step"])
+        AA=np.array([[float(k)] for k in List[:,0]])
+        mmm=np.array([[int(kk)] for kk in List[:,1]])        
+
+        
+#        All=pd.read_csv(single_file_path)
+#        AA=np.asarray(All[:][sensor_variables])
+#        mmm=np.asarray(All[:][step_variable])
+       
+##       mmm=insert_value(np.asarray(All[:][step_variable]))
+
+##        AA=get_variable_from_csv(single_file_path, sensor_variables)
+##        mmm=get_variable_from_csv(single_file_path, step_variable)
+        
+
+
         zero_step, end=adjusted_length(mmm)
                 
         plt.figure(figsize=(14,6))
