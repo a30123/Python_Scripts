@@ -89,7 +89,7 @@ def zero_step(Step_list):
     if(return_this==0):
         step_list_difference=(Step_list[1:]-Step_list[:-1])
         negatives_in_differences=(step_list_difference<0)
-        increments=np.array(range(len(Step_list))) 
+        increments=np.array(range(1,len(Step_list)+1)) 
         #handling csaes where step does not start with zero and loops in step exists
         if(sum(negatives_in_differences)>1):
             negatives_in_differences=(step_list_difference<-3)
@@ -127,15 +127,14 @@ doesnotwork=[]
 zero_step_list=[]
 for u in range(len(files_in_folder)):
     single_file_path=os.path.join(setpoint_folder, files_in_folder[u])
-   
+    serial_number=extract_serial_number(files_in_folder[u])
+    print(serial_number)
+    
+    All_variables=read_variables_as_stringlists_csv(single_file_path,["TMAl_1.source","Step"])
+    AA=np.array([[float(k)] for k in All_variables[:,0]])
+    mmm=np.array([[int(kk)] for kk in All_variables[:,1]])   
+               
     try:
-        serial_number=extract_serial_number(files_in_folder[u])
-        print(serial_number)
-        
-        All_variables=read_variables_as_stringlists_csv(single_file_path,["TMAl_1.source","Step"])
-        AA=np.array([[float(k)] for k in All_variables[:,0]])
-        mmm=np.array([[int(kk)] for kk in All_variables[:,1]])   
-        
         Zero_Step=zero_step(mmm)
         zero_step_list.append(Zero_Step)
         
