@@ -80,21 +80,23 @@ def extract_serial_number(filename):
     return value_of_number
     
 def zero_step(Step_list):
+#Step_list is a column array
 #    import numpy as np
-    mm2=(Step_list==0)
-    return_this=sum(mm2)
-#    
-#    nonzero_step=np.zeros((1,1))
-#    if min(mm)==0:
-#        zero_step=np.count_nonzero(mm==0)
-#        if zero_step==len(mm):
-#            zero_step=0
-#    else:
-#        nonzero_step=np.count_nonzero(mm==min(mm))
-#        for i in range(len(mm)):
-#            if mm[i]==min(mm):
-#                zero_step=(i+1)-nonzero_step
-                
+
+    zeros_in_step_list=(Step_list==0)
+    return_this=sum(zeros_in_step_list)
+    #handling cases where step does not start with zero
+    if(return_this==0):
+        step_list_difference=(Step_list[1:]-Step_list[:-1])
+        negatives_in_differences=(step_list_difference<0)
+        increments=np.array(range(len(Step_list))) 
+        #handling csaes where step does not start with zero and loops in step exists
+        if(sum(negatives_in_differences)>1):
+            negatives_in_differences=(step_list_difference<-3)
+        
+        if(sum(negatives_in_differences)>0):
+            return_this=min(increments[negatives_in_differences[:,0]])
+               
     return (int(return_this))
     
 #########################################################################################################
@@ -105,7 +107,7 @@ step_variable=['Step']
 #setpoint_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//setpoint'
 setpoint_folder='E://Raw Data//CSV files//TS1_TMAl_Step//setpoint'
 output_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output'
-
+output_zero_step='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output//zero_step2.csv'
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
@@ -142,3 +144,5 @@ for u in range(len(files_in_folder)):
         doesnotwork.append(u)
     
     print('-----------------------------------------')
+    
+write_array_to_csv(output_zero_step,zero_step_list)
