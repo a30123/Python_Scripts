@@ -104,8 +104,8 @@ def zero_step(Step_list):
 #########################################################################################################
 sensor_variables=['TMAl_1.source']#-------------------------------------"sensor variable of interest"
 step_variable=['Step']
-#setpoint_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//setpoint'
-setpoint_folder='E://Raw Data//CSV files//TS1_TMAl_Step//setpoint'
+setpoint_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//setpoint'
+#setpoint_folder='E://Raw Data//CSV files//TS1_TMAl_Step//setpoint'
 output_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output'
 output_zero_step='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output//zero_step2.csv'
 #########################################################################################################
@@ -133,10 +133,59 @@ for u in range(len(files_in_folder)):
     All_variables=read_variables_as_stringlists_csv(single_file_path,["TMAl_1.source","Step"])
     AA=np.array([[float(k)] for k in All_variables[:,0]])
     mmm=np.array([[int(kk)] for kk in All_variables[:,1]])   
+    
+    data_length=len(AA)
+    category_list=np.zeros((data_length,1))
+    
                
     try:
         Zero_Step=zero_step(mmm)
         zero_step_list.append(Zero_Step)
+        adjusted_length=data_length-Zero_Step
+        substantial_amount=data_length/700
+        
+        
+        if Zero_Step!=data_length:
+            
+            # category -1
+            if Zero_Step!=0:
+                category_list[:Zero_Step]=(-1)*np.ones((Zero_Step,1))
+                AAA=AA[Zero_Step:]
+            else:
+                AAA=AA[:]
+                
+            
+            AAA_difference=(AAA[1:]-AAA[:-1])
+            no_change_steps=(AAA_difference==0)
+            increment_1=np.array(range(adjusted_length))
+            positions_of_change=increment_1[~no_change_steps[:,0]]
+            
+            all_positions_considered=(-1)*np.ones((len(positions_of_change)+2),dtype=np.int)
+            all_positions_considered[0]=-1
+            all_positions_considered[1:-1]=positions_of_change
+            all_positions_considered[(len(positions_of_change)+1)]=(adjusted_length-1)
+            
+            constant_durations=all_positions_considered[1:]-all_positions_considered[:-1]
+            position2=np.concatenate((np.array([0]),np.cumsum(constant_durations)) )           
+      
+            # category 4 (flat region)
+            if (max(constant_durations)>substantial_amount): 
+                long_enough_duration=(constant_durations>substantial_amount)
+                loop_no=sum(long_enough_duration)
+                increment3=np.array(range(len(constant_durations)))
+                list3=increment3[long_enough_duration]                
+                
+                for jiji in list3:
+                    ll=position2[jiji]
+                    rr=position2[jiji+1]
+                    category_list[ll+Zero_Step:rr+Zero_Step]=4*np.ones((rr-ll,1),dtype=np.int)
+                    
+                    
+                
+                
+                
+
+            
         
     except ValueError:
         print('No valid StepLabel in this run!!!')
