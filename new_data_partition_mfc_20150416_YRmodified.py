@@ -194,7 +194,7 @@ for u in range(len(files_in_folder)):
 #        All=pd.read_csv(single_file_path)
 #        AA=np.asarray(All[:][sensor_variables])
 #        mmm=np.asarray(All[:][step_variable])
-       
+#       
 ##       mmm=insert_value(np.asarray(All[:][step_variable]))
 
 ##        AA=get_variable_from_csv(single_file_path, sensor_variables)
