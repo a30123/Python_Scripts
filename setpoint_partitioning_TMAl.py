@@ -132,14 +132,14 @@ for u in range(len(files_in_folder)):
     
     All_variables=read_variables_as_stringlists_csv(single_file_path,["TMAl_1.source","Step"])
     AA=np.array([[float(k)] for k in All_variables[:,0]])
-    mmm=np.array([[int(kk)] for kk in All_variables[:,1]])   
+    mm=np.array([[int(kk)] for kk in All_variables[:,1]])   
     
     data_length=len(AA)
     category_list=np.zeros((data_length,1))
     
                
     try:
-        Zero_Step=zero_step(mmm)
+        Zero_Step=zero_step(mm)
         zero_step_list.append(Zero_Step)
         adjusted_length=data_length-Zero_Step
         substantial_amount=data_length/700
@@ -151,14 +151,17 @@ for u in range(len(files_in_folder)):
             if Zero_Step!=0:
                 category_list[:Zero_Step]=(-1)*np.ones((Zero_Step,1))
                 AAA=AA[Zero_Step:]
+                mmm=mm[Zero_Step:]
             else:
                 AAA=AA[:]
+                mmm=mm[:]
                 
-            
+            # category 4 (flat region)
             AAA_difference=(AAA[1:]-AAA[:-1])
             no_change_steps=(AAA_difference==0)
             increment_1=np.array(range(adjusted_length))
             positions_of_change=increment_1[~no_change_steps[:,0]]
+            
             
             all_positions_considered=(-1)*np.ones((len(positions_of_change)+2),dtype=np.int)
             all_positions_considered[0]=-1
@@ -168,7 +171,7 @@ for u in range(len(files_in_folder)):
             constant_durations=all_positions_considered[1:]-all_positions_considered[:-1]
             position2=np.concatenate((np.array([0]),np.cumsum(constant_durations)) )           
       
-            # category 4 (flat region)
+            
             if (max(constant_durations)>substantial_amount): 
                 long_enough_duration=(constant_durations>substantial_amount)
                 loop_no=sum(long_enough_duration)
@@ -180,8 +183,7 @@ for u in range(len(files_in_folder)):
                     rr=position2[jiji+1]
                     category_list[ll+Zero_Step:rr+Zero_Step]=4*np.ones((rr-ll,1),dtype=np.int)
                     
-                    
-                
+            # category 1 (fluctuating region)  
                 
                 
 
@@ -194,3 +196,6 @@ for u in range(len(files_in_folder)):
     print('-----------------------------------------')
     
 write_array_to_csv(output_zero_step,zero_step_list)
+output_temp='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output//temp.csv'
+
+write_array_to_csv(output_temp,category_list)
