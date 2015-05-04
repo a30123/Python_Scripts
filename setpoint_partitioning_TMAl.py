@@ -105,12 +105,8 @@ def extract_intervals(True_False_List):
        
     positions_of_change=increment[~True_False_List[:,0]]
     
-             
-    all_positions_considered=(-1)*np.ones((len(positions_of_change)+2),dtype=np.int)
-    all_positions_considered[0]=-1
-    all_positions_considered[1:-1]=positions_of_change
-    all_positions_considered[(len(positions_of_change)+1)]=len(True_False_List)
-            
+    all_positions_considered=np.concatenate((np.array([-1],dtype=np.int),positions_of_change,np.array([len(True_False_List)],dtype=np.int)))         
+    
     constant_durations=all_positions_considered[1:]-all_positions_considered[:-1]
     position2=np.concatenate((np.array([0]),np.cumsum(constant_durations)))           
             
@@ -172,7 +168,8 @@ for u in range(len(files_in_folder)):
         zero_step_list.append(Zero_Step)
         adjusted_length=data_length-Zero_Step
         substantial_amount=data_length/700
-        
+        increment_1=np.array(range(adjusted_length))
+        increment_2=np.array(range(data_length))
         
         if Zero_Step!=data_length:
             
@@ -184,46 +181,20 @@ for u in range(len(files_in_folder)):
             else:
                 AAA=AA[:]
                 mmm=mm[:]
-                
-            # category 4 (flat region)
-            AAA_difference=(AAA[1:]-AAA[:-1])
+            
+            # difference 
+            AAA_difference=(AAA[1:]-AAA[:-1])    
+            mmm_difference=(mmm[1:]-mmm[:-1])
+            
+            # category 4 (flat region)            
             no_change_steps=(AAA_difference==0)
-            increment_1=np.array(range(adjusted_length))
-            increment_2=np.array(range(data_length))
-            
             flat_intervals=extract_intervals(no_change_steps)
-#            positions_of_change=increment_1[~no_change_steps[:,0]]
-#            
-#            
-#            
-#            all_positions_considered=(-1)*np.ones((len(positions_of_change)+2),dtype=np.int)
-#            all_positions_considered[0]=-1
-#            all_positions_considered[1:-1]=positions_of_change
-#            all_positions_considered[(len(positions_of_change)+1)]=(adjusted_length-1)
-#            
-#            constant_durations=all_positions_considered[1:]-all_positions_considered[:-1]
-#            position2=np.concatenate((np.array([0]),np.cumsum(constant_durations)) )           
-#      
-            
-#            if (max(constant_durations)>substantial_amount): 
-#                long_enough_duration=(constant_durations>substantial_amount)
-#                loop_no=sum(long_enough_duration)
-#                increment3=np.array(range(len(constant_durations)))
-#                list3=increment3[long_enough_duration]                
-#            
-#                for jiji in list3:
-#                    ll=position2[jiji]
-#                    rr=position2[jiji+1]
-#                 
-#                    category_list[ll+Zero_Step:rr+Zero_Step]=4*np.ones((rr-ll,1),dtype=np.int)
-#                    
             for jj in flat_intervals:
                 if ((jj[1]-jj[0])>substantial_amount):
                     category_list[jj[0]+Zero_Step:jj[1]+Zero_Step]=4*np.ones((jj[1]-jj[0],1),dtype=np.int)
 
             
             # category 1 (fluctuating region)  
-            mmm_difference=(mmm[1:]-mmm[:-1])
             yes_negative_three=(mmm_difference==-3)
             if (sum(yes_negative_three)>0):
                 indices_negative_three=increment_1[yes_negative_three[:,0]]
@@ -237,12 +208,24 @@ for u in range(len(files_in_folder)):
                     if(len(np.unique(category_list[ll:rr]))!=1):
                         category_list[ll:rr]=np.ones((rr-ll,1),dtype=np.int)
                     
-                
-                    
+                              
             # other categories
             category_difference=(category_list[1:]-category_list[:-1])
             no_change_steps2=((category_list[:-1]==0)*(category_difference==0))
-            
+            remaining_intervals=extract_intervals(no_change_steps2)
+            print(category_list[remaining_intervals[0][1]-1:remaining_intervals[0][1]+1])
+            for jkjk in remaining_intervals:
+                if ((AA[jkjk[1]]-AA[jkjk[0]])>0):
+                    if (((AA[jkjk[1]]-AA[jkjk[0]])/(jkjk[1]-jkjk[0]))>0.1):
+                        label_int=int(3)
+                    else:
+                        label_int=int(5)
+                else:
+                    if (((AA[jkjk[1]]-AA[jkjk[0]])/(jkjk[1]-jkjk[0]))<-0.1):
+                        label_int=int(2)
+                    else:
+                        label_int=int(6)
+                category_list[jkjk[0]:jkjk[1]]=label_int*np.ones((jkjk[1]-jkjk[0],1),dtype=np.int)
 
             
         
