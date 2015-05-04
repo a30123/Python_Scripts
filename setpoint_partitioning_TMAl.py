@@ -20,8 +20,8 @@ import time
 import csv
 import numpy as np
 import re
-import math
-import matplotlib.pyplot as plt
+#import math
+#import matplotlib.pyplot as plt
 
 #########################################################################################################
 #######################################   FUNCTIONS           ###########################################
@@ -129,9 +129,12 @@ def extract_intervals(True_False_List):
 #########################################################################################################
 sensor_variables=['TMAl_1.source']#-------------------------------------"sensor variable of interest"
 step_variable=['Step']
-setpoint_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//setpoint'
+setpoint_folder='E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint'
+#setpoint_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//setpoint'
 #setpoint_folder='E://Raw Data//CSV files//TS1_TMAl_Step//setpoint'
-output_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output'
+#output_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output'
+output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_source_setpoint_partition_rewritten//Output'
+#setpoint_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_source_setpoint_partition_rewritten//Setpoint'
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
@@ -214,17 +217,24 @@ for u in range(len(files_in_folder)):
             remaining_intervals=extract_intervals(no_change_steps2)
             
             for jkjk in remaining_intervals:
-                if ((AA[jkjk[1]]-AA[jkjk[0]])>0):
-                    if (((AA[jkjk[1]]-AA[jkjk[0]])/(jkjk[1]-jkjk[0]))>0.1):
+                if(jkjk[1]==data_length):
+                    rr=jkjk[1]-1
+                else:
+                    rr=jkjk[1]
+                    
+                ll=jkjk[0]
+                    
+                if ((AA[rr]-AA[ll])>0):
+                    if (((AA[rr]-AA[ll])/(rr-ll))>0.1):
                         label_int=int(3)
                     else:
                         label_int=int(5)
                 else:
-                    if (((AA[jkjk[1]]-AA[jkjk[0]])/(jkjk[1]-jkjk[0]))<-0.1):
+                    if (((AA[rr]-AA[ll])/(rr-ll))<-0.1):
                         label_int=int(2)
                     else:
                         label_int=int(6)
-                category_list[jkjk[0]:jkjk[1]]=label_int*np.ones((jkjk[1]-jkjk[0],1),dtype=np.int)
+                category_list[ll:rr]=label_int*np.ones((rr-ll,1),dtype=np.int)
 
             segment_filename=str(serial_number)+'.csv'
             complete_path_to_save_segmentlist=os.path.normpath(os.path.join(complete_dirpath_to_save_segmentlist,segment_filename))
