@@ -132,7 +132,6 @@ step_variable=['Step']
 setpoint_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//setpoint'
 #setpoint_folder='E://Raw Data//CSV files//TS1_TMAl_Step//setpoint'
 output_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output'
-output_zero_step='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output//zero_step2.csv'
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
@@ -149,7 +148,7 @@ complete_dirpath_to_save_figure=os.path.normpath(os.path.join(output_folder,"PNG
 ensure_dir(complete_dirpath_to_save_figure)
 
 doesnotwork=[]
-zero_step_list=[]
+
 for u in range(len(files_in_folder)):
     single_file_path=os.path.join(setpoint_folder, files_in_folder[u])
     serial_number=extract_serial_number(files_in_folder[u])
@@ -165,7 +164,7 @@ for u in range(len(files_in_folder)):
                
     try:
         Zero_Step=zero_step(mm)
-        zero_step_list.append(Zero_Step)
+        
         adjusted_length=data_length-Zero_Step
         substantial_amount=data_length/700
         increment_1=np.array(range(adjusted_length))
@@ -213,7 +212,7 @@ for u in range(len(files_in_folder)):
             category_difference=(category_list[1:]-category_list[:-1])
             no_change_steps2=((category_list[:-1]==0)*(category_difference==0))
             remaining_intervals=extract_intervals(no_change_steps2)
-            print(category_list[remaining_intervals[0][1]-1:remaining_intervals[0][1]+1])
+            
             for jkjk in remaining_intervals:
                 if ((AA[jkjk[1]]-AA[jkjk[0]])>0):
                     if (((AA[jkjk[1]]-AA[jkjk[0]])/(jkjk[1]-jkjk[0]))>0.1):
@@ -227,18 +226,14 @@ for u in range(len(files_in_folder)):
                         label_int=int(6)
                 category_list[jkjk[0]:jkjk[1]]=label_int*np.ones((jkjk[1]-jkjk[0],1),dtype=np.int)
 
-            
-        
+            segment_filename=str(serial_number)+'.csv'
+            complete_path_to_save_segmentlist=os.path.normpath(os.path.join(complete_dirpath_to_save_segmentlist,segment_filename))
+            write_array_to_csv(complete_path_to_save_segmentlist,category_list) 
+      
     except ValueError:
         print('No valid StepLabel in this run!!!')
         doesnotwork.append(u)
     
     print('-----------------------------------------')
     
-write_array_to_csv(output_zero_step,zero_step_list)
-output_temp='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output//temp.csv'
 
-write_array_to_csv(output_temp,category_list)
-output_temp3='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output//temp3.csv'
-
-write_array_to_csv(output_temp3,no_change_steps2)
