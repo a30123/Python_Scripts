@@ -57,6 +57,15 @@ def write_array_to_csv(filename_path,listname):
         print("the structure you are writing is neither a list nor an np.ndarray")
 		
     runnumberfile.close()
+    
+def extract_serial_number(filename):
+#    import re
+    extract_regular_expression=re.search('(^\d+_relative)',filename)
+    serial_number_string=extract_regular_expression.group(0)
+    serial_number_string=serial_number_string.replace('_relative','')
+ 
+    value_of_number=int(serial_number_string)
+    return value_of_number
 #########################################################################################################
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
@@ -67,7 +76,7 @@ output_folder_filename="C://Users//A30123.ITRI//Documents//Python Scripts//New_f
 #########################################################################################################
 tstart = time.time()
 files_in_folder = os.listdir(folder_to_read_from) 
-
+files_in_folder.sort(key=extract_serial_number)
 mean_relative_error_list=[]
 for i in range(len(files_in_folder)):
     temp_file_name=files_in_folder[i]    
