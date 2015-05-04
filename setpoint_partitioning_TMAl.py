@@ -189,31 +189,39 @@ for u in range(len(files_in_folder)):
             AAA_difference=(AAA[1:]-AAA[:-1])
             no_change_steps=(AAA_difference==0)
             increment_1=np.array(range(adjusted_length))
-            
-            positions_of_change=increment_1[~no_change_steps[:,0]]
-            
             increment_2=np.array(range(data_length))
             
-            all_positions_considered=(-1)*np.ones((len(positions_of_change)+2),dtype=np.int)
-            all_positions_considered[0]=-1
-            all_positions_considered[1:-1]=positions_of_change
-            all_positions_considered[(len(positions_of_change)+1)]=(adjusted_length-1)
+            flat_intervals=extract_intervals(no_change_steps)
+#            positions_of_change=increment_1[~no_change_steps[:,0]]
+#            
+#            
+#            
+#            all_positions_considered=(-1)*np.ones((len(positions_of_change)+2),dtype=np.int)
+#            all_positions_considered[0]=-1
+#            all_positions_considered[1:-1]=positions_of_change
+#            all_positions_considered[(len(positions_of_change)+1)]=(adjusted_length-1)
+#            
+#            constant_durations=all_positions_considered[1:]-all_positions_considered[:-1]
+#            position2=np.concatenate((np.array([0]),np.cumsum(constant_durations)) )           
+#      
             
-            constant_durations=all_positions_considered[1:]-all_positions_considered[:-1]
-            position2=np.concatenate((np.array([0]),np.cumsum(constant_durations)) )           
-      
+#            if (max(constant_durations)>substantial_amount): 
+#                long_enough_duration=(constant_durations>substantial_amount)
+#                loop_no=sum(long_enough_duration)
+#                increment3=np.array(range(len(constant_durations)))
+#                list3=increment3[long_enough_duration]                
+#            
+#                for jiji in list3:
+#                    ll=position2[jiji]
+#                    rr=position2[jiji+1]
+#                 
+#                    category_list[ll+Zero_Step:rr+Zero_Step]=4*np.ones((rr-ll,1),dtype=np.int)
+#                    
+            for jj in flat_intervals:
+                if ((jj[1]-jj[0])>substantial_amount):
+                    category_list[jj[0]+Zero_Step:jj[1]+Zero_Step]=4*np.ones((jj[1]-jj[0],1),dtype=np.int)
+
             
-            if (max(constant_durations)>substantial_amount): 
-                long_enough_duration=(constant_durations>substantial_amount)
-                loop_no=sum(long_enough_duration)
-                increment3=np.array(range(len(constant_durations)))
-                list3=increment3[long_enough_duration]                
-                
-                for jiji in list3:
-                    ll=position2[jiji]
-                    rr=position2[jiji+1]
-                    category_list[ll+Zero_Step:rr+Zero_Step]=4*np.ones((rr-ll,1),dtype=np.int)
-                    
             # category 1 (fluctuating region)  
             mmm_difference=(mmm[1:]-mmm[:-1])
             yes_negative_three=(mmm_difference==-3)
