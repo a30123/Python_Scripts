@@ -69,7 +69,8 @@ def extract_serial_number(filename):
 #########################################################################################################
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
-folder_to_read_from=folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_1_source_reconstructed_error//TMAl_reconstructed_error_CSV"
+folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_source_mean_reconstructed_error//setpoint"
+#folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_1_source_reconstructed_error//TMAl_reconstructed_error_CSV"
 folder_to_read_from2="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_source_setpoint_partition_rewritten//Output//CSV"
 output_folder_filename="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_source_mean_reconstructed_error//mean_reconstructed_error_flat_region.csv"
 #########################################################################################################
@@ -103,7 +104,7 @@ for i in range(len(files_in_folder)):
         mean_reconstructed_error_list.append(-0.5)
 
 
-write_array_to_csv(output_folder_filename,mean_reconstructed_error_list)
+#write_array_to_csv(output_folder_filename,mean_reconstructed_error_list)
 
 
 print('RUN TIME: %.2f secs' % (time.time()-tstart))
