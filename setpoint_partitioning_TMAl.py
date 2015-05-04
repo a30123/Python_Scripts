@@ -129,12 +129,12 @@ def extract_intervals(True_False_List):
 #########################################################################################################
 sensor_variables=['TMAl_1.source']#-------------------------------------"sensor variable of interest"
 step_variable=['Step']
-setpoint_folder='E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint'
+#setpoint_folder='E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint'
 #setpoint_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//setpoint'
 #setpoint_folder='E://Raw Data//CSV files//TS1_TMAl_Step//setpoint'
 #output_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output'
 output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_source_setpoint_partition_rewritten//Output'
-#setpoint_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_source_setpoint_partition_rewritten//Setpoint'
+setpoint_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_source_setpoint_partition_rewritten//Setpoint'
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
@@ -235,10 +235,13 @@ for u in range(len(files_in_folder)):
                     else:
                         label_int=int(6)
                 category_list[ll:rr]=label_int*np.ones((rr-ll,1),dtype=np.int)
+        
+        else:            #if all step are zero value
+            category_list=(-1)*np.ones((data_length,1))
 
-            segment_filename=str(serial_number)+'.csv'
-            complete_path_to_save_segmentlist=os.path.normpath(os.path.join(complete_dirpath_to_save_segmentlist,segment_filename))
-            write_array_to_csv(complete_path_to_save_segmentlist,category_list) 
+        segment_filename=str(serial_number)+'.csv'
+        complete_path_to_save_segmentlist=os.path.normpath(os.path.join(complete_dirpath_to_save_segmentlist,segment_filename))
+        write_array_to_csv(complete_path_to_save_segmentlist,category_list) 
       
     except ValueError:
         print('No valid StepLabel in this run!!!')
