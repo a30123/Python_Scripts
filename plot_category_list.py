@@ -20,9 +20,9 @@ import os
 import csv
 import numpy as np
 import re
-import math
+#import math
 import matplotlib.pyplot as plt
-import matplotlib.colors
+#import matplotlib.colors
 #########################################################################################################
 #######################################   FUNCTIONS           ###########################################
 #########################################################################################################
@@ -82,8 +82,8 @@ def ensure_dir(f):
 #########################################################################################################
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
-category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//setpoint"
-#category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_source_setpoint_partition_rewritten//Output//CSV"
+#category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//setpoint"
+category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_source_setpoint_partition_rewritten//Output//CSV"
 setpoint_folder="E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint"
 sensor_variable=["TMAl_1.source"]
 output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//Output"
@@ -139,7 +139,6 @@ for i in range(len(files_in_folder)):
     for ji in range((len(segment_points)-1)):
         ll=segment_points[ji]
         rr=segment_points[ji+1]
-        print(ll,rr)
         color_is=colors[int((int(float(category_values[ll]))))]
         plt.axvspan(ll-0.5,rr-0.5, facecolor=color_is, alpha=1)
         
