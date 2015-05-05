@@ -82,8 +82,8 @@ def ensure_dir(f):
 #########################################################################################################
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
-folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//setpoint"
-#folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_1_source_reconstructed_error//TMAl_reconstructed_error_CSV"
+category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//setpoint"
+#category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_source_setpoint_partition_rewritten//Output//CSV"
 setpoint_folder="E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint"
 sensor_variable=["TMAl_1.source"]
 output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//Output"
@@ -96,7 +96,7 @@ tstart = time.time()
 complete_dirpath_to_save_figure=os.path.normpath(os.path.join(output_folder,"PNG"))    
 ensure_dir(complete_dirpath_to_save_figure)
 
-files_in_folder = os.listdir(folder_to_read_from) 
+files_in_folder = os.listdir(category_folder) 
 files_in_folder.sort(key=extract_serial_number2)
 
 files_in_folder2=os.listdir(setpoint_folder)
@@ -113,7 +113,7 @@ for i in range(len(files_in_folder)):
     
     temp_file_name2=files_in_folder2[position_of_serial_number]    
     
-    single_file_path=os.path.join(folder_to_read_from, temp_file_name)
+    single_file_path=os.path.join(category_folder, temp_file_name)
     setpoint_file_path=os.path.join(setpoint_folder, temp_file_name2)
  
     category_values=get_single_column_from_csv(single_file_path)
@@ -128,8 +128,8 @@ for i in range(len(files_in_folder)):
     increment2=np.array(range(len(CC)+1))
     doo=increment2[boo[:,0]]
     
-    segment_points=np.concatenate((np.array([0]),doo))
-    print(segment_points[1:10])
+    segment_points=doo#np.concatenate((np.array([0]),doo))
+
     
     plt.figure(figsize=(14,6))
     plt.plot(setpoint_values)    
@@ -138,9 +138,10 @@ for i in range(len(files_in_folder)):
     
     for ji in range((len(segment_points)-1)):
         ll=segment_points[ji]
-        rr=segment_points[ji+1]-1
+        rr=segment_points[ji+1]
+        print(ll,rr)
         color_is=colors[int((int(float(category_values[ll]))))]
-        plt.axvspan(ll,rr, facecolor=color_is, alpha=1)
+        plt.axvspan(ll-0.5,rr-0.5, facecolor=color_is, alpha=1)
         
     figure_filename=str(serial_number)+'.png'
     complete_path_to_save_figure=os.path.normpath(os.path.join(complete_dirpath_to_save_figure,figure_filename))
