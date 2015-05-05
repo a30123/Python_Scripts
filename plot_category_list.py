@@ -20,8 +20,9 @@ import os
 import csv
 import numpy as np
 import re
-#import math
-#import matplotlib.pyplot as plt
+import math
+import matplotlib.pyplot as plt
+import matplotlib.colors
 #########################################################################################################
 #######################################   FUNCTIONS           ###########################################
 #########################################################################################################
@@ -37,73 +38,129 @@ def get_single_column_from_csv(csvpathfilename):
             thelist.append(row[0])
         
     return np.array(thelist)    
-def write_array_to_csv(filename_path,listname):
-    import csv
-     
-    runnumberfile=open(filename_path,'w',newline='')
-    wr=csv.writer(runnumberfile,quoting=csv.QUOTE_ALL)
-    if type(listname)==list:
-        for item in listname:
-            wr.writerow([item])
-    elif type(listname)==np.ndarray:
-        if len(listname.shape)==1:
-            for item in listname:
-                wr.writerow([item])
-        else:
-            for item in listname:
-                wr.writerow(item)
-    else:
-        print("the structure you are writing is neither a list nor an np.ndarray")
-		
-    runnumberfile.close()
+
+def read_variables_as_stringlists_csv(csvpathfilename, variablenames):
+#    import csv
+#    import numpy as np      
     
-def extract_serial_number(filename):
+    notfirst=1
+    thelist=[]
+    
+    with open(csvpathfilename,'rU') as csvfile:
+        contents=csv.reader(csvfile)
+        for row in contents:
+            if notfirst==1:
+               whichcolumn=[row.index(i) for i in variablenames]
+               notfirst+=1
+            else:
+               thelist.append([row[j] for j in whichcolumn])
+        
+    return np.array(thelist)       
+def extract_serial_number2(filename):
 #    import re
-    extract_regular_expression=re.search('(^\d+_reconstructed)',filename)
+    extract_regular_expression=re.search('(^\d+.csv)',filename)
     serial_number_string=extract_regular_expression.group(0)
-    serial_number_string=serial_number_string.replace('_reconstructed','')
+    serial_number_string=serial_number_string.replace('.csv','')
  
     value_of_number=int(serial_number_string)
     return value_of_number
+def extract_serial_number(filename):
+#    import re
+    extract_regular_expression=re.search('(_\d+-setpoint)',filename)
+    serial_number_string=extract_regular_expression.group(0)
+    serial_number_string=serial_number_string.replace('-setpoint','')
+    serial_number_string=serial_number_string.replace('_','') 
+    value_of_number=int(serial_number_string)
+    return value_of_number    
+   
+def ensure_dir(f):
+#    import os
+    d=os.path.abspath(f)
+    if not os.path.exists(d):
+        os.makedirs(d)   
+
 #########################################################################################################
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
-folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list"
+folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//setpoint"
 #folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_1_source_reconstructed_error//TMAl_reconstructed_error_CSV"
-folder_to_read_from2="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_source_setpoint_partition_rewritten//Output//CSV"
-output_folder_filename="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_source_mean_reconstructed_error//mean_reconstructed_error_flat_region.csv"
+setpoint_folder="E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint"
+sensor_variable=["TMAl_1.source"]
+output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//Output"
+#colors=['b','','g','r','y','c','m','k']
+colors={-1:'b',0:'g',1:'g',2:'r',3:'y',4:'c',5:'m',6:'k'}
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
 tstart = time.time()
+complete_dirpath_to_save_figure=os.path.normpath(os.path.join(output_folder,"PNG"))    
+ensure_dir(complete_dirpath_to_save_figure)
+
 files_in_folder = os.listdir(folder_to_read_from) 
-files_in_folder.sort(key=extract_serial_number)
+files_in_folder.sort(key=extract_serial_number2)
+
+files_in_folder2=os.listdir(setpoint_folder)
+serial_number_list=np.array([extract_serial_number(uu) for uu in files_in_folder2])
+
 mean_reconstructed_error_list=[]
 for i in range(len(files_in_folder)):
-    temp_file_name=files_in_folder[i]   
-    serial_number=extract_serial_number(files_in_folder[i])
-    temp_file_name2=str(serial_number)+'.csv'    
-    print(temp_file_name)
+    temp_file_name=files_in_folder[i] 
+    print(temp_file_name)  
+    serial_number=extract_serial_number2(files_in_folder[i])
+    yes_serial_number=(serial_number_list==serial_number)    
+    increment=np.array(range(len(files_in_folder2)))
+    position_of_serial_number=increment[yes_serial_number]
+    
+    temp_file_name2=files_in_folder2[position_of_serial_number]    
+    
     single_file_path=os.path.join(folder_to_read_from, temp_file_name)
-    single_file_path2=os.path.join(folder_to_read_from2, temp_file_name2)
+    setpoint_file_path=os.path.join(setpoint_folder, temp_file_name2)
  
-    reconstructed_error_values=get_single_column_from_csv(single_file_path)
-    category_values=get_single_column_from_csv(single_file_path2)
+    category_values=get_single_column_from_csv(single_file_path)
+    setpoint_values=read_variables_as_stringlists_csv(setpoint_file_path,sensor_variable)
     category_values_float=np.array(category_values,dtype='float16')
     
-    flat_region_occurrence=(category_values_float==4)    
     
-    if (sum(flat_region_occurrence)!=0):
-        reconstructed_error_float=abs(np.array(reconstructed_error_values,dtype='float16'))
-        reconstructed_error_to_consider=reconstructed_error_float[flat_region_occurrence]
+    CC=np.array([[float(k)] for k in category_values])
+    CC_difference=(CC[1:]-CC[:-1]) 
+    choo=np.concatenate((np.array([[1]]),CC_difference,np.array([[1]])))
+    boo=~(choo==0)
+    increment2=np.array(range(len(CC)+1))
+    doo=increment2[boo[:,0]]
+    
+    segment_points=np.concatenate((np.array([0]),doo))
+    print(segment_points[1:10])
+    
+    plt.figure(figsize=(14,6))
+    plt.plot(setpoint_values)    
+    
+
+    
+    for ji in range((len(segment_points)-1)):
+        ll=segment_points[ji]
+        rr=segment_points[ji+1]-1
+        color_is=colors[int((int(float(category_values[ll]))))]
+        plt.axvspan(ll,rr, facecolor=color_is, alpha=1)
         
-        mean_reconstructed_error_float=np.mean(reconstructed_error_to_consider)
-        mean_reconstructed_error_list.append(mean_reconstructed_error_float)
-    else:
-        mean_reconstructed_error_list.append(-0.5)
+    figure_filename=str(serial_number)+'.png'
+    complete_path_to_save_figure=os.path.normpath(os.path.join(complete_dirpath_to_save_figure,figure_filename))
+    
+   
+    
+    plt.xlim(0,len(setpoint_values)-1)
+    plt.grid()
+    plt.xlabel("Time(s)",fontsize=16)
+    plt.ylabel("Setpoint",fontsize=16) 
+    for tick in plt.gca().xaxis.get_major_ticks():
+        tick.label1.set_fontsize(12) 
+    for tick in plt.gca().yaxis.get_major_ticks():
+        tick.label1.set_fontsize(12) 
+    plt.savefig(complete_path_to_save_figure)
+    plt.clf()    
+        
+        
 
-
-#write_array_to_csv(output_folder_filename,mean_reconstructed_error_list)
+    
 
 
 print('RUN TIME: %.2f secs' % (time.time()-tstart))
