@@ -83,10 +83,11 @@ def ensure_dir(f):
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
 #category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//setpoint"
-category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Output//CSV"
+category_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150507_TMAl_source_setpoint_partition_rewritten_improved2//Output//CSV'
+#category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Output//CSV"
 setpoint_folder="E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint"
 sensor_variable=["TMAl_1.source"]
-output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//Output2"
+output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//Trial"
 #colors=['b','','g','r','y','c','m','k']
 colors={-1:'b',0:'g',1:'g',2:'r',3:'y',4:'c',5:'m',6:'k'}
 #########################################################################################################
@@ -140,7 +141,7 @@ for i in range(len(files_in_folder)):
         ll=segment_points[ji]
         rr=segment_points[ji+1]
         color_is=colors[int((int(float(category_values[ll]))))]
-        plt.axvspan(ll-0.5,rr-0.5, facecolor=color_is, alpha=1)
+        plt.axvspan(ll-0.5,rr-0.5, facecolor=color_is, alpha=0.8)
         
     figure_filename=str(serial_number)+'.png'
     complete_path_to_save_figure=os.path.normpath(os.path.join(complete_dirpath_to_save_figure,figure_filename))
