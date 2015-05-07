@@ -129,14 +129,18 @@ def extract_intervals(True_False_List):
 #########################################################################################################
 sensor_variables=['TMAl_1.source']#-------------------------------------"sensor variable of interest"
 step_variable=['Step']
-#setpoint_folder='E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint'
+setpoint_folder='E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint'
 #setpoint_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//setpoint'
 #setpoint_folder='E://Raw Data//CSV files//TS1_TMAl_Step//setpoint'
 #output_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output'
 output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Output'
-setpoint_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Setpoint'
-output_filename2='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Trials//category_list1.csv'
-output_filename3='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Trials//category_list2.csv'
+#setpoint_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Setpoint'
+#output_filename2='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Trials//category_list1.csv'
+#output_filename3='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Trials//category_list2.csv'
+#output_filename4='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Trials//category_list3.csv'
+#output_filename5='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Trials//category_list4.csv'
+#output_filename6='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Trials//category_list5.csv'
+#output_filename7='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Trials//category_list6.csv'
 
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
@@ -198,7 +202,7 @@ for u in range(len(files_in_folder)):
                 if ((jj[1]-jj[0])>substantial_amount):
                     category_list[jj[0]+Zero_Step:jj[1]+Zero_Step]=4*np.ones((jj[1]-jj[0],1),dtype=np.int)
 
-            write_array_to_csv(output_filename2,category_list) 
+#            write_array_to_csv(output_filename2,category_list) 
             # category 1 (fluctuating region)  
             yes_negative_three=(mmm_difference==-3)
             if (sum(yes_negative_three)>0):
@@ -212,13 +216,19 @@ for u in range(len(files_in_folder)):
                     ll=min(increment_2[yes_loop_start])
                     if(len(np.unique(category_list[ll:rr]))!=1):
                         category_list[ll:rr]=np.ones((rr-ll,1),dtype=np.int)
-            write_array_to_csv(output_filename3,category_list) 
-                  
+#            write_array_to_csv(output_filename3,category_list) 
+#                  
                               
             # other categories
             category_difference=(category_list[1:]-category_list[:-1])
             no_change_steps2=((category_list[:-1]==0)*(category_difference==0))
-            remaining_intervals=extract_intervals(no_change_steps2)
+            no_change_steps3=((no_change_steps2*(np.concatenate((np.zeros((Zero_Step,1)),mmm_difference))==0)))
+            remaining_intervals=extract_intervals(no_change_steps3)
+#            write_array_to_csv(output_filename4,no_change_steps2) 
+#            write_array_to_csv(output_filename5,(category_list[:-1]==0)) 
+#            write_array_to_csv(output_filename6,(category_difference==0)) 
+#            write_array_to_csv(output_filename7,no_change_steps3) 
+            
             
             for jkjk in remaining_intervals:
                 if(jkjk[1]==data_length):

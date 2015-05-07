@@ -83,10 +83,10 @@ def ensure_dir(f):
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
 #category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//setpoint"
-category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_source_setpoint_partition_rewritten//Output//CSV"
+category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Output//CSV"
 setpoint_folder="E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint"
 sensor_variable=["TMAl_1.source"]
-output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//Output"
+output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//Output2"
 #colors=['b','','g','r','y','c','m','k']
 colors={-1:'b',0:'g',1:'g',2:'r',3:'y',4:'c',5:'m',6:'k'}
 #########################################################################################################
