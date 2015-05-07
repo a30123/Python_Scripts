@@ -129,19 +129,13 @@ def extract_intervals(True_False_List):
 #########################################################################################################
 sensor_variables=['TMAl_1.source']#-------------------------------------"sensor variable of interest"
 step_variable=['Step']
-#setpoint_folder='E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint'
+setpoint_folder='E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint'
 #setpoint_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//setpoint'
 #setpoint_folder='E://Raw Data//CSV files//TS1_TMAl_Step//setpoint'
 #output_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output'
 output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150507_TMAl_source_setpoint_partition_rewritten_improved2//Output'
-setpoint_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150507_TMAl_source_setpoint_partition_rewritten_improved2//Setpoint'
-#output_filename2='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Trials//category_list1.csv'
-#output_filename3='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Trials//category_list2.csv'
-#output_filename4='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Trials//category_list3.csv'
-#output_filename5='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Trials//category_list4.csv'
-#output_filename6='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Trials//category_list5.csv'
-#output_filename7='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Trials//category_list6.csv'
-
+#setpoint_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150507_TMAl_source_setpoint_partition_rewritten_improved2//Setpoint'
+#output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150507_TMAl_source_setpoint_partition_rewritten_improved2//Trial'
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
@@ -202,7 +196,6 @@ for u in range(len(files_in_folder)):
                 if ((jj[1]-jj[0])>substantial_amount):
                     category_list[jj[0]+Zero_Step:jj[1]+Zero_Step]=4*np.ones((jj[1]-jj[0],1),dtype=np.int)
 
-#            write_array_to_csv(output_filename2,category_list) 
             # category 1 (fluctuating region)  
             yes_negative_three=(mmm_difference==-3)
             if (sum(yes_negative_three)[0]>0):
@@ -215,9 +208,9 @@ for u in range(len(files_in_folder)):
                     rr=max(increment_2[yes_loop_end])
                     ll=min(increment_2[yes_loop_start])
                     sum_of_abs_diff=sum(abs(AAA_difference[ll+Zero_Step:rr+Zero_Step]))
-                    if((len(np.unique(category_list[ll:rr]))!=1)& (sum_of_abs_diff[0]>500)):
+                    if((len(np.unique(category_list[ll:rr]))!=1)& (sum_of_abs_diff[0]>300)):
                         category_list[ll:rr]=np.ones((rr-ll,1),dtype=np.int)
-#            write_array_to_csv(output_filename3,category_list) 
+#
 #                  
                               
             # other categories
