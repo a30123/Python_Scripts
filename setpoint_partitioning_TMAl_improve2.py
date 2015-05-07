@@ -129,13 +129,13 @@ def extract_intervals(True_False_List):
 #########################################################################################################
 sensor_variables=['TMAl_1.source']#-------------------------------------"sensor variable of interest"
 step_variable=['Step']
-setpoint_folder='E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint'
+#setpoint_folder='E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint'
 #setpoint_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//setpoint'
 #setpoint_folder='E://Raw Data//CSV files//TS1_TMAl_Step//setpoint'
 #output_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output'
-output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150507_TMAl_source_setpoint_partition_rewritten_improved2//Output'
-#setpoint_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150507_TMAl_source_setpoint_partition_rewritten_improved2//Setpoint'
-#output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150507_TMAl_source_setpoint_partition_rewritten_improved2//Trial'
+#output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150507_TMAl_source_setpoint_partition_rewritten_improved2//Output'
+setpoint_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150507_TMAl_source_setpoint_partition_rewritten_improved2//Setpoint'
+output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150507_TMAl_source_setpoint_partition_rewritten_improved2//Trial'
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
@@ -207,8 +207,11 @@ for u in range(len(files_in_folder)):
                     yes_loop_start=(mm[:,0]==(jjj-3))
                     rr=max(increment_2[yes_loop_end])
                     ll=min(increment_2[yes_loop_start])
-                    sum_of_abs_diff=sum(abs(AAA_difference[ll+Zero_Step:rr+Zero_Step]))
-                    if((len(np.unique(category_list[ll:rr]))!=1)& (sum_of_abs_diff[0]>300)):
+                    #sum_of_abs_diff=np.std(abs(AAA_difference[ll+Zero_Step:rr+Zero_Step,0]))
+                    sum_of_abs_diff=np.std((AAA[ll+Zero_Step:rr+Zero_Step,0]))                    
+                    print(sum_of_abs_diff)
+                    print(len(np.unique(mmm[ll:rr])))
+                    if((len(np.unique(category_list[ll:rr]))!=1)& (sum_of_abs_diff>10)):
                         category_list[ll:rr]=np.ones((rr-ll,1),dtype=np.int)
 #
 #                  
