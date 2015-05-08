@@ -129,13 +129,13 @@ def extract_intervals(True_False_List):
 #########################################################################################################
 sensor_variables=['TMAl_1.source']#-------------------------------------"sensor variable of interest"
 step_variable=['Step']
-setpoint_folder='E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint'
+#setpoint_folder='E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint'
 #setpoint_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//setpoint'
 #setpoint_folder='E://Raw Data//CSV files//TS1_TMAl_Step//setpoint'
 #output_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output'
-output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_source_setpoint_partition_rewritten_improved4//Output'
-#setpoint_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_source_setpoint_partition_rewritten_improved4//Setpoint'
-#output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_source_setpoint_partition_rewritten_improved4//Trial'
+#output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_source_setpoint_partition_rewritten_improved4//Output'
+setpoint_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_source_setpoint_partition_rewritten_improved4//Setpoint'
+output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_source_setpoint_partition_rewritten_improved4//Trial'
 output_filename='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_source_setpoint_partition_rewritten_improved4//intermediate.csv'
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
@@ -198,9 +198,9 @@ for u in range(len(files_in_folder)):
                     category_list[jj[0]+Zero_Step:jj[1]+Zero_Step]=4*np.ones((jj[1]-jj[0],1),dtype=np.int)
             
             
-            #write_array_to_csv(output_filename,category_list) 
+            write_array_to_csv(output_filename,category_list) 
             # category 1 (fluctuating region)  
-            yes_negative_three=(mmm_difference<-1)
+            yes_negative_three=((mmm_difference<-1)&(mmm_difference>-50))
             if (sum(yes_negative_three)[0]>0):
                 indices_negative_three=increment_1[yes_negative_three[:,0]]
                 ttt=mmm[indices_negative_three]
@@ -230,11 +230,7 @@ for u in range(len(files_in_folder)):
             no_change_steps2=((category_list[:-1]==0)*(category_difference==0))
             no_change_steps3=((no_change_steps2*(np.concatenate((np.zeros((Zero_Step,1)),mmm_difference))==0)))
             remaining_intervals=extract_intervals(no_change_steps3)
-#            write_array_to_csv(output_filename4,no_change_steps2) 
-#            write_array_to_csv(output_filename5,(category_list[:-1]==0)) 
-#            write_array_to_csv(output_filename6,(category_difference==0)) 
-#            write_array_to_csv(output_filename7,no_change_steps3) 
-            
+
             
             for jkjk in remaining_intervals:
                 if(jkjk[1]==data_length):
