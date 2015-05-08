@@ -58,9 +58,9 @@ def read_single_variable_as_stringlist_csv(csvpathfilename, variablename):
     return np.array(thelist)    
 def extract_serial_number(filename):
 #    import re
-    extract_regular_expression=re.search('(_\d+-current)',filename)
+    extract_regular_expression=re.search('(_\d+-deviation)',filename)
     serial_number_string=extract_regular_expression.group(0)
-    serial_number_string=serial_number_string.replace('-current','')
+    serial_number_string=serial_number_string.replace('-deviation','')
     serial_number_string=serial_number_string.replace('_','') 
     value_of_number=int(serial_number_string)
     return value_of_number
@@ -105,42 +105,38 @@ def plot_and_save_list_values(valuelist,pathname,figure_filename):
 
 #intialize "sensor variable of interest","folder to accesss", and "folder to save output to"
 sensor_variable="TMAl_1.source"#-------------------------------------"sensor variable of interest"
-folder_to_read_from="E://MovedFromD//CSV//TS1//MO1group_2363runs//current"#--------------------------------------------"folder to access"
-folder_to_read_from2="E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint"#--------------------------------------------"folder to access"
-path_to_save_csv="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_1_source_unreal_error//TMAl_unreal_error_CSV"#----------------------------"folder to save output to"
+#folder_to_read_from="E://MovedFromD//CSV//TS1//MO1group_2363runs//current"#--------------------------------------------"folder to access"
+folder_to_read_from2="E://MovedFromD//CSV//TS1//MO1group_2363runs//deviation"#--------------------------------------------"folder to access"
+path_to_save_csv="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_1_source_abs_reconstructed_error//TMAl_abs_reconstructed_error_CSV"#----------------------------"folder to save output to"
 PhysMax=500
-path_to_save_png="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_1_source_unreal_error//TMAl_unreal_error_PNG"
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
 
 
-files_in_folder = os.listdir(folder_to_read_from) 
+files_in_folder = os.listdir(folder_to_read_from2) 
 files_in_folder.sort(key=extract_serial_number)
 
 for i in range(len(files_in_folder)):
     #--------------------------------------------------------------------------------file path name for single csv file
     temp_file_name=files_in_folder[i]    
-    single_current_file_path=os.path.join(folder_to_read_from, temp_file_name)
-    single_setpoint_file_path=os.path.join(folder_to_read_from2, temp_file_name.replace('-current','-setpoint'))
+    single_deviation_file_path=os.path.join(folder_to_read_from2, temp_file_name)
 
     #--------------------------------------------------------------------------------prints serial number
     serial_number=extract_serial_number(files_in_folder[i])
     print('Reading CSV file:',serial_number)
 
     #--------------------------------------------------------------------------------reads values from csv file of specified sensor variable
-    current_values=read_single_variable_as_stringlist_csv(single_current_file_path, sensor_variable)
-    setpoint_values=read_single_variable_as_stringlist_csv(single_setpoint_file_path, sensor_variable)    
-    diff_values=np.array(current_values-setpoint_values,dtype='float16')
-    unreal_error=abs(diff_values)
+    deviation_values=read_single_variable_as_stringlist_csv(single_deviation_file_path, sensor_variable)    
+    error_values=np.array(abs(deviation_values)*PhysMax/100,dtype='float16')
+
     
-    unreal_error_filename=str(serial_number)+'_current_setpoint_error.csv'
-    complete_path_to_save_csv=os.path.normpath(os.path.join(path_to_save_csv,unreal_error_filename))
+    reconstructed_error_filename=str(serial_number)+'_reconstructed_error.csv'
+    complete_path_to_save_csv=os.path.normpath(os.path.join(path_to_save_csv,reconstructed_error_filename))
   
     ensure_dir(path_to_save_csv)
-    write_array_to_csv(complete_path_to_save_csv,unreal_error)
+    write_array_to_csv(complete_path_to_save_csv,error_values)
    
     #----------------------------------------------------------------------------------plots the values and saves as png file into designated folder    
     
-    ensure_dir(path_to_save_png)
-    plot_and_save_list_values(unreal_error,path_to_save_png,unreal_error_filename)
+    
