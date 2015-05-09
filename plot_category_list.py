@@ -85,13 +85,16 @@ def ensure_dir(f):
 #category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//setpoint"
 #category_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150507_TMAl_source_setpoint_partition_rewritten_improved2//Output//CSV'
 #category_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_source_setpoint_partition_rewritten_improved3//Output//CSV'
-category_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_source_setpoint_partition_rewritten_improved4//Output2//CSV'
-
+#category_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_source_setpoint_partition_rewritten_improved4//Output2//CSV'
+category_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150509_setpoint_partition_general//TS2_TMAl//CSV'
 #category_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150507_TMAl_source_setpoint_partition_rewritten_improved2//Trial//CSV'
 #category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Output//CSV"
-setpoint_folder="E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint"
+#setpoint_folder="E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint"
+setpoint_folder='E://MovedFromD//CSV//TS2//TS2_TMAl_1_source//setpoint'
+
 sensor_variable=["TMAl_1.source"]
-output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//Output7"
+
+output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150509_plot_category_list//TS2_TMAl"
 #output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//Trial"
 
 #colors=['b','','g','r','y','c','m','k']
