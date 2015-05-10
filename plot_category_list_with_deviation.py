@@ -87,50 +87,7 @@ def ensure_dir(f):
     d=os.path.abspath(f)
     if not os.path.exists(d):
         os.makedirs(d)   
-def plot_and_save_list_values_cooler(category_values,segment_points,valuelist,valuelist2,ll,rr,pathname,figure_filename):
-#    import matplotlib.pyplot as plt  #--------------------------------John Hunter's  2D plotting library
-#    from matplotlib import rc 
-    rc('mathtext',default='regular')    
-    
-    complete_dirpath_to_save_figures=os.path.normpath(os.path.join(os.getcwd(),pathname))    
-    ensure_dir(complete_dirpath_to_save_figures)
-    figure_filename2=figure_filename.replace('.csv','.png')
-    complete_path_to_save_figure=os.path.normpath(os.path.join(complete_dirpath_to_save_figures,figure_filename2))
-    
-    x_axis_range=np.arange(ll,rr)
-    sub_valuelist=valuelist[ll:(rr)]
-    sub_valuelist2=valuelist2[ll:(rr)]
-    fig=plt.figure(figsize=(14,6))
-    ax=fig.add_subplot(111)
-    colors2={-1:'b',0:'g',1:'g',2:'r',3:'y',4:'c',5:'m',6:'k'}
 
-    
-        
-    lns1=ax.plot(x_axis_range,sub_valuelist,'-',label='TMAl_1.source setpoint')
-    for ji in range((len(segment_points)-1)):
-        ll1=segment_points[ji]
-        rr1=segment_points[ji+1]
-        color_is=colors2[int((int(float(category_values[ll1]))))]
-        plt.axvspan(ll1,rr1, facecolor=color_is, alpha=0.8)
-        
-    ax2=ax.twinx()
-    lns3=ax2.plot(x_axis_range,sub_valuelist2,'-r',label='TMAl_1.source reconstructed error')
-    
-    lns=lns1+lns3
-    labs=[l.get_label() for l in lns]
-    ax.legend(lns,labs,loc=0)
-    
-    ax.grid()
-    ax.set_xlabel("time")
-    ax.set_ylabel(r"setpoint")
-    ax2.set_ylabel(r"reconstructed error")
-    ax2.set_ylim(0,10)
-    ax.set_ylim(0,500)    
-#    plt.plot(valuelist)
-#    plt.plot(valuelist2)
-    plt.show
-    plt.savefig(complete_path_to_save_figure)
-    plt.clf()
     
 #########################################################################################################
 #######################################   INITIALIZING        ###########################################
@@ -139,7 +96,7 @@ sensor_variable=["TMAl_1.source"]
 category_folder="C://Users//Mary//Music//Documents//Python Scripts//Try_20150510_category_plot_with_deviation//category_files"
 setpoint_folder="C://Users//Mary//Music//Documents//Python Scripts//Try_20150510_category_plot_with_deviation//setpoint"
 deviation_folder="C://Users//Mary//Music//Documents//Python Scripts//Try_20150510_category_plot_with_deviation//deviation"
-output_folder="C://Users//Mary//Music//Documents//Python Scripts//Try_20150510_category_plot_with_deviation//Output//PNG"
+output_folder="C://Users//Mary//Music//Documents//Python Scripts//Try_20150510_category_plot_with_deviation//Output"
 PhysMax=500
 colors={-1:'b',0:'g',1:'g',2:'r',3:'y',4:'c',5:'m',6:'k'}
 #########################################################################################################
@@ -197,42 +154,12 @@ for i in range(len(files_in_folder)):
     segment_points=doo#np.concatenate((np.array([0]),doo))
     segment_points[-1]=(len(setpoint_values)-1)
     
-#    plt.figure(figsize=(14,6))
-#    plt.plot(setpoint_values)    
-#    
-#
-#    
-#    for ji in range((len(segment_points)-1)):
-#        ll=segment_points[ji]
-#        rr=segment_points[ji+1]
-#        color_is=colors[int((int(float(category_values[ll]))))]
-#        plt.axvspan(ll-0.5,rr-0.5, facecolor=color_is, alpha=0.8)
-#        
-#    figure_filename=str(serial_number)+'.png'
-#    complete_path_to_save_figure=os.path.normpath(os.path.join(complete_dirpath_to_save_figure,figure_filename))
-#    
-#   
-#    
-#    plt.xlim(0,len(setpoint_values)-1)
-#    plt.grid()
-#    plt.xlabel("Time(s)",fontsize=16)
-#    plt.ylabel("Setpoint",fontsize=16) 
-#    for tick in plt.gca().xaxis.get_major_ticks():
-#        tick.label1.set_fontsize(12) 
-#    for tick in plt.gca().yaxis.get_major_ticks():
-#        tick.label1.set_fontsize(12) 
-#    plt.savefig(complete_path_to_save_figure)
-#    plt.clf()    
-#        
-#        
-#    plot_and_save_list_values_cooler(category_values,segment_points,setpoint_values_float,deviation_values_float,0,len(deviation_values)-1,output_folder,"two figures.csv")
-#    
     
     rc('mathtext',default='regular')    
     
-    ensure_dir(output_folder)
+    
     figure_filename2=str(serial_number)+'.png'
-    complete_path_to_save_figure=os.path.normpath(os.path.join(output_folder,figure_filename2))
+    complete_path_to_save_figure=os.path.normpath(os.path.join(complete_dirpath_to_save_figure,figure_filename2))
     
     x_axis_range=np.arange(0,len(setpoint_values))
     sub_valuelist=setpoint_values_float
@@ -262,8 +189,7 @@ for i in range(len(files_in_folder)):
     ax2.set_ylabel(r"reconstructed error")
     ax2.set_ylim(0,10)
     ax.set_ylim(0,500)    
-#    plt.plot(valuelist)
-#    plt.plot(valuelist2)
+
     plt.show
     plt.savefig(complete_path_to_save_figure)
     plt.clf()
