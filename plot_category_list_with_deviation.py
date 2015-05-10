@@ -112,14 +112,13 @@ files_in_folder.sort(key=extract_serial_number2)
 files_in_folder2=os.listdir(setpoint_folder)
 serial_number_list=np.array([extract_serial_number(uu) for uu in files_in_folder2])
 
-
 files_in_folder3=os.listdir(deviation_folder)
 serial_number_list2=np.array([extract_serial_number3(uu) for uu in files_in_folder3])
 
-mean_reconstructed_error_list=[]
 for i in range(len(files_in_folder)):
     temp_file_name=files_in_folder[i] 
     print(temp_file_name)  
+    
     serial_number=extract_serial_number2(files_in_folder[i])
     yes_serial_number=(serial_number_list==serial_number) 
     yes_serial_number2=(serial_number_list2==serial_number)    
@@ -127,7 +126,6 @@ for i in range(len(files_in_folder)):
     increment=np.array(range(len(files_in_folder2)))
     position_of_serial_number=increment[yes_serial_number]
     position_of_serial_number2=increment[yes_serial_number2]
-    
     
     temp_file_name2=files_in_folder2[position_of_serial_number]    
     temp_file_name3=files_in_folder3[position_of_serial_number2]    
@@ -143,6 +141,7 @@ for i in range(len(files_in_folder)):
     category_values_float=np.array(category_values,dtype='float16')
     setpoint_values_float=np.array(setpoint_values,dtype='float16')
     deviation_values_float=abs(np.array(deviation_values,dtype='float16'))*PhysMax/100
+    
     
     CC=np.array([[float(k)] for k in category_values])
     CC_difference=(CC[1:]-CC[:-1]) 
