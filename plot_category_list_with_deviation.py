@@ -93,10 +93,15 @@ def ensure_dir(f):
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
 sensor_variable=["TMAl_1.source"]
-category_folder="C://Users//Mary//Music//Documents//Python Scripts//Try_20150510_category_plot_with_deviation//category_files"
-setpoint_folder="C://Users//Mary//Music//Documents//Python Scripts//Try_20150510_category_plot_with_deviation//setpoint"
-deviation_folder="C://Users//Mary//Music//Documents//Python Scripts//Try_20150510_category_plot_with_deviation//deviation"
-output_folder="C://Users//Mary//Music//Documents//Python Scripts//Try_20150510_category_plot_with_deviation//Output"
+category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_source_setpoint_partition_rewritten_improved4//Output2//CSV"
+setpoint_folder="E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint"
+deviation_folder="E://MovedFromD//CSV//TS1//MO1group_2363runs//deviation"
+output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150511_plot_category_list_and_reconstructed_error//Output"
+#
+#category_folder="C://Users//Mary//Music//Documents//Python Scripts//Try_20150510_category_plot_with_deviation//category_files"
+#setpoint_folder="C://Users//Mary//Music//Documents//Python Scripts//Try_20150510_category_plot_with_deviation//setpoint"
+#deviation_folder="C://Users//Mary//Music//Documents//Python Scripts//Try_20150510_category_plot_with_deviation//deviation"
+#output_folder="C://Users//Mary//Music//Documents//Python Scripts//Try_20150510_category_plot_with_deviation//Output"
 PhysMax=500
 colors={-1:'b',0:'w',1:'g',2:'r',3:'y',4:'c',5:'m',6:'k'}
 #########################################################################################################
@@ -173,7 +178,7 @@ for i in range(len(files_in_folder)):
         lltemp=segment_points[ji]
         rrtemp=segment_points[ji+1]
         color_is=colors[int((int(float(category_values[lltemp]))))]
-        plt.axvspan(lltemp,rrtemp, facecolor=color_is, alpha=0.8)
+        plt.axvspan(lltemp,rrtemp, facecolor=color_is, alpha=0.4)
         
     ax2=ax.twinx()
     lns3=ax2.plot(x_axis_range,sub_valuelist2,'-r',label='TMAl_1.source reconstructed error')
@@ -186,7 +191,7 @@ for i in range(len(files_in_folder)):
     ax.set_xlabel("time")
     ax.set_ylabel(r"setpoint")
     ax2.set_ylabel(r"reconstructed error")
-    ax2.set_ylim(0,10)
+    ax2.set_ylim(0,80)
     ax.set_ylim(0,500)    
 
     plt.show
