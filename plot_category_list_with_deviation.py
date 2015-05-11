@@ -98,7 +98,7 @@ setpoint_folder="C://Users//Mary//Music//Documents//Python Scripts//Try_20150510
 deviation_folder="C://Users//Mary//Music//Documents//Python Scripts//Try_20150510_category_plot_with_deviation//deviation"
 output_folder="C://Users//Mary//Music//Documents//Python Scripts//Try_20150510_category_plot_with_deviation//Output"
 PhysMax=500
-colors={-1:'b',0:'g',1:'g',2:'r',3:'y',4:'c',5:'m',6:'k'}
+colors={-1:'b',0:'w',1:'g',2:'r',3:'y',4:'c',5:'m',6:'k'}
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
