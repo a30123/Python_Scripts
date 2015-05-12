@@ -100,10 +100,10 @@ def plot_and_save_list_values(valuelist,pathname,figure_filename):
 #output_folder_filename="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_source_mean_reconstructed_error//mean_reconstructed_error_flat_region.csv"
 folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150504_TMAl_1_source_reconstructed_error//TMAl_reconstructed_error_CSV"
 folder_to_read_from2="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150511_TMAl_mean_reconstructed_error_segments//category_list"
-path_to_save_csv="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150512_TMAl_reconstructed_error_manipulated//Ouput//CSV"
-path_to_save_png="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150512_TMAl_reconstructed_error_manipulated//Ouput//PNG"
+path_to_save_csv="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150512_TMAl_reconstructed_error_manipulated//Ouput2//CSV"
+path_to_save_png="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150512_TMAl_reconstructed_error_manipulated//Ouput2//PNG"
 
-adjust_by={1:0.2,2:0.6,3:0.7,4:0,5:0,6:0}
+adjust_by={1:5,2:5,3:5,4:0,5:0,6:0}
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
