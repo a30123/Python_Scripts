@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun Mar 08 12:59:42 2015
+Created on Sun May 13 12:59:42 2015
 
 @author: A30123
-modified date: Mar 13 2015
+modified date: May 13 2015
 description: Program for combining multiple events from seperate csv files. Combines arbitrary number of events.
 """
 
@@ -60,7 +60,7 @@ def write_array_to_csv(filename_path,listname):
 ########################################################################################################
 #######################################   INITIALIZING       ###########################################
 ########################################################################################################
-folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150308_combine_events//where_I_put_the_files"
+folder_to_read_from=os.path.join(os.getcwd(),"..")
 runindex_filename="run_index.csv"
 output_filename="output.csv"
 
@@ -71,7 +71,7 @@ tstart = time.time()
 
 complete_dirpath_to_read_runindexlist=os.path.normpath(os.path.join(folder_to_read_from,runindex_filename))
 complete_dirpath_to_write=os.path.normpath(os.path.join(folder_to_read_from,output_filename))
-complete_dirpath_to_event_folder=os.path.normpath(os.path.join(folder_to_read_from,"just events"))
+complete_dirpath_to_event_folder=os.path.normpath(os.path.join(folder_to_read_from,"events_I_want_to_combine"))
 
 files_in_folder = os.listdir(complete_dirpath_to_event_folder)
 
@@ -88,16 +88,12 @@ for i in range(number_of_events):
     complete_dirpath_to_read_eventlist=os.path.normpath(os.path.join(complete_dirpath_to_event_folder,files_in_folder[i]))
     temp_event_list=get_single_column_from_csv(complete_dirpath_to_read_eventlist)
     
-    zero_one,inverse_indices=np.unique(temp_event_list,return_inverse=True)
-    labels=np.array(["",(number_of_events-i)],dtype=object)  
-    final_matrix[-length_of_list:,i]=labels[inverse_indices]
+   
+    final_matrix[1:,i]=temp_event_list
     final_matrix[0,i]=files_in_folder[i].replace(".csv","")
     
     
-final_matrix=np.column_stack((np.concatenate((np.array(["step increments"]),np.array(range(length_of_list)))),final_matrix))
 final_matrix=np.column_stack((np.concatenate((np.array(["run index"]),runindex_list)),final_matrix))
-
-
 
 write_array_to_csv(complete_dirpath_to_write,final_matrix)
 
