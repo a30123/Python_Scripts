@@ -83,7 +83,6 @@ length_of_list=len(runindex_list)
 emptyarray=np.array(["" for x in range(number_of_events)],dtype=object)
 final_matrix=np.array([emptyarray for x in range(length_of_list+1)],dtype=object)
 
-
 for i in range(number_of_events):
     complete_dirpath_to_read_eventlist=os.path.normpath(os.path.join(complete_dirpath_to_event_folder,files_in_folder[i]))
     temp_event_list=get_single_column_from_csv(complete_dirpath_to_read_eventlist)
@@ -93,7 +92,7 @@ for i in range(number_of_events):
     final_matrix[0,i]=files_in_folder[i].replace(".csv","")
     
     
-final_matrix=np.column_stack((np.concatenate((np.array(["run index"]),runindex_list)),final_matrix))
+#final_matrix=np.column_stack((np.concatenate((np.array(["run index"]),runindex_list)),final_matrix))
 
 write_array_to_csv(complete_dirpath_to_write,final_matrix)
 
