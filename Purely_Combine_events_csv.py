@@ -61,7 +61,7 @@ def write_array_to_csv(filename_path,listname):
 #######################################   INITIALIZING       ###########################################
 ########################################################################################################
 folder_to_read_from=os.path.join(os.getcwd(),"..")
-runindex_filename="run_index.csv"
+#runindex_filename="run_index.csv"
 output_filename="output.csv"
 
 ########################################################################################################
@@ -69,16 +69,18 @@ output_filename="output.csv"
 ########################################################################################################
 tstart = time.time()
 
-complete_dirpath_to_read_runindexlist=os.path.normpath(os.path.join(folder_to_read_from,runindex_filename))
+#complete_dirpath_to_read_runindexlist=os.path.normpath(os.path.join(folder_to_read_from,runindex_filename))
 complete_dirpath_to_write=os.path.normpath(os.path.join(folder_to_read_from,output_filename))
 complete_dirpath_to_event_folder=os.path.normpath(os.path.join(folder_to_read_from,"events_I_want_to_combine"))
 
 files_in_folder = os.listdir(complete_dirpath_to_event_folder)
 
-runindex_list=get_single_column_from_csv(complete_dirpath_to_read_runindexlist)
+#runindex_list=get_single_column_from_csv(complete_dirpath_to_read_runindexlist)
+complete_dirpath_to_read_eventlist=os.path.normpath(os.path.join(complete_dirpath_to_event_folder,files_in_folder[0]))
+temp_event_list=get_single_column_from_csv(complete_dirpath_to_read_eventlist)
 
 number_of_events=len(files_in_folder)
-length_of_list=len(runindex_list)
+length_of_list=len(temp_event_list)
 
 emptyarray=np.array(["" for x in range(number_of_events)],dtype=object)
 final_matrix=np.array([emptyarray for x in range(length_of_list+1)],dtype=object)
