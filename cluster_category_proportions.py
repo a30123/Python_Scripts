@@ -101,7 +101,7 @@ yes_certain_category=(labels==1)
 new_Y=Y[yes_certain_category]
 plt.scatter(new_Y[:,0],new_Y[:,1])
 
-category_zero_list=np.array(yes_certain_category+0,dtype='int')
+category_zero_list=yes_certain_category+0
 write_array_to_csv(complete_path_to_save_csv,category_zero_list)
 
 print('RUN TIME: %.2f secs' % (time.time()-tstart))
