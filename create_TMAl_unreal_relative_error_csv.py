@@ -107,9 +107,8 @@ def plot_and_save_list_values(valuelist,pathname,figure_filename):
 sensor_variable="TMAl_1.source"#-------------------------------------"sensor variable of interest"
 folder_to_read_from="E://MovedFromD//CSV//TS1//MO1group_2363runs//current"#--------------------------------------------"folder to access"
 folder_to_read_from2="E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint"#--------------------------------------------"folder to access"
-path_to_save_csv="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_1_source_unreal_error//TMAl_unreal_error_CSV"#----------------------------"folder to save output to"
-PhysMax=500
-path_to_save_png="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_1_source_unreal_error//TMAl_unreal_error_PNG"
+path_to_save_csv="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150518_TMAl_1_source_unreal_relative_error//TMAl_unreal_relative_error_CSV"#----------------------------"folder to save output to"
+path_to_save_png="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150518_TMAl_1_source_unreal_relative_error//TMAl_unreal_relative_error_PNG"
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
@@ -133,14 +132,15 @@ for i in range(len(files_in_folder)):
     setpoint_values=read_single_variable_as_stringlist_csv(single_setpoint_file_path, sensor_variable)    
     diff_values=np.array(current_values-setpoint_values,dtype='float16')
     unreal_error=abs(diff_values)
+    unreal_relative_error=np.divide(unreal_error,setpoint_values)
     
-    unreal_error_filename=str(serial_number)+'_current_setpoint_error.csv'
+    unreal_error_filename=str(serial_number)+'_current_setpoint_relative_error.csv'
     complete_path_to_save_csv=os.path.normpath(os.path.join(path_to_save_csv,unreal_error_filename))
   
     ensure_dir(path_to_save_csv)
-    write_array_to_csv(complete_path_to_save_csv,unreal_error)
+    write_array_to_csv(complete_path_to_save_csv,unreal_relative_error)
    
     #----------------------------------------------------------------------------------plots the values and saves as png file into designated folder    
     
     ensure_dir(path_to_save_png)
-    plot_and_save_list_values(unreal_error,path_to_save_png,unreal_error_filename)
+    plot_and_save_list_values(unreal_relative_error,path_to_save_png,unreal_error_filename)
