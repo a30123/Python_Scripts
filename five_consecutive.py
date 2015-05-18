@@ -100,8 +100,10 @@ def plot_and_save_list_values(valuelist,pathname,figure_filename):
 #########################################################################################################
 
 #intialize "sensor variable of interest","folder to accesss", and "folder to save output to"
+
 folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150518_TMAl_1_source_unreal_relative_error//TMAl_unreal_relative_error_CSV"#--------------------------------------------"folder to access"
 #folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150518_five_consecutive_errors//Trial"
+folder_to_read_category_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150511_TMAl_mean_reconstructed_error_segments//category_list"
 how_many_consecutive=6
 accuracy=0.01
 
@@ -131,16 +133,26 @@ for i in range(len(files_in_folder)):
 
     #--------------------------------------------------------------------------------reads values from csv file of specified sensor variable
     current_values=get_single_column_from_csv(single_current_file_path)
-    run_length=len(current_values)    
+       
+    
+    
+    temp_file_name2=str(serial_number)+'.csv' 
+    single_file_path2=os.path.join(folder_to_read_category_from, temp_file_name2)
+    
+    category_values=get_single_column_from_csv(single_file_path2)
+    
+    yes_pick=(~(category_values==(-1)))
+    filtered_values=current_values[yes_pick]
+    run_length=len(filtered_values)  
     
     
     if run_length<how_many_consecutive:
         alarm_list.append(0)
         alarm_count_list.append(0)
     else:
-        yes_no_list=(current_values[0:(run_length-how_many_consecutive+1)]>=accuracy)
+        yes_no_list=(filtered_values[0:(run_length-how_many_consecutive+1)]>=accuracy)
         for i in range(how_many_consecutive-1):
-            yes_no_list=np.multiply(yes_no_list,(current_values[0+(i+1):(run_length-how_many_consecutive+1+(i+1))]>=accuracy))
+            yes_no_list=np.multiply(yes_no_list,(filtered_values[0+(i+1):(run_length-how_many_consecutive+1+(i+1))]>=accuracy))
         
         no_of_alarms=sum(yes_no_list)
         alarm_count_list.append(no_of_alarms)
