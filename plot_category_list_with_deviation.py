@@ -94,9 +94,11 @@ def ensure_dir(f):
 #########################################################################################################
 sensor_variable=["TMAl_1.source"]
 category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_source_setpoint_partition_rewritten_improved4//Output2//CSV"
+#category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150511_plot_category_list_and_reconstructed_error//remaining"
 setpoint_folder="E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint"
 deviation_folder="E://MovedFromD//CSV//TS1//MO1group_2363runs//deviation"
 output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150511_plot_category_list_and_reconstructed_error//Output"
+#output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150511_plot_category_list_and_reconstructed_error//Output//remaining"
 #
 #category_folder="C://Users//Mary//Music//Documents//Python Scripts//Try_20150510_category_plot_with_deviation//category_files"
 #setpoint_folder="C://Users//Mary//Music//Documents//Python Scripts//Try_20150510_category_plot_with_deviation//setpoint"
