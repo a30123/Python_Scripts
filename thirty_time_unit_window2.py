@@ -101,16 +101,16 @@ def plot_and_save_list_values(valuelist,pathname,figure_filename):
 
 #intialize "sensor variable of interest","folder to accesss", and "folder to save output to"
 
-folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150518_relative_manipulated_error//CSV"#--------------------------------------------"folder to access"
-#folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150521_thirty_time_unit_window//Trial"
+folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150430_TMAl_1_source_relative_error//TMAl_source_relative_error_CSV"#--------------------------------------------"folder to access"
+#folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150518_five_consecutive_errors//Trial"
 folder_to_read_category_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150511_TMAl_mean_reconstructed_error_segments//category_list"
 window_size=30
 percentage=0.5
 accuracy=0.01
 
-path_to_save_csv="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150521_thirty_time_unit_window//relative_manipulated_error_thirty_time_unit_window.csv"#----------------------------"folder to save output to"
-path_to_save_csv2="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150521_thirty_time_unit_window//relative_manipulated_error_thirty_time_unit_window_number.csv"#----------------------------"folder to save output to"
-path_to_save_csv3="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150521_thirty_time_unit_window//relative_manipulated_error_thirty_time_unit_window_max.csv"#----------------------------"folder to save output to"
+path_to_save_csv="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150521_thirty_time_unit_window//relative_error_thirty_time_unit_window.csv"#----------------------------"folder to save output to"
+path_to_save_csv2="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150521_thirty_time_unit_window//relative_error_thirty_time_unit_window_number.csv"#----------------------------"folder to save output to"
+path_to_save_csv3="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150521_thirty_time_unit_window//relative_error_thirty_time_unit_window_max.csv"#----------------------------"folder to save output to"
 
 path_to_save_png="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150521_thirty_time_unit_window//TMAl_relative_error_PNG"
 #########################################################################################################
@@ -127,14 +127,14 @@ max_percentage_list=[]
 for i in range(len(files_in_folder)):
     #--------------------------------------------------------------------------------file path name for single csv file
     temp_file_name=files_in_folder[i]    
-    single_current_file_path=os.path.join(folder_to_read_from, temp_file_name)
+    single_file_path=os.path.join(folder_to_read_from, temp_file_name)
 
     #--------------------------------------------------------------------------------prints serial number
     serial_number=extract_serial_number(files_in_folder[i])
     print('Reading CSV file:',serial_number)
 
     #--------------------------------------------------------------------------------reads values from csv file of specified sensor variable
-    current_values=get_single_column_from_csv(single_current_file_path)
+    relative_error_values=get_single_column_from_csv(single_file_path)
        
     
     
@@ -144,7 +144,7 @@ for i in range(len(files_in_folder)):
     category_values=get_single_column_from_csv(single_file_path2)
     
     yes_pick=(~(category_values==(-1)))
-    filtered_values=current_values[yes_pick]
+    filtered_values=relative_error_values[yes_pick]
     run_length=len(filtered_values)  
     
     
@@ -162,7 +162,6 @@ for i in range(len(files_in_folder)):
         alarm_count_list.append(no_of_alarms)
         alarm_list.append((no_of_alarms>0)+0)
         max_percentage_list.append(max_percentage)
-
 
 
 write_array_to_csv(path_to_save_csv,(alarm_list))
