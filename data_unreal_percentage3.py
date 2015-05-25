@@ -129,12 +129,12 @@ def write_array_to_csv(filename_path,listname):
 #########################################################################################################
 
 #intialize "sensor variable of interest","folder to accesss", and "folder to save output to"
-sensor_variables="TMAl_1.push"#-------------------------------------"sensor variable of interest"
+sensor_variables="TMAl_1.press"#-------------------------------------"sensor variable of interest"
 folder_to_read_from="E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint"#--------------------------------------------"folder to access"
 folder_to_read_from2="E://MovedFromD//CSV//TS1//MO1group_2363runs//current"#--------------------------------------------"folder to access"
 folder_to_read_from3="E://MovedFromD//CSV//TS1//MO1group_2363runs//deviation"
-path_to_save_list="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150525_unreal_percentage//TMAl_1_push_unreal_percentage.csv"#----------------------------"folder to save output to"
-PhysMax=500
+path_to_save_list="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150525_unreal_percentage//TMAl_1_press_unreal_percentage.csv"#----------------------------"folder to save output to"
+PhysMax=3000
 
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
