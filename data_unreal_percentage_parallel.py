@@ -21,8 +21,8 @@ import csv#-------------------------------------------------------read write csv
 import matplotlib.pyplot as plt  #--------------------------------John Hunter's  2D plotting library
 import re #-------------------------------------------------------regular expressions
 from matplotlib import rc 
-#from joblib import Parallel, delayed
-#import multiprocessing
+from joblib import Parallel, delayed
+import multiprocessing
 ############################################################################################################
 
 
@@ -123,35 +123,8 @@ def write_array_to_csv(filename_path,listname):
         print("the structure you are writing is neither a list nor an np.ndarray")
 		
     runnumberfile.close()
-#######################################
-
-
-#########################################################################################################
-#######################################   INITIALIZING        ###########################################
-#########################################################################################################
-
-#intialize "sensor variable of interest","folder to accesss", and "folder to save output to"
-sensor_variables="TMAl_1.source"#-------------------------------------"sensor variable of interest"
-folder_to_read_from="E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint"#--------------------------------------------"folder to access"
-folder_to_read_from2="E://MovedFromD//CSV//TS1//MO1group_2363runs//current"#--------------------------------------------"folder to access"
-folder_to_read_from3="E://MovedFromD//CSV//TS1//MO1group_2363runs//deviation"
-path_to_save_list="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150525_unreal_percentage//TMAl_1_source_unreal_percentage_compare.csv"#----------------------------"folder to save output to"
-PhysMax=500
-
-#########################################################################################################
-#######################################   MAIN PROGRAM        ###########################################
-#########################################################################################################
-
-
-files_in_folder = os.listdir(folder_to_read_from) 
-files_in_folder.sort(key=extract_serial_number)
-
-no_of_runs=len(files_in_folder)
-
-percentage_list=np.zeros(no_of_runs)
-for i in range(len(files_in_folder)):
-    #--------------------------------------------------------------------------------file path name for single csv file
     
+def repeat_this(i,files_in_folder,folder_to_read_from,folder_to_read_from2,folder_to_read_from3,sensor_variables):
     temp_file_name=files_in_folder[i]    
     single_file_path=os.path.join(folder_to_read_from, temp_file_name)
     single_file_path2=os.path.join(folder_to_read_from2, temp_file_name.replace('-setpoint','-current'))
@@ -171,10 +144,51 @@ for i in range(len(files_in_folder)):
     
     calculated_deviation=current_values-setpoint_values    
     
-    
     boolean_value=(abs(calculated_deviation-deviation_values*PhysMax/100)>1)
     
-    percentage_list[i]=(sum(boolean_value)/data_length)
+    percentage_list[i]=(sum(boolean_value)/data_length)  
+    
+    return percentage_list[i]
+    
+    
+#######################################
+
+
+#########################################################################################################
+#######################################   INITIALIZING        ###########################################
+#########################################################################################################
+
+#intialize "sensor variable of interest","folder to accesss", and "folder to save output to"
+sensor_variables="TMAl_1.source"#-------------------------------------"sensor variable of interest"
+#folder_to_read_from="E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint"#--------------------------------------------"folder to access"
+#folder_to_read_from2="E://MovedFromD//CSV//TS1//MO1group_2363runs//current"#--------------------------------------------"folder to access"
+#folder_to_read_from3="E://MovedFromD//CSV//TS1//MO1group_2363runs//deviation"
+#path_to_save_list="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150525_unreal_percentage//TMAl_1_source_unreal_percentage_compare.csv"#----------------------------"folder to save output to"
+
+folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150527_joblib//setpoint"#--------------------------------------------"folder to access"
+folder_to_read_from2="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150527_joblib//current"#--------------------------------------------"folder to access"
+folder_to_read_from3="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150527_joblib//deviation"
+path_to_save_list="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150527_joblib//output//TMAl_1_source_unreal_percentage_parallel.csv"#----------------------------"folder to save output to"
+
+
+
+PhysMax=500
+
+#########################################################################################################
+#######################################   MAIN PROGRAM        ###########################################
+#########################################################################################################
+
+
+files_in_folder = os.listdir(folder_to_read_from) 
+files_in_folder.sort(key=extract_serial_number)
+
+no_of_runs=len(files_in_folder)
+
+num_cores=multiprocessing.cpu_count()
+
+
+percentage_list=np.zeros(no_of_runs)
+
     #----------------------------------------------------------------------------------plots the values and saves as png file into designated folder    
-     
-write_array_to_csv(path_to_save_list,percentage_list)
+results=Parallel(n_jobs=num_cores)(delayed(repeat_this)(i,files_in_folder,folder_to_read_from,folder_to_read_from2,folder_to_read_from3,sensor_variables) for i in range(no_of_runs))     
+#write_array_to_csv(path_to_save_list,percentage_list)
