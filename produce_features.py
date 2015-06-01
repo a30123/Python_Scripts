@@ -19,6 +19,7 @@ import os
 import csv
 import numpy as np
 import re
+import statistics
 
 #########################################################################################################
 #######################################   FUNCTIONS           ###########################################
@@ -74,7 +75,7 @@ def extract_serial_number(filename):
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
 sensor_variable="dP_Filter"
-directory_filename="E://MovedFromD//CSV//TS2//TS2_TMAl_1_source//setpoint"
+directory_filename="E://MovedFromD//CSV//TS1//dP_Filter_2492runs//current"
 output_directory_filename="E://all_variable_features//"
 
 #########################################################################################################
@@ -85,10 +86,29 @@ tstart = time.time()
 files_in_folder = os.listdir(directory_filename) 
 files_in_folder.sort(key=extract_serial_number)
 
+list1=[]
+list2=[]
+list3=[]
+list4=[]
+list5=[]
+
+
 for i in range(len(files_in_folder)):
     temp_file_name=files_in_folder[i] 
     print(temp_file_name)
     complete_file_path=os.path.join(directory_filename, temp_file_name)
  
     current_values=read_single_variable_as_stringlist_csv(complete_file_path,sensor_variable)
+    
+    list1.append(np.mean(current_values))
+    list2.append(np.var(current_values))
+    list3.append(max(current_values))
+    list4.append(min(current_values))
+    list5.append(statistics.median(current_values))
+write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_mean.csv"),list1)
+write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_variance.csv"),list2)
+write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_max.csv"),list3)
+write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_min.csv"),list4)
+write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_median.csv"),list5)
+
     
