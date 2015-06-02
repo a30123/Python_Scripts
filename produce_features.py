@@ -91,8 +91,9 @@ def extract_serial_number(filename):
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
 #sensor_variable="dP_Filter"
-directory_filename="E://TS1_all_variables//current"
-variable_file_path="C://Users//A30123.ITRI//Desktop//Tasks//Variable Selection//removedvariablelist2.csv"
+#directory_filename="E://TS1_all_variables//current"
+directory_filename="E://MovedFromD//CSV//TS1//VentVac_TMAl_2492runs//current"
+variable_file_path="C://Users//A30123.ITRI//Desktop//Tasks//Variable Selection//removedvariablelist3.csv"
 output_directory_filename="E://all_variable_features//"
 
 #########################################################################################################
@@ -115,7 +116,7 @@ for sensor_variable in variable_list:
     print(sensor_variable)
     for i in range(len(files_in_folder)):
         temp_file_name=files_in_folder[i]
-        #print(temp_file_name)
+        print(i)
         complete_file_path=os.path.join(directory_filename, temp_file_name)
         
         current_values=read_single_variable_as_float_csv(complete_file_path,sensor_variable)
