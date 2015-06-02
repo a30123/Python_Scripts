@@ -92,7 +92,7 @@ def extract_serial_number(filename):
 #########################################################################################################
 #sensor_variable="dP_Filter"
 directory_filename="E://TS1_all_variables//current"
-variable_file_path="C://Users//A30123.ITRI//Desktop//Tasks//Variable Selection//removedvariablelist.csv"
+variable_file_path="C://Users//A30123.ITRI//Desktop//Tasks//Variable Selection//removedvariablelist2.csv"
 output_directory_filename="E://all_variable_features//"
 
 #########################################################################################################
@@ -103,14 +103,15 @@ tstart = time.time()
 files_in_folder = os.listdir(directory_filename) 
 files_in_folder.sort(key=extract_serial_number)
 
-list1=[]
-list2=[]
-list3=[]
-list4=[]
-list5=[]
+
 variable_list=read_single_variable_as_stringlist_csv(variable_file_path,"x")
     
 for sensor_variable in variable_list:
+    list1=[]
+    list2=[]
+    list3=[]
+    list4=[]
+    list5=[]
     print(sensor_variable)
     for i in range(len(files_in_folder)):
         temp_file_name=files_in_folder[i]
