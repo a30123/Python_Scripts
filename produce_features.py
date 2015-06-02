@@ -92,8 +92,6 @@ def extract_serial_number(filename):
 #########################################################################################################
 #sensor_variable="dP_Filter"
 #directory_filename="E://TS1_all_variables//current"
-directory_filename="E://MovedFromD//CSV//TS1//MFC_2492runs//current"
-variable_file_path="C://Users//A30123.ITRI//Desktop//Tasks//Variable Selection//removedvariablelist4.csv"
 output_directory_filename="E://all_variable_features//"
 
 #########################################################################################################
@@ -127,12 +125,12 @@ for sensor_variable in variable_list:
         list3.append(max(current_values))
         list4.append(min(current_values))
         list5.append(statistics.median(current_values))
-        list6.append((max(current_values)-min(current_values)))
+        #list6.append((max(current_values)-min(current_values)))
     write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_mean.csv"),list1)
     write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_variance.csv"),list2)
     write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_max.csv"),list3)
     write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_min.csv"),list4)
     write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_median.csv"),list5)
-    write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_range.csv"),list6)
+    #write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_range.csv"),list6)
 
     
