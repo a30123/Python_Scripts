@@ -92,8 +92,8 @@ def extract_serial_number(filename):
 #########################################################################################################
 #sensor_variable="dP_Filter"
 #directory_filename="E://TS1_all_variables//current"
-directory_filename="E://MovedFromD//CSV//TS1//VoltageCurrent_2492runs//current"
-variable_file_path="C://Users//A30123.ITRI//Desktop//Tasks//Variable Selection//variable lists//removedvariablelist15.csv"
+directory_filename="E://MovedFromD//CSV//TS1//BLAHpurge_2492runs//current"
+variable_file_path="C://Users//A30123.ITRI//Desktop//Tasks//Variable Selection//variable lists//removedvariablelist18.csv"
 output_directory_filename="E://all_variable_features//"
 
 #########################################################################################################
