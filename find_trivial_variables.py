@@ -69,12 +69,33 @@ def read_single_variable_as_stringlist_csv(csvpathfilename, variablename):
                thelist.append(row[(whichcolumn)].strip())
         
     return np.array(thelist)  
+    
+def write_array_to_csv(filename_path,listname):
+    import csv
+     
+    runnumberfile=open(filename_path,'w',newline='')
+    wr=csv.writer(runnumberfile,quoting=csv.QUOTE_MINIMAL,delimiter=',')
+    if type(listname)==list:
+        for item in listname:
+            wr.writerow([item])
+    elif type(listname)==np.ndarray:
+        if len(listname.shape)==1:
+            for item in listname:
+                wr.writerow([item])
+        else:
+            for item in listname:
+                wr.writerow(item)
+    else:
+        print("the structure you are writing is neither a list nor an np.ndarray")
+		
+    runnumberfile.close()
 #########################################################################################################
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
 current_folder="E://TS1_all_variables//current"
 InSitu_variable_file_path="C://Users//A30123.ITRI//Desktop//Tasks//Variable Selection//variable lists//In situ variables.csv"
 other_non_sensor_variables=np.array(['DataTime','Step','StepLabel','FilterConsumption'])
+output_filename="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150608_find_trivial_variables//nontrivial variables.csv"
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
@@ -115,5 +136,5 @@ for variable in sensor_variable_list:
         i=i+1
 
     same=1
-
+write_array_to_csv(output_filename,exclude_list)
 print('RUN TIME: %.2f secs' % (time.time()-tstart))
