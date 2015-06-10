@@ -20,6 +20,7 @@ import csv
 import numpy as np
 import re
 import statistics
+import scipy.stats
 
 #########################################################################################################
 #######################################   FUNCTIONS           ###########################################
@@ -92,9 +93,9 @@ def extract_serial_number(filename):
 #########################################################################################################
 #sensor_variable="dP_Filter"
 #directory_filename="E://TS1_all_variables//current"
-directory_filename="E://MovedFromD//CSV//TS1//BLAHventfeed_2492runs//current"
-variable_file_path="C://Users//A30123.ITRI//Desktop//Tasks//Variable Selection//variable lists//removedvariablelist21.csv"
-output_directory_filename="E://all_variable_features//"
+directory_filename="E://MovedFromD//CSV//TS1//MO1group_2492runs//current"
+variable_file_path="C://Users//A30123.ITRI//Desktop//Tasks//Variable Selection//variable lists//removedvariablelist23.csv"
+output_directory_filename="E://supplementary_analog_features//"
 
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
@@ -122,17 +123,17 @@ for sensor_variable in variable_list:
         
         current_values=read_single_variable_as_float_csv(complete_file_path,sensor_variable)
         
-        list1.append(np.mean(current_values))
-        list2.append(np.var(current_values))
-        list3.append(max(current_values))
-        list4.append(min(current_values))
-        list5.append(statistics.median(current_values))
+        list1.append(scipy.stats.skew(current_values))
+        list2.append(scipy.stats.kurtosis(current_values))
+        list3.append(np.std(current_values))
+        #list4.append(min(current_values))
+        #list5.append(statistics.median(current_values))
         #list6.append((max(current_values)-min(current_values)))
-    write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_mean.csv"),list1)
-    write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_variance.csv"),list2)
-    write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_max.csv"),list3)
-    write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_min.csv"),list4)
-    write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_median.csv"),list5)
+    write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_skewness.csv"),list1)
+    write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_kurtosis.csv"),list2)
+    write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_std.csv"),list3)
+    #write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_min.csv"),list4)
+    #write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_median.csv"),list5)
     #write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_range.csv"),list6)
 
     

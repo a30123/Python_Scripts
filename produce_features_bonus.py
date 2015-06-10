@@ -20,6 +20,7 @@ import csv
 import numpy as np
 import re
 import statistics
+import scipy.stats
 
 #########################################################################################################
 #######################################   FUNCTIONS           ###########################################
@@ -87,14 +88,22 @@ def extract_serial_number(filename):
     serial_number_string=serial_number_string.replace('_','') 
     value_of_number=int(serial_number_string)
     return value_of_number    
+    
+def get_positions(list_name,value_in_list):
+#    import numpy as np    
+    increments=np.array(range(len(list_name)))
+    yes_equals_value=(list_name==value_in_list)
+    return_this=increments[yes_equals_value]
+    
+    return return_this
 #########################################################################################################
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
 #sensor_variable="dP_Filter"
 #directory_filename="E://TS1_all_variables//current"
-directory_filename="E://MovedFromD//CSV//TS1//BLAHventfeed_2492runs//current"
-variable_file_path="C://Users//A30123.ITRI//Desktop//Tasks//Variable Selection//variable lists//removedvariablelist21.csv"
-output_directory_filename="E://all_variable_features//"
+directory_filename="E://MovedFromD//CSV//TS1//MO1group_2492runs//current"
+variable_file_path="C://Users//A30123.ITRI//Desktop//Tasks//Variable Selection//variable lists//removedvariablelist24.csv"
+output_directory_filename="E://all_bonus_features//"
 
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
@@ -121,18 +130,22 @@ for sensor_variable in variable_list:
         complete_file_path=os.path.join(directory_filename, temp_file_name)
         
         current_values=read_single_variable_as_float_csv(complete_file_path,sensor_variable)
+        abs_diff=abs(current_values[1:]-current_values[:-1])        
         
-        list1.append(np.mean(current_values))
-        list2.append(np.var(current_values))
-        list3.append(max(current_values))
-        list4.append(min(current_values))
-        list5.append(statistics.median(current_values))
+        max_val=max(current_values)
+        gp=min(get_positions(current_values,max_val))
+        
+        list1.append(sum(current_values))
+        list2.append(sum(abs_diff))
+        list3.append(gp/len(current_values))
+        #list4.append(len(current_values))
+        #list5.append(statistics.median(current_values))
         #list6.append((max(current_values)-min(current_values)))
-    write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_mean.csv"),list1)
-    write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_variance.csv"),list2)
-    write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_max.csv"),list3)
-    write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_min.csv"),list4)
-    write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_median.csv"),list5)
+    write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_sum.csv"),list1)
+    write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_sumabsdiff.csv"),list2)
+    write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_durationToMax.csv"),list3)
+    #write_array_to_csv(os.path.join(output_directory_filename, "Feature"+"_duration.csv"),list4)
+    #write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_median.csv"),list5)
     #write_array_to_csv(os.path.join(output_directory_filename, "Feature_"+sensor_variable+"_range.csv"),list6)
 
     
