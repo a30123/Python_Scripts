@@ -102,8 +102,8 @@ def get_positions(list_name,value_in_list):
 #########################################################################################################
 #sensor_variable="dP_Filter"
 #directory_filename="E://TS1_all_variables//current"
-directory_filename="E://MovedFromD//CSV//TS1//Open_2492runs//current"
-variable_file_path="C://Users//A30123.ITRI//Desktop//Tasks//Variable Selection//variable lists//removedvariablelist20.csv"
+directory_filename="E://MovedFromD//CSV//TS1//OtherDigitalGroup4_2492runs//current"
+variable_file_path="C://Users//A30123.ITRI//Desktop//Tasks//Variable Selection//variable lists//removedvariablelist39.csv"
 output_directory_filename="E://all_digital_variable_features//"
 
 #########################################################################################################
