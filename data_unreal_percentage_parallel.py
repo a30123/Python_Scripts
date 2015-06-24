@@ -23,6 +23,7 @@ import re #-------------------------------------------------------regular expres
 from matplotlib import rc 
 from joblib import Parallel, delayed
 import multiprocessing
+import time
 ############################################################################################################
 
 
@@ -105,10 +106,10 @@ def extract_serial_number(filename):
     return value_of_number
     
 def write_array_to_csv(filename_path,listname):
-#    import csv
+    import csv
      
     runnumberfile=open(filename_path,'w',newline='')
-    wr=csv.writer(runnumberfile,quoting=csv.QUOTE_ALL)
+    wr=csv.writer(runnumberfile,quoting=csv.QUOTE_MINIMAL,delimiter=',')
     if type(listname)==list:
         for item in listname:
             wr.writerow([item])
@@ -178,7 +179,7 @@ PhysMax=500
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
 
-
+tstart = time.time()
 files_in_folder = os.listdir(folder_to_read_from) 
 files_in_folder.sort(key=extract_serial_number)
 
@@ -190,5 +191,11 @@ num_cores=multiprocessing.cpu_count()
 percentage_list=np.zeros(no_of_runs)
 
     #----------------------------------------------------------------------------------plots the values and saves as png file into designated folder    
-results=Parallel(n_jobs=num_cores)(delayed(repeat_this)(i,files_in_folder,folder_to_read_from,folder_to_read_from2,folder_to_read_from3,sensor_variables) for i in range(no_of_runs))     
-#write_array_to_csv(path_to_save_list,percentage_list)
+if __name__=="__main__":
+    cool=Parallel(n_jobs=num_cores)(delayed(repeat_this)(i,files_in_folder,folder_to_read_from,folder_to_read_from2,folder_to_read_from3,sensor_variables) for i in range(no_of_runs))     
+    write_array_to_csv(path_to_save_list,percentage_list)
+
+
+
+
+print('RUN TIME: %.2f secs' % (time.time()-tstart))
