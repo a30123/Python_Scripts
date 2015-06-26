@@ -21,6 +21,7 @@ import csv#-------------------------------------------------------read write csv
 import matplotlib.pyplot as plt  #--------------------------------John Hunter's  2D plotting library
 import re #-------------------------------------------------------regular expressions
 from matplotlib import rc 
+import time
 ############################################################################################################
 
 
@@ -133,13 +134,13 @@ sensor_variables="TMAl_1.source"#-------------------------------------"sensor va
 folder_to_read_from="E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint"#--------------------------------------------"folder to access"
 folder_to_read_from2="E://MovedFromD//CSV//TS1//MO1group_2363runs//current"#--------------------------------------------"folder to access"
 folder_to_read_from3="E://MovedFromD//CSV//TS1//MO1group_2363runs//deviation"
-path_to_save_list="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150525_unreal_percentage//TMAl_1_source_unreal_percentage2.csv"#----------------------------"folder to save output to"
+path_to_save_list="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150525_unreal_percentage//TMAl_1_source_unreal_percentage_try.csv"#----------------------------"folder to save output to"
 PhysMax=500
 
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
-
+tstart = time.time()
 
 files_in_folder = os.listdir(folder_to_read_from) 
 files_in_folder.sort(key=extract_serial_number)
@@ -156,7 +157,7 @@ for i in range(len(files_in_folder)):
 
     #--------------------------------------------------------------------------------prints serial number
     serial_number=extract_serial_number(files_in_folder[i])
-    print('Reading CSV file:',serial_number)
+    #print('Reading CSV file:',serial_number)
 
     #--------------------------------------------------------------------------------reads values from csv file of specified sensor variable
     setpoint_values=read_single_variable_as_stringlist_csv(single_file_path,sensor_variables)
@@ -175,3 +176,5 @@ for i in range(len(files_in_folder)):
     #----------------------------------------------------------------------------------plots the values and saves as png file into designated folder    
      
 write_array_to_csv(path_to_save_list,percentage_list)
+
+print('RUN TIME: %.2f secs' % (time.time()-tstart))
