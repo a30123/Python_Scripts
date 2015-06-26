@@ -39,43 +39,6 @@ def ensure_dir(f):
     if not os.path.exists(d):
         os.makedirs(d)
    
-def plot_and_save_list_values_cooler(valuelist,valuelist2,ll,rr,pathname,figure_filename):
-#    import matplotlib.pyplot as plt  #--------------------------------John Hunter's  2D plotting library
-#    from matplotlib import rc 
-    rc('mathtext',default='regular')    
-    
-    complete_dirpath_to_save_figures=os.path.normpath(os.path.join(os.getcwd(),pathname))    
-    ensure_dir(complete_dirpath_to_save_figures)
-    figure_filename2=figure_filename.replace('.csv','.png')
-    complete_path_to_save_figure=os.path.normpath(os.path.join(complete_dirpath_to_save_figures,figure_filename2))
-    
-    x_axis_range=np.arange(ll,rr)
-    sub_valuelist=valuelist[ll:(rr)]
-    sub_valuelist2=valuelist2[ll:(rr)]
-    fig=plt.figure()
-    ax=fig.add_subplot(111)
-    
-    lns1=ax.plot(x_axis_range,sub_valuelist,'-',label='vent.vac ')
-    
-    ax2=ax.twinx()
-    lns3=ax2.plot(x_axis_range,sub_valuelist2,'-r',label='TMAl_1.source deviation')
-    
-    lns=lns1+lns3
-    labs=[l.get_label() for l in lns]
-    ax.legend(lns,labs,loc=0)
-    
-    ax.grid()
-    ax.set_xlabel("time")
-    ax.set_ylabel(r"vent.vac")
-    ax2.set_ylabel(r"deviation")
-    ax2.set_ylim(min(sub_valuelist2),max(sub_valuelist2))
-    ax.set_ylim(min(sub_valuelist),max(sub_valuelist))    
-#    plt.plot(valuelist)
-#    plt.plot(valuelist2)
-    plt.show
-    plt.savefig(complete_path_to_save_figure)
-    plt.clf()
-    
 
 def read_single_variable_as_stringlist_csv(csvpathfilename, variablename):
 #   import csv
