@@ -154,6 +154,6 @@ def repeat_this(i,files_in_folder,folder_to_read_from,folder_to_read_from2,folde
 if __name__=="__main__":
     cool=Parallel(n_jobs=5)(delayed(repeat_this)(i,files_in_folder,folder_to_read_from,folder_to_read_from2,folder_to_read_from3,sensor_variables) for i in range(no_of_runs))     
 
-    write_array_to_csv(path_to_save_list,percentage_list)
+    write_array_to_csv(path_to_save_list,cool)
 
 print('RUN TIME: %.2f secs' % (time.time()-tstart))
