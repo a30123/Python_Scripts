@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri May 27
+Created on Fri June 30
 
 @author: A30123
 """
@@ -24,6 +24,7 @@ from matplotlib import rc
 from joblib import Parallel, delayed
 import multiprocessing
 import time
+import pandas as pd
 ############################################################################################################
 
 
@@ -58,7 +59,7 @@ def read_single_variable_as_stringlist_csv(csvpathfilename, variablename):
             else:
                thelist.append(float(row[(whichcolumn)]))
         
-    return np.asarray(thelist)  
+    return np.array(thelist)  
     
 def extract_serial_number(filename):
 #    import re
@@ -100,10 +101,10 @@ def write_array_to_csv(filename_path,listname):
 
 #intialize "sensor variable of interest","folder to accesss", and "folder to save output to"
 sensor_variables="TMAl_1.source"#-------------------------------------"sensor variable of interest"
-folder_to_read_from="E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint"#--------------------------------------------"folder to access"
-folder_to_read_from2="E://MovedFromD//CSV//TS1//MO1group_2363runs//current"#--------------------------------------------"folder to access"
-folder_to_read_from3="E://MovedFromD//CSV//TS1//MO1group_2363runs//deviation"
-path_to_save_list="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150525_unreal_percentage//TMAl_1_source_unreal_percentage_compare.csv"#----------------------------"folder to save output to"
+folder_to_read_from="E://TS1_all_variables//setpoint"#--------------------------------------------"folder to access"
+folder_to_read_from2="E://TS1_all_variables//current"#--------------------------------------------"folder to access"
+folder_to_read_from3="E://TS1_all_variables//deviation"
+path_to_save_list="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150630_pandas//TMAl_1_source_unreal_percentage_pandas.csv"#----------------------------"folder to save output to"
 
 #folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150527_joblib//setpoint"#--------------------------------------------"folder to access"
 #folder_to_read_from2="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150527_joblib//current"#--------------------------------------------"folder to access"
@@ -136,10 +137,17 @@ def repeat_this(i,files_in_folder,folder_to_read_from,folder_to_read_from2,folde
     single_file_path3=os.path.join(folder_to_read_from3, temp_file_name.replace('-setpoint','-deviation'))
 
     #--------------------------------------------------------------------------------reads values from csv file of specified sensor variable
-    setpoint_values=read_single_variable_as_stringlist_csv(single_file_path,sensor_variables)
-    current_values=read_single_variable_as_stringlist_csv(single_file_path2,sensor_variables)
-    deviation_values=read_single_variable_as_stringlist_csv(single_file_path3,sensor_variables)
+#    setpoint_values=read_single_variable_as_stringlist_csv(single_file_path,sensor_variables)
+#    current_values=read_single_variable_as_stringlist_csv(single_file_path2,sensor_variables)
+#    deviation_values=read_single_variable_as_stringlist_csv(single_file_path3,sensor_variables)
+    All=pd.read_csv(single_file_path)
+    setpoint_values=np.asarray(All[:][sensor_variables])
     
+    All=pd.read_csv(single_file_path2)
+    current_values=np.asarray(All[:][sensor_variables])
+    
+    All=pd.read_csv(single_file_path3)
+    deviation_values=np.asarray(All[:][sensor_variables])
     
     data_length=len(setpoint_values) 
     
@@ -152,7 +160,7 @@ def repeat_this(i,files_in_folder,folder_to_read_from,folder_to_read_from2,folde
     return percentage_list[i]  
 
 if __name__=="__main__":
-    cool=Parallel(n_jobs=5)(delayed(repeat_this)(i,files_in_folder,folder_to_read_from,folder_to_read_from2,folder_to_read_from3,sensor_variables) for i in range(no_of_runs))     
+    cool=Parallel(n_jobs=5)(delayed(repeat_this)(i,files_in_folder,folder_to_read_from,folder_to_read_from2,folder_to_read_from3,sensor_variables) for i in range(100))     
 
     write_array_to_csv(path_to_save_list,cool)
 

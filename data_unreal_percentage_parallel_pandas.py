@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri May 27
+Created on Fri June 30
 
 @author: A30123
 """
@@ -24,6 +24,7 @@ from matplotlib import rc
 from joblib import Parallel, delayed
 import multiprocessing
 import time
+import pandas as pd
 ############################################################################################################
 
 
@@ -58,7 +59,7 @@ def read_single_variable_as_stringlist_csv(csvpathfilename, variablename):
             else:
                thelist.append(float(row[(whichcolumn)]))
         
-    return np.asarray(thelist)  
+    return np.array(thelist)  
     
 def extract_serial_number(filename):
 #    import re
@@ -136,10 +137,17 @@ def repeat_this(i,files_in_folder,folder_to_read_from,folder_to_read_from2,folde
     single_file_path3=os.path.join(folder_to_read_from3, temp_file_name.replace('-setpoint','-deviation'))
 
     #--------------------------------------------------------------------------------reads values from csv file of specified sensor variable
-    setpoint_values=read_single_variable_as_stringlist_csv(single_file_path,sensor_variables)
-    current_values=read_single_variable_as_stringlist_csv(single_file_path2,sensor_variables)
-    deviation_values=read_single_variable_as_stringlist_csv(single_file_path3,sensor_variables)
+#    setpoint_values=read_single_variable_as_stringlist_csv(single_file_path,sensor_variables)
+#    current_values=read_single_variable_as_stringlist_csv(single_file_path2,sensor_variables)
+#    deviation_values=read_single_variable_as_stringlist_csv(single_file_path3,sensor_variables)
+    All=pd.read_csv(single_file_path)
+    setpoint_values=np.asarray(All[:][sensor_variables])
     
+    All=pd.read_csv(single_file_path2)
+    current_values=np.asarray(All[:][sensor_variables])
+    
+    All=pd.read_csv(single_file_path3)
+    deviation_values=np.asarray(All[:][sensor_variables])
     
     data_length=len(setpoint_values) 
     
