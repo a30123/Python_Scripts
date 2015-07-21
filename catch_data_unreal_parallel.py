@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri June 30
+Created on Fri May 27
 
 @author: A30123
 """
@@ -18,13 +18,10 @@ Created on Fri June 30
 import os #-------------------------------------------------------Miscellaneous operating system interfaces
 import numpy as np #----------------------------------------------array manipulation, scientific computing
 import csv#-------------------------------------------------------read write csv files
-import matplotlib.pyplot as plt  #--------------------------------John Hunter's  2D plotting library
 import re #-------------------------------------------------------regular expressions
-from matplotlib import rc 
 from joblib import Parallel, delayed
 import multiprocessing
 import time
-import pandas as pd
 ############################################################################################################
 
 
@@ -35,14 +32,6 @@ import pandas as pd
 
 
 #####################################
-#reference:    http://stackoverflow.com/questions/273192/check-if-a-directory-exists-and-create-it-if-necessary     
-def ensure_dir(f):
-#    import os
-    d=os.path.abspath(f)
-    if not os.path.exists(d):
-        os.makedirs(d)
-   
-
 def read_single_variable_as_stringlist_csv(csvpathfilename, variablename):
 #   import csv
 #   import numpy as np      
@@ -59,7 +48,7 @@ def read_single_variable_as_stringlist_csv(csvpathfilename, variablename):
             else:
                thelist.append(float(row[(whichcolumn)]))
         
-    return np.array(thelist)  
+    return np.asarray(thelist)  
     
 def extract_serial_number(filename):
 #    import re
@@ -89,36 +78,22 @@ def write_array_to_csv(filename_path,listname):
 		
     runnumberfile.close()
     
-
-  
-    
 #######################################
 
 
 #########################################################################################################
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
-
-#intialize "sensor variable of interest","folder to accesss", and "folder to save output to"
 sensor_variables="TMAl_1.source"#-------------------------------------"sensor variable of interest"
-folder_to_read_from="E://TS1_all_variables//setpoint"#--------------------------------------------"folder to access"
-folder_to_read_from2="E://TS1_all_variables//current"#--------------------------------------------"folder to access"
-folder_to_read_from3="E://TS1_all_variables//deviation"
-path_to_save_list="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150630_pandas//TMAl_1_source_unreal_percentage_pandas.csv"#----------------------------"folder to save output to"
-
-#folder_to_read_from="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150527_joblib//setpoint"#--------------------------------------------"folder to access"
-#folder_to_read_from2="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150527_joblib//current"#--------------------------------------------"folder to access"
-#folder_to_read_from3="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150527_joblib//deviation"
-#path_to_save_list="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150527_joblib//output//TMAl_1_source_unreal_percentage_parallel.csv"#----------------------------"folder to save output to"
-
-
+folder_to_read_from="E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint"#--------------------------------------------"folder to access"
+folder_to_read_from2="E://MovedFromD//CSV//TS1//MO1group_2363runs//current"#--------------------------------------------"folder to access"
+folder_to_read_from3="E://MovedFromD//CSV//TS1//MO1group_2363runs//deviation"
+path_to_save_list="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_201504721_catch_unreal_data_parallel//Event_unreal_parallel.csv"#----------------------------"folder to save output to"
 
 PhysMax=500
-
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
-
 tstart = time.time()
 files_in_folder = os.listdir(folder_to_read_from) 
 files_in_folder.sort(key=extract_serial_number)
@@ -126,7 +101,7 @@ files_in_folder.sort(key=extract_serial_number)
 no_of_runs=len(files_in_folder)
 
 num_cores=multiprocessing.cpu_count()
-percentage_list=np.zeros(no_of_runs)
+event_list=np.zeros(no_of_runs)
 
     #----------------------------------------------------------------------------------plots the values and saves as png file into designated folder    
 
@@ -137,30 +112,24 @@ def repeat_this(i,files_in_folder,folder_to_read_from,folder_to_read_from2,folde
     single_file_path3=os.path.join(folder_to_read_from3, temp_file_name.replace('-setpoint','-deviation'))
 
     #--------------------------------------------------------------------------------reads values from csv file of specified sensor variable
-#    setpoint_values=read_single_variable_as_stringlist_csv(single_file_path,sensor_variables)
-#    current_values=read_single_variable_as_stringlist_csv(single_file_path2,sensor_variables)
-#    deviation_values=read_single_variable_as_stringlist_csv(single_file_path3,sensor_variables)
-    All=pd.read_csv(single_file_path)
-    setpoint_values=np.asarray(All[:][sensor_variables])
+    setpoint_values=read_single_variable_as_stringlist_csv(single_file_path,sensor_variables)
+    current_values=read_single_variable_as_stringlist_csv(single_file_path2,sensor_variables)
+    deviation_values=read_single_variable_as_stringlist_csv(single_file_path3,sensor_variables)
     
-    All=pd.read_csv(single_file_path2)
-    current_values=np.asarray(All[:][sensor_variables])
-    
-    All=pd.read_csv(single_file_path3)
-    deviation_values=np.asarray(All[:][sensor_variables])
-    
-    data_length=len(setpoint_values) 
-    
+
     calculated_deviation=current_values-setpoint_values    
     
-    boolean_value=(abs(calculated_deviation-deviation_values*PhysMax/100)>1)
+    boolean_value=(abs(calculated_deviation*100/PhysMax-deviation_values)>0.1)
     
-    percentage_list[i]=(sum(boolean_value)/data_length)  
+    if (sum(boolean_value)>100):
+        event_list[i]=1
+    else:
+        event_list[i]=0
     
-    return percentage_list[i]  
+    return event_list[i]  
 
 if __name__=="__main__":
-    cool=Parallel(n_jobs=5)(delayed(repeat_this)(i,files_in_folder,folder_to_read_from,folder_to_read_from2,folder_to_read_from3,sensor_variables) for i in range(no_of_runs))     
+    cool=Parallel(n_jobs=4)(delayed(repeat_this)(i,files_in_folder,folder_to_read_from,folder_to_read_from2,folder_to_read_from3,sensor_variables) for i in range(no_of_runs))     
 
     write_array_to_csv(path_to_save_list,cool)
 
