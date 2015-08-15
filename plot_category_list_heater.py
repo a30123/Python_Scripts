@@ -82,24 +82,10 @@ def ensure_dir(f):
 #########################################################################################################
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
-#category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//setpoint"
-#category_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150507_TMAl_source_setpoint_partition_rewritten_improved2//Output//CSV'
-#category_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_source_setpoint_partition_rewritten_improved3//Output//CSV'
-#category_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_source_setpoint_partition_rewritten_improved4//Output2//CSV'
-#category_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150509_setpoint_partition_general//TS2_TMAl//CSV'
-#category_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150507_TMAl_source_setpoint_partition_rewritten_improved2//Trial//CSV'
-#category_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150506_TMAl_source_setpoint_partition_rewritten_improved//Output//CSV"
 category_folder="E://Test_Heater_temp_partitioning//partition_output//CSV"
-#setpoint_folder="E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint"
-#setpoint_folder='E://MovedFromD//CSV//TS2//TS2_TMAl_1_source//setpoint'
 setpoint_folder="E://Test_Heater_temp_partitioning//setpoint"
 sensor_variable=["Heater.temp"]
-
-#output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150509_plot_category_list//TS2_TMAl"
 output_folder="E://Test_Heater_temp_partitioning//partition_output//PNG"
-#output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150505_plot_category_list//Trial"
-
-#colors=['b','','g','r','y','c','m','k']
 colors={-1:'b',0:'w',1:'g',2:'r',3:'y',4:'c',5:'m',6:'k'}
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
