@@ -129,13 +129,7 @@ def extract_intervals(True_False_List):
 #########################################################################################################
 sensor_variable='Heater.temp'#-------------------------------------"sensor variable of interest"
 step_variable='Step'
-#setpoint_folder='E://MovedFromD//CSV//TS1//MO1group_2363runs//setpoint'
-#setpoint_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//setpoint'
-#setpoint_folder='E://Raw Data//CSV files//TS1_TMAl_Step//setpoint'
-#output_folder='C://Users//Mary//Music//Documents//Python Scripts//Try_20150503_setpoint_partition//Output'
-#output_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_source_setpoint_partition_rewritten_improved4//Output2'
 setpoint_folder='E://Test_Heater_temp_partitioning//setpoint'
-#setpoint_folder='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_source_setpoint_partition_rewritten_improved4//Setpoint'
 output_folder='E://Test_Heater_temp_partitioning//partition_output'
 #output_filename='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_source_setpoint_partition_rewritten_improved4//intermediate.csv'
 #########################################################################################################
@@ -264,7 +258,7 @@ for u in range(len(files_in_folder)):
         print('No valid StepLabel in this run!!!')
         doesnotwork.append(u)
     
-    print('-----------------------------------------')
+    print('-------------')
     
 
-print(doesnotwork)      
+print('segement partition failed for the following runs:', doesnotwork)      
