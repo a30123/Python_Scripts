@@ -127,8 +127,10 @@ def extract_intervals(True_False_List):
 #########################################################################################################
 sensor_variable='Heater.temp'#-------------------------------------"sensor variable of interest"
 step_variable='Step'
-setpoint_folder='E://Test_Heater_temp_partitioning//setpoint'
-output_folder='E://Test_Heater_temp_partitioning//partition_output'
+setpoint_folder='E://Data//CSV//TS1//BLAHtemp_2492runs//setpoint'
+#setpoint_folder='E://Test_Heater_temp_partitioning//setpoint'
+output_folder='E://Data//Processed//TS1//Segmentations//Heater_temp_20150815'
+#output_folder='E://Test_Heater_temp_partitioning//partition_output'
 #output_filename='C://Users//A30123.ITRI//Documents//Python Scripts//New_for_event_mining//Try_20150508_TMAl_source_setpoint_partition_rewritten_improved4//intermediate.csv'
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
