@@ -82,10 +82,11 @@ def ensure_dir(f):
 #########################################################################################################
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
-category_folder="E://Test_Heater_temp_partitioning//partition_output//CSV"
-setpoint_folder="E://Test_Heater_temp_partitioning//setpoint"
+#category_folder="E://Test_Heater_temp_partitioning//partition_output//CSV"
+category_folder="E://Data//Processed//TS1//Segmentations//Heater_temp_20150815//CSV"
+setpoint_folder='E://Data//CSV//TS1//BLAHtemp_2492runs//setpoint'
 sensor_variable="Heater.temp"
-output_folder="E://Test_Heater_temp_partitioning//partition_output//"
+output_folder="E://Data//Processed//TS1//Segmentations//Heater_temp_20150815//"
 colors={-1:'b',0:'w',1:'g',2:'r',3:'y',4:'c',5:'m',6:'k'}
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
