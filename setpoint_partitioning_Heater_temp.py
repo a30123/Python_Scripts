@@ -199,7 +199,7 @@ for u in range(len(files_in_folder)):
                     category_list[jj[0]+Zero_Step:jj[1]+Zero_Step]=4*np.ones((jj[1]-jj[0],1),dtype=np.int)
             
             
-            write_array_to_csv(output_filename,category_list) 
+            #write_array_to_csv(output_filename,category_list) 
             # category 1 (fluctuating region)  
             yes_negative_three=((mmm_difference<-1)&(mmm_difference>-50))
             if (sum(yes_negative_three)[0]>0):
