@@ -115,7 +115,9 @@ def write_array_to_csv(filename_path,listname):
 
 category_folder="E://Data//Processed//TS1//Segmentations//Heater_temp_20150815//CSV"
 current_folder='E://Data//CSV//TS1//VoltageCurrent_2492runs//current//'
+current_folder2='E://Data//CSV//TS1//BLAHtemp_2492runs//current//'
 sensor_variable="Psu6Current"
+sensor_variable2="Heater.temp"
 path_to_save_list="E://Python scripts//Try_20150815_PsuCurrent_different_heater_temp//output//average_current_steep_ascending_temp.csv"
 path_to_save_list1="E://Python scripts//Try_20150815_PsuCurrent_different_heater_temp//output//average_current_different_ascending_temp.csv"
 
@@ -146,6 +148,7 @@ for i in range(len(files_in_folder)):
     if (sum(file2_numbers==serial_number)==1):
         single_file_path=os.path.join(current_folder, temp_file_name)
         single_file_path2=os.path.join(category_folder, str(serial_number)+'.csv')
+        single_file_path3=os.path.join(current_folder2, temp_file_name)
 #    single_file_path3=os.path.join(folder_to_read_from3, temp_file_name.replace('-setpoint','-deviation'))
 
     #--------------------------------------------------------------------------------prints serial number
@@ -159,18 +162,21 @@ for i in range(len(files_in_folder)):
     
         All=pd.read_csv(single_file_path)
         current_values=np.asarray(All[:][sensor_variable])
-    
+
+        All=pd.read_csv(single_file_path2)
+        current_values2=np.asarray(All[:][sensor_variable2])
+        
         category_values=get_single_column_from_csv(single_file_path2)
         category_values_float=np.array(category_values,dtype='float16')
     
         yes_steep_ascending=(category_values_float==3)
         
-        yes_400_to_600=((current_values>400)&(current_values<=600))
-        yes_600_to_800=((current_values>600)&(current_values<=800))
-        yes_800_to_1000=((current_values>800)&(current_values<=1000))
-        yes_1000_to_1200=((current_values>1000)&(current_values<=1200))
-        yes_1200_to_1400=((current_values>1200)&(current_values<=1400))
-        yes_1400_to_1600=((current_values>1400)&(current_values<=1600))
+        yes_400_to_600=((current_values2>400)&(current_values2<=600))
+        yes_600_to_800=((current_values2>600)&(current_values2<=800))
+        yes_800_to_1000=((current_values2>800)&(current_values2<=1000))
+        yes_1000_to_1200=((current_values2>1000)&(current_values2<=1200))
+        yes_1200_to_1400=((current_values2>1200)&(current_values2<=1400))
+        yes_1400_to_1600=((current_values2>1400)&(current_values2<=1600))
         
         
         filtered_current0=current_values[yes_steep_ascending]
