@@ -20,9 +20,7 @@ import time
 import csv
 import numpy as np
 import re
-#import math
-#import matplotlib.pyplot as plt
-
+import pandas as pd
 #########################################################################################################
 #######################################   FUNCTIONS           ###########################################
 #########################################################################################################
@@ -144,8 +142,6 @@ files_in_folder.sort(key=extract_serial_number)
 complete_dirpath_to_save_segmentlist=os.path.normpath(os.path.join(output_folder,"CSV"))    
 ensure_dir(complete_dirpath_to_save_segmentlist)
 
-complete_dirpath_to_save_figure=os.path.normpath(os.path.join(output_folder,"PNG"))    
-ensure_dir(complete_dirpath_to_save_figure)
 
 doesnotwork=[]
 
@@ -154,9 +150,16 @@ for u in range(len(files_in_folder)):
     serial_number=extract_serial_number(files_in_folder[u])
     print(serial_number)
     
-    All_variables=read_variables_as_stringlists_csv(single_file_path,[sensor_variable,step_variable])
-    AA=np.array([[float(k)] for k in All_variables[:,0]])
-    mm=np.array([[int(kk)] for kk in All_variables[:,1]])   
+#    All_variables=read_variables_as_stringlists_csv(single_file_path,[sensor_variable,step_variable])
+#    AA=np.array([[float(k)] for k in All_variables[:,0]])
+#    mm=np.array([[int(kk)] for kk in All_variables[:,1]])   
+
+    All=pd.read_csv(single_file_path)
+    AA=(np.asarray([All[:][sensor_variable]]))
+    mm=(np.asarray([All[:][step_variable]]))
+    
+    AA=AA.transpose()
+    mm=mm.transpose()    
     
     data_length=len(AA)
     category_list=np.zeros((data_length,1))
