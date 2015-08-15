@@ -84,8 +84,8 @@ def ensure_dir(f):
 #########################################################################################################
 category_folder="E://Test_Heater_temp_partitioning//partition_output//CSV"
 setpoint_folder="E://Test_Heater_temp_partitioning//setpoint"
-sensor_variable=["Heater.temp"]
-output_folder="E://Test_Heater_temp_partitioning//partition_output//PNG"
+sensor_variable="Heater.temp"
+output_folder="E://Test_Heater_temp_partitioning//partition_output//"
 colors={-1:'b',0:'w',1:'g',2:'r',3:'y',4:'c',5:'m',6:'k'}
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
@@ -115,7 +115,7 @@ for i in range(len(files_in_folder)):
     setpoint_file_path=os.path.join(setpoint_folder, temp_file_name2)
  
     category_values=get_single_column_from_csv(single_file_path)
-    setpoint_values=read_variables_as_stringlists_csv(setpoint_file_path,sensor_variable)
+    setpoint_values=read_variables_as_stringlists_csv(setpoint_file_path,[sensor_variable])
     category_values_float=np.array(category_values,dtype='float16')
     
     
@@ -157,10 +157,6 @@ for i in range(len(files_in_folder)):
     plt.clf()    
         
         
-
-    
-
-
 print('RUN TIME: %.2f secs' % (time.time()-tstart))
 
 
