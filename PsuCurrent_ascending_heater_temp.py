@@ -18,9 +18,7 @@ Created on Sat Aug 15
 import os #-------------------------------------------------------Miscellaneous operating system interfaces
 import numpy as np #----------------------------------------------array manipulation, scientific computing
 import csv#-------------------------------------------------------read write csv files
-import matplotlib.pyplot as plt  #--------------------------------John Hunter's  2D plotting library
 import re #-------------------------------------------------------regular expressions
-from matplotlib import rc 
 import time
 import pandas as pd
 ############################################################################################################
@@ -116,8 +114,7 @@ def write_array_to_csv(filename_path,listname):
 category_folder="E://Data//Processed//TS1//Segmentations//Heater_temp_20150815//CSV"
 current_folder='E://Data//CSV//TS1//VoltageCurrent_2492runs//current//'
 sensor_variable="Psu6Current"
-path_to_save_list="E://Python scripts//Try_20150815_PsuCurrent_different_heater_temp//output//average_current_steep_ascending_temp.csv"
-path_to_save_list1="E://Python scripts//Try_20150815_PsuCurrent_different_heater_temp//output//average_current_different_ascending_temp.csv"
+path_to_save_list="E://Python scripts//Try_20150815_PsuCurrent_different_heater_temp//output//average_current.csv"
 
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
@@ -135,7 +132,6 @@ file2_numbers=np.asarray(list(map(extract_serial_short,files_in_folder2)))
 
 event_list=[]
 feature_list=["" for i in range(no_of_runs)]
-feature_matrix=np.asarray([["" for k in range(6)] for i in range(no_of_runs)])
 #for i in range(3):
 for i in range(len(files_in_folder)):
     #--------------------------------------------------------------------------------file path name for single csv file
@@ -164,52 +160,14 @@ for i in range(len(files_in_folder)):
         category_values_float=np.array(category_values,dtype='float16')
     
         yes_steep_ascending=(category_values_float==3)
+        filtered_current=current_values[yes_steep_ascending]
+
+        if (len(filtered_current)>1):
+            feature_list[i]=np.mean(filtered_current)
         
-        yes_400_to_600=((current_values>400)&(current_values<=600))
-        yes_600_to_800=((current_values>600)&(current_values<=800))
-        yes_800_to_1000=((current_values>800)&(current_values<=1000))
-        yes_1000_to_1200=((current_values>1000)&(current_values<=1200))
-        yes_1200_to_1400=((current_values>1200)&(current_values<=1400))
-        yes_1400_to_1600=((current_values>1400)&(current_values<=1600))
-        
-        
-        filtered_current0=current_values[yes_steep_ascending]
 
-        if (len(filtered_current0)>1):
-            feature_list[i]=np.mean(filtered_current0)
-
-        filtered_current1=current_values[(yes_steep_ascending*yes_400_to_600)]
-
-        if (len(filtered_current1)>1):
-            feature_matrix[i,0]=np.mean(filtered_current1)         
-
-        filtered_current2=current_values[(yes_steep_ascending*yes_600_to_800)]
-
-        if (len(filtered_current2)>1):
-            feature_matrix[i,1]=np.mean(filtered_current2)     
-            
-        filtered_current3=current_values[(yes_steep_ascending*yes_800_to_1000)]
-
-        if (len(filtered_current3)>1):
-            feature_matrix[i,2]=np.mean(filtered_current3)     
-
-        filtered_current4=current_values[(yes_steep_ascending*yes_1000_to_1200)]
-
-        if (len(filtered_current4)>1):
-            feature_matrix[i,3]=np.mean(filtered_current4)     
-
-        filtered_current5=current_values[(yes_steep_ascending*yes_1200_to_1400)]
-
-        if (len(filtered_current5)>1):
-            feature_matrix[i,4]=np.mean(filtered_current5)     
-
-        filtered_current6=current_values[(yes_steep_ascending*yes_1400_to_1600)]
-
-        if (len(filtered_current6)>1):
-            feature_matrix[i,5]=np.mean(filtered_current6)     
-            
     #----------------------------------------------------------------------------------plots the values and saves as png file into designated folder    
      
 write_array_to_csv(path_to_save_list,feature_list)
-write_array_to_csv(path_to_save_list1,feature_matrix)
+
 print('RUN TIME: %.2f secs' % (time.time()-tstart))
