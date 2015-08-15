@@ -24,24 +24,24 @@ import pandas as pd
 #########################################################################################################
 #######################################   FUNCTIONS           ###########################################
 #########################################################################################################
-
-def read_variables_as_stringlists_csv(csvpathfilename, variablenames):
-#    import csv
-#    import numpy as np      
-    
-    notfirst=1
-    thelist=[]
-    
-    with open(csvpathfilename,'rU') as csvfile:
-        contents=csv.reader(csvfile)
-        for row in contents:
-            if notfirst==1:
-               whichcolumn=[row.index(i) for i in variablenames]
-               notfirst+=1
-            else:
-               thelist.append([row[j] for j in whichcolumn])
-        
-    return np.array(thelist)  
+#
+#def read_variables_as_stringlists_csv(csvpathfilename, variablenames):
+##    import csv
+##    import numpy as np      
+#    
+#    notfirst=1
+#    thelist=[]
+#    
+#    with open(csvpathfilename,'rU') as csvfile:
+#        contents=csv.reader(csvfile)
+#        for row in contents:
+#            if notfirst==1:
+#               whichcolumn=[row.index(i) for i in variablenames]
+#               notfirst+=1
+#            else:
+#               thelist.append([row[j] for j in whichcolumn])
+#        
+#    return np.array(thelist)  
     
 def write_array_to_csv(filename_path,listname):
 #    import csv   
