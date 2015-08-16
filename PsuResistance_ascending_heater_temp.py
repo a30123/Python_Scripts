@@ -117,8 +117,9 @@ current_folder='E://Data//CSV//TS1//VoltageCurrent_2492runs//current//'
 current_folder2='E://Data//CSV//TS1//BLAHtemp_2492runs//current//'
 sensor_variable="Psu6Current"
 sensor_variable2="Heater.temp"
-path_to_save_list="E://Python scripts//Try_20150815_PsuCurrent_different_heater_temp//output//average_current_steep_ascending_temp.csv"
-path_to_save_list1="E://Python scripts//Try_20150815_PsuCurrent_different_heater_temp//output//average_current_different_ascending_temp.csv"
+sensor_variable3="Psu6Voltage"
+path_to_save_list="E://Python scripts//Try_20150816_PsuResistance_different_heater_temp//output//average_resistance_steep_ascending_temp.csv"
+path_to_save_list1="E://Python scripts//Try_20150816_PsuResistance_different_heater_temp//output//average_resistance_different_ascending_temp.csv"
 
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
@@ -166,7 +167,11 @@ for i in range(len(files_in_folder)):
     
         All=pd.read_csv(single_file_path)
         current_values=np.asarray(All[:][sensor_variable])
-
+        current_values3=np.asarray(All[:][sensor_variable3])
+        
+        resistance=current_values3/current_values
+            
+        
         All=pd.read_csv(single_file_path3)
         current_values2=np.asarray(All[:][sensor_variable2])
         
@@ -183,37 +188,37 @@ for i in range(len(files_in_folder)):
         yes_1400_to_1600=((current_values2>1400)&(current_values2<=1600))
         
         
-        filtered_current0=current_values[yes_steep_ascending]
+        filtered_current0=resistance[yes_steep_ascending]
 
         if (len(filtered_current0)>1):
             feature_list[i]=np.mean(filtered_current0)
 
-        filtered_current1=(current_values[(yes_steep_ascending*yes_400_to_600)])
+        filtered_current1=(resistance[(yes_steep_ascending*yes_400_to_600)])
 
         if (len(filtered_current1)>1):
             feature_matrix[i,0]=np.mean(filtered_current1)         
 
-        filtered_current2=current_values[(yes_steep_ascending*yes_600_to_800)]
+        filtered_current2=resistance[(yes_steep_ascending*yes_600_to_800)]
 
         if (len(filtered_current2)>1):
             feature_matrix[i,1]=str(np.mean(filtered_current2))    
             
-        filtered_current3=current_values[(yes_steep_ascending*yes_800_to_1000)]
+        filtered_current3=resistance[(yes_steep_ascending*yes_800_to_1000)]
 
         if (len(filtered_current3)>1):
             feature_matrix[i,2]=np.mean(filtered_current3)     
 
-        filtered_current4=current_values[(yes_steep_ascending*yes_1000_to_1200)]
+        filtered_current4=resistance[(yes_steep_ascending*yes_1000_to_1200)]
 
         if (len(filtered_current4)>1):
             feature_matrix[i,3]=np.mean(filtered_current4)     
 
-        filtered_current5=current_values[(yes_steep_ascending*yes_1200_to_1400)]
+        filtered_current5=resistance[(yes_steep_ascending*yes_1200_to_1400)]
 
         if (len(filtered_current5)>1):
             feature_matrix[i,4]=np.mean(filtered_current5)     
 
-        filtered_current6=current_values[(yes_steep_ascending*yes_1400_to_1600)]
+        filtered_current6=resistance[(yes_steep_ascending*yes_1400_to_1600)]
 
         if (len(filtered_current6)>1):
             feature_matrix[i,5]=np.mean(filtered_current6)     
