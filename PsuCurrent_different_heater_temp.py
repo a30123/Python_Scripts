@@ -18,9 +18,7 @@ Created on Sat Aug 15
 import os #-------------------------------------------------------Miscellaneous operating system interfaces
 import numpy as np #----------------------------------------------array manipulation, scientific computing
 import csv#-------------------------------------------------------read write csv files
-import matplotlib.pyplot as plt  #--------------------------------John Hunter's  2D plotting library
 import re #-------------------------------------------------------regular expressions
-from matplotlib import rc 
 import time
 import pandas as pd
 ############################################################################################################
@@ -136,9 +134,14 @@ extract_serial_short=lambda x: int(x.replace('.csv',''))
 file2_numbers=np.asarray(list(map(extract_serial_short,files_in_folder2)))
 
 event_list=[]
-feature_list=["" for i in range(no_of_runs)]
-feature_matrix=np.asarray([["" for k in range(6)] for i in range(no_of_runs)])
+feature_list=[" " for i in range(no_of_runs)]
+feature_matrix=np.array([["NANdskfjoierq" for k in range(6)] for i in range(no_of_runs)])
+feature_matrix[:,:]=""
+# this will not work:feature_matrix=np.array([["" for k in range(6)] for i in range(no_of_runs)])
+
+
 #for i in range(3):
+#for i in [1232,1233]:
 for i in range(len(files_in_folder)):
     #--------------------------------------------------------------------------------file path name for single csv file
     
@@ -163,7 +166,7 @@ for i in range(len(files_in_folder)):
         All=pd.read_csv(single_file_path)
         current_values=np.asarray(All[:][sensor_variable])
 
-        All=pd.read_csv(single_file_path2)
+        All=pd.read_csv(single_file_path3)
         current_values2=np.asarray(All[:][sensor_variable2])
         
         category_values=get_single_column_from_csv(single_file_path2)
@@ -184,7 +187,7 @@ for i in range(len(files_in_folder)):
         if (len(filtered_current0)>1):
             feature_list[i]=np.mean(filtered_current0)
 
-        filtered_current1=current_values[(yes_steep_ascending*yes_400_to_600)]
+        filtered_current1=(current_values[(yes_steep_ascending*yes_400_to_600)])
 
         if (len(filtered_current1)>1):
             feature_matrix[i,0]=np.mean(filtered_current1)         
@@ -192,7 +195,7 @@ for i in range(len(files_in_folder)):
         filtered_current2=current_values[(yes_steep_ascending*yes_600_to_800)]
 
         if (len(filtered_current2)>1):
-            feature_matrix[i,1]=np.mean(filtered_current2)     
+            feature_matrix[i,1]=str(np.mean(filtered_current2))    
             
         filtered_current3=current_values[(yes_steep_ascending*yes_800_to_1000)]
 
@@ -216,6 +219,6 @@ for i in range(len(files_in_folder)):
             
     #----------------------------------------------------------------------------------plots the values and saves as png file into designated folder    
      
-write_array_to_csv(path_to_save_list,feature_list)
-write_array_to_csv(path_to_save_list1,feature_matrix)
+#write_array_to_csv(path_to_save_list,feature_list)
+#write_array_to_csv(path_to_save_list1,feature_matrix)
 print('RUN TIME: %.2f secs' % (time.time()-tstart))
