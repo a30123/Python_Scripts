@@ -219,6 +219,6 @@ for i in range(len(files_in_folder)):
             
     #----------------------------------------------------------------------------------plots the values and saves as png file into designated folder    
      
-#write_array_to_csv(path_to_save_list,feature_list)
-#write_array_to_csv(path_to_save_list1,feature_matrix)
+write_array_to_csv(path_to_save_list,feature_list)
+write_array_to_csv(path_to_save_list1,feature_matrix)
 print('RUN TIME: %.2f secs' % (time.time()-tstart))
