@@ -135,7 +135,7 @@ file2_numbers=np.asarray(list(map(extract_serial_short,files_in_folder2)))
 
 event_list=[]
 feature_list=[" " for i in range(no_of_runs)]
-feature_matrix=np.array([["" for k in range(6)] for i in range(no_of_runs)])
+feature_matrix=np.array([["NaNsdfasdf" for k in range(6)] for i in range(no_of_runs)])
 feature_matrix[:,:]=""
 # this will not work:feature_matrix=np.array([["" for k in range(6)] for i in range(no_of_runs)])
 

@@ -137,14 +137,14 @@ file2_numbers=np.asarray(list(map(extract_serial_short,files_in_folder2)))
 
 event_list=[]
 feature_list=[" " for i in range(no_of_runs)]
-feature_matrix=np.array([["" for k in range(6)] for i in range(no_of_runs)])
+feature_matrix=np.array([["NaNsdfdsragtda" for k in range(6)] for i in range(no_of_runs)])
 feature_matrix[:,:]=""
 # this will not work:feature_matrix=np.array([["" for k in range(6)] for i in range(no_of_runs)])
 
 
 #for i in range(3):
-#for i in [1232,1233]:
-for i in range(len(files_in_folder)):
+for i in [1232,1233]:
+#for i in range(len(files_in_folder)):
     #--------------------------------------------------------------------------------file path name for single csv file
     
     temp_file_name=files_in_folder[i]    
