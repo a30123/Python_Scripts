@@ -118,8 +118,8 @@ current_folder2='E://Data//CSV//TS1//BLAHtemp_2492runs//current//'
 sensor_variable="Psu6Current"
 sensor_variable2="Heater.temp"
 sensor_variable3="Psu6Voltage"
-path_to_save_list="E://Python scripts//Try_20150816_PsuResistance_different_heater_temp//output//average_resistance_steep_ascending_temp.csv"
-path_to_save_list1="E://Python scripts//Try_20150816_PsuResistance_different_heater_temp//output//average_resistance_different_ascending_temp.csv"
+#path_to_save_list="E://Python scripts//Try_20150816_PsuResistance_different_heater_temp_non_ascending//output//average_resistance_steep_ascending_temp.csv"
+path_to_save_list1="E://Python scripts//Try_20150816_PsuResistance_different_heater_temp_non_ascending//output//average_resistance_different_temp.csv"
 
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
@@ -193,38 +193,38 @@ for i in range(len(files_in_folder)):
         if (len(filtered_current0)>1):
             feature_list[i]=np.mean(filtered_current0)
 
-        filtered_current1=(resistance[(yes_steep_ascending*yes_400_to_600)])
+        filtered_current1=(resistance[(yes_400_to_600)])
 
         if (len(filtered_current1)>1):
             feature_matrix[i,0]=np.mean(filtered_current1)         
 
-        filtered_current2=resistance[(yes_steep_ascending*yes_600_to_800)]
+        filtered_current2=resistance[(yes_600_to_800)]
 
         if (len(filtered_current2)>1):
             feature_matrix[i,1]=str(np.mean(filtered_current2))    
             
-        filtered_current3=resistance[(yes_steep_ascending*yes_800_to_1000)]
+        filtered_current3=resistance[(yes_800_to_1000)]
 
         if (len(filtered_current3)>1):
             feature_matrix[i,2]=np.mean(filtered_current3)     
 
-        filtered_current4=resistance[(yes_steep_ascending*yes_1000_to_1200)]
+        filtered_current4=resistance[(yes_1000_to_1200)]
 
         if (len(filtered_current4)>1):
             feature_matrix[i,3]=np.mean(filtered_current4)     
 
-        filtered_current5=resistance[(yes_steep_ascending*yes_1200_to_1400)]
+        filtered_current5=resistance[(yes_1200_to_1400)]
 
         if (len(filtered_current5)>1):
             feature_matrix[i,4]=np.mean(filtered_current5)     
 
-        filtered_current6=resistance[(yes_steep_ascending*yes_1400_to_1600)]
+        filtered_current6=resistance[(yes_1400_to_1600)]
 
         if (len(filtered_current6)>1):
             feature_matrix[i,5]=np.mean(filtered_current6)     
             
     #----------------------------------------------------------------------------------plots the values and saves as png file into designated folder    
      
-write_array_to_csv(path_to_save_list,feature_list)
+#write_array_to_csv(path_to_save_list,feature_list)
 write_array_to_csv(path_to_save_list1,feature_matrix)
 print('RUN TIME: %.2f secs' % (time.time()-tstart))
