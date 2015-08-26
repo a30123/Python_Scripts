@@ -79,7 +79,7 @@ for i in range(len(files_in_folder)):
 
 
 
-for j in range(4):#len(sensor_list)):
+for j in range(len(sensor_list)):
     for i in range(len(files_in_folder)):
         single_file_path=os.path.join(folder_to_read_from,files_in_folder[i])
         
@@ -93,22 +93,24 @@ for j in range(4):#len(sensor_list)):
     fig=plt.figure(figsize=(8.0, 5.0))
     
     ax1=fig.add_subplot(611)
-    ax1.plot(list(range(len(sensor_values[0]))),sensor_values[0])
-    ax1.fill_between(list(range(len(trip_points[0]))),min(sensor_values[0]),max(sensor_values[0]),where=trip_points[0]==1,facecolor='green',alpha=0.5)
+    ax1.plot(list(range(len(sensor_values[0]))),sensor_values[0],linewidth=0.4)
+    ax1.fill_between(list(range(len(trip_points[0]))),min(sensor_values[0]),max(sensor_values[0]),where=trip_points[0]==1,facecolor='green',alpha=0.2)
     plt.grid(True)
     plt.tick_params(axis='x',which='both', bottom='off', top='off', labelbottom='off')
     plt.xlim((0,plot_x_limit))
     plt.yticks(np.arange(min(sensor_values[0]),2*max(sensor_values[0])-min(sensor_values[0]),max(sensor_values[0])-min(sensor_values[0])))
     
     ax2=fig.add_subplot(612)
-    ax2.plot(list(range(len(sensor_values[1]))),sensor_values[1])
+    ax2.plot(list(range(len(sensor_values[1]))),sensor_values[1],linewidth=0.4)
+    ax2.fill_between(list(range(len(trip_points[1]))),min(sensor_values[1]),max(sensor_values[1]),where=trip_points[1]==1,facecolor='green',alpha=0.2)
     plt.grid(True)
     plt.tick_params(axis='x',which='both', bottom='off', top='off', labelbottom='off')
     plt.xlim((0,plot_x_limit))
     plt.yticks(np.arange(min(sensor_values[1]),2*max(sensor_values[1])-min(sensor_values[1]),max(sensor_values[1])-min(sensor_values[1])))
    
     ax3=fig.add_subplot(613)
-    ax3.plot(list(range(len(sensor_values[2]))),sensor_values[2])
+    ax3.plot(list(range(len(sensor_values[2]))),sensor_values[2],linewidth=0.4)
+    ax3.fill_between(list(range(len(trip_points[2]))),min(sensor_values[2]),max(sensor_values[2]),where=trip_points[2]==1,facecolor='green',alpha=0.2)
     plt.grid(True)
     plt.tick_params(axis='x',which='both', bottom='off', top='off', labelbottom='off')
     plt.xlim((0,plot_x_limit))
@@ -116,7 +118,8 @@ for j in range(4):#len(sensor_list)):
        
     
     ax4=fig.add_subplot(614)
-    ax4.plot(list(range(len(sensor_values[3]))),sensor_values[3])
+    ax4.plot(list(range(len(sensor_values[3]))),sensor_values[3],linewidth=0.4)
+    ax4.fill_between(list(range(len(trip_points[3]))),min(sensor_values[3]),max(sensor_values[3]),where=trip_points[3]==1,facecolor='green',alpha=0.2)
     plt.grid(True)
     plt.tick_params(axis='x',which='both', bottom='off', top='off', labelbottom='off')
     plt.xlim((0,plot_x_limit))
@@ -124,7 +127,8 @@ for j in range(4):#len(sensor_list)):
        
     
     ax5=fig.add_subplot(615)
-    ax5.plot(list(range(len(sensor_values[4]))),sensor_values[4])
+    ax5.plot(list(range(len(sensor_values[4]))),sensor_values[4],linewidth=0.4)
+    ax5.fill_between(list(range(len(trip_points[4]))),min(sensor_values[4]),max(sensor_values[4]),where=trip_points[4]==1,facecolor='green',alpha=0.2)
     plt.grid(True)
     plt.tick_params(axis='x',which='both', bottom='off', top='off', labelbottom='off')
     plt.xlim((0,plot_x_limit))
@@ -132,7 +136,7 @@ for j in range(4):#len(sensor_list)):
    
     
     ax6=fig.add_subplot(616)
-    ax6.plot(list(range(len(sensor_values[5]))),sensor_values[5])
+    ax6.plot(list(range(len(sensor_values[5]))),sensor_values[5],linewidth=0.4)
     plt.grid(True)
     plt.xlim((0,plot_x_limit))
     plt.yticks(np.arange(min(sensor_values[5]),2*max(sensor_values[5])-min(sensor_values[5]),max(sensor_values[5])-min(sensor_values[5])))
