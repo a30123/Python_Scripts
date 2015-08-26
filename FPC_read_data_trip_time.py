@@ -23,13 +23,25 @@ from matplotlib import pyplot as plt
 #########################################################################################################
 #######################################   FUNCTIONS           ###########################################
 #########################################################################################################
-
+def get_single_column_from_csv(csvpathfilename):
+    import csv
+    import numpy as np      
+    
+    thelist=[]
+    
+    with open(csvpathfilename,'rU') as csvfile:
+        contents=csv.reader(csvfile)
+        for row in contents:
+            thelist.append(float(row[0]))
+        
+    return np.array(thelist)    
 
 #########################################################################################################
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
 folder_to_read_from="C://Users//A30123.ITRI//Desktop//Tasks//FPC//data//sensor_csv"
-figure_folder="C://Users//A30123.ITRI//Documents//Python Scripts//FPC//Try_20150825_read_and_plot_by_sensor//output"
+figure_folder="C://Users//A30123.ITRI//Documents//Python Scripts//FPC//Try_20150826_plot_with_trip//output"
+index_folder="C://Users//A30123.ITRI//Desktop//Tasks//FPC//Index//trip point//"
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
@@ -47,22 +59,27 @@ sensor_list=sensor_list[1:len(sensor_list)]
 
 All={0:0,1:0,2:0,3:0,4:0,5:0}
 sensor_values={0:0,1:0,2:0,3:0,4:0,5:0}
+trip_points={0:0,1:0,2:0,3:0,4:0,5:0}
 no_of_runs=len(files_in_folder)
 
 
 
 for i in range(len(files_in_folder)):
-    single_file_path=os.path.join(folder_to_read_from,files_in_folder[i])    
+    single_file_path=os.path.join(folder_to_read_from,files_in_folder[i])
+    single_file_path2=os.path.join(index_folder,files_in_folder[i])    
         
     All_temp=pd.read_csv(single_file_path)
     All_temp=All_temp.convert_objects(convert_numeric=True)
     All_temp[sensor_list]=All_temp[sensor_list].astype('float32')
     All[i]=All_temp
     
+    
+    temp_trip=get_single_column_from_csv(single_file_path2)
+    trip_points[i]=np.array(temp_trip)
 
 
 
-for j in range(len(sensor_list)):
+for j in range(4):#len(sensor_list)):
     for i in range(len(files_in_folder)):
         single_file_path=os.path.join(folder_to_read_from,files_in_folder[i])
         
@@ -77,6 +94,7 @@ for j in range(len(sensor_list)):
     
     ax1=fig.add_subplot(611)
     ax1.plot(list(range(len(sensor_values[0]))),sensor_values[0])
+    ax1.fill_between(list(range(len(trip_points[0]))),min(sensor_values[0]),max(sensor_values[0]),where=trip_points[0]==1,facecolor='green',alpha=0.5)
     plt.grid(True)
     plt.tick_params(axis='x',which='both', bottom='off', top='off', labelbottom='off')
     plt.xlim((0,plot_x_limit))
