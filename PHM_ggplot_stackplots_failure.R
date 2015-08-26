@@ -39,15 +39,15 @@ data2<-read.csv(file_path_name2,header=F)
 
 
 #data_split<-split(data2,floor((1:length(data2[,1])/1000)))
-all_intervals_fault1=c()
+#all_intervals_fault1=vector()
 
 data_fault1<-data2[data2[,3]==1,]
 # all_intervals_fault1=
 # for (kk in 1:length(data_fault1[,1])){
 #   intervals_fault1<-new_interval(data_fault1[kk,1],data_fault1[kk,2])
-#   all_intervals_fault1=c(all_intervals,intervals_fault1)                          
+#   all_intervals_fault1=c(all_intervals_fault1,intervals_fault1)                          
 # }
-
+a<-rep(0,length(data_fault1[,1]))
 names(data)=c("component","time","sensor_1","sensor_2","sensor_3","sensor_4", "control_1","control_2", "control_3", "control_4")
 data$time<-strptime(data$time,format="%Y-%m-%d %H:%M:%S")
 data_length<-length(data[,1])
@@ -59,19 +59,21 @@ for (i in 1:plot_number){
   begin_index<-(1+1000*(i-1))
   end_index<-(1000*i)
   plot_time_interval<-new_interval(data[begin_index,2],data[end_index,2])
-  p1<-ggplot(data=data[begin_index:end_index,],aes(x=time,y=sensor_1,group=component,col=factor(component)))+geom_line()+theme(legend.position="none")
+  temp_data=as.data.frame(data[begin_index:end_index,])
+  p1<-ggplot(temp_data)+geom_line(aes(x=time,y=sensor_1,group=component,col=factor(component)))+theme(legend.position="none")
   
-#   
-#   see_if_overlap<-function(x){
-#     return(int_overlaps(plot_time_interval,x))
-#   }
-  for (kk in 1:2){#length(data_fault1[,1])){
+
+  for (kk in 1:length(data_fault1[,1])){
     if(int_overlaps(plot_time_interval,new_interval(data_fault1[kk,1],data_fault1[kk,2]))){
-      p1<-p1+geom_rect(aes(xmin = as.POSIXct(data_fault1[kk,1]), xmax=as.POSIXct(data_fault1[kk,2]),ymin = -Inf, ymax = Inf),fill="green",alpha = 0.4)
-      print(kk)
+      a[kk]<-1
+      #p1<-p1+geom_rect(aes(xmin = as.POSIXct(data_fault1[kk,1]), xmax=as.POSIXct(data_fault1[kk,2]),ymin = -Inf, ymax = Inf),fill="green",alpha = 0.4)
     }
   }
-  
+  new_fault1<-as.data.frame(data_fault1[a==1,])
+  new_fault1$V1=as.POSIXct(new_fault1$V1)
+  new_fault1$V2=as.POSIXct(new_fault1$V2)
+  p1<-(p1+geom_rect(data=new_fault1,aes(xmin =V1, xmax=V2,ymin = -Inf, ymax = Inf),fill="pink",alpha = 0.4))
+  p1
   
   p2<-ggplot(data=data[begin_index:end_index,],aes(x=time,y=sensor_2,group=component,col=factor(component)))+geom_line()+theme(legend.position="none")
   p3<-ggplot(data=data[begin_index:end_index,],aes(x=time,y=sensor_3,group=component,col=factor(component)))+geom_line()+theme(legend.position="none")
