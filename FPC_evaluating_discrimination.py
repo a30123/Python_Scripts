@@ -30,19 +30,24 @@ import pandas as pd
 #########################################################################################################
 people=('Tom','Dick','Harry','Slim','Jim')
 figure_folder="C://Users//A30123.ITRI//Documents//Python Scripts//FPC//Try_20150907_evaluate_discrimination//output"
-
+folder_path="C://Users//A30123.ITRI//Documents//Python Scripts//FPC//Try_20150907_evaluate_discrimination//mean//"
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
 tstart = time.time()
-
-All_temp=pd.read_csv(single_file_path)
+single_file_path=folder_path+"slide window-7350MAbr(20110329).csv"
+All_temp=pd.read_csv(single_file_path,header=None)
+sensor_list=list(All_temp.columns.values)
+sensor_list=sensor_list[1:len(sensor_list)]
  
 All_temp=All_temp.convert_objects(convert_numeric=True)
-All_temp[sensor_list]=All_temp[sensor_list].astype('float32')
+All_temp=All_temp[:][sensor_list].astype('float32')
+feature_matrix=np.asarray(All_temp)
+
+distance_value=10
 
 y_pos=np.arange(len(people))
-performance=3+10*np.random.rand(len(people))
+performance=distance_value*np.ones(len(people))
 
 plt.barh(y_pos,performance,align='center',color='DarkOliveGreen',alpha=0.4)
 plt.yticks(y_pos,people)
