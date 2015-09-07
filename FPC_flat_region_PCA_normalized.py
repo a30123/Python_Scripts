@@ -37,7 +37,7 @@ def get_single_column_from_csv(csvpathfilename):
         contents=csv.reader(csvfile)
         for row in contents:
             thelist.append(float(row[0]))
-        c9
+
     return np.array(thelist)    
 
 #########################################################################################################
