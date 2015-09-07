@@ -19,6 +19,7 @@ import time
 import matplotlib.pyplot as plt; plt.rcdefaults()
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 #########################################################################################################
 #######################################   FUNCTIONS           ###########################################
 #########################################################################################################
@@ -34,6 +35,12 @@ figure_folder="C://Users//A30123.ITRI//Documents//Python Scripts//FPC//Try_20150
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
 tstart = time.time()
+
+All_temp=pd.read_csv(single_file_path)
+ 
+All_temp=All_temp.convert_objects(convert_numeric=True)
+All_temp[sensor_list]=All_temp[sensor_list].astype('float32')
+
 y_pos=np.arange(len(people))
 performance=3+10*np.random.rand(len(people))
 
