@@ -38,5 +38,21 @@ sklearn_pca = sklearnPCA(n_components=2)
 sklearn_transf = sklearn_pca.fit_transform(X)
 sklearn_transf
 
+x_test=np.asarray([[173,54]])
+
 sklearn_transf_prime=sklearn_pca.fit_transform(X_prime_prime)
 sklearn_transf_prime
+
+
+##########################################################
+X_prime_prime2=(X-np.mean(X,axis=0))/np.std(X,axis=0)
+X_prime_prime2
+
+sklearn_pca = sklearnPCA(n_components=2)
+sklearn_pca.fit(X_prime_prime2)
+
+x_test=np.asarray([[173,54]])
+x_test_prime2=(x_test-np.mean(X,axis=0))/np.std(X,axis=0)
+
+transformed_x_test=sklearn_pca.transform(x_test_prime2)
+transformed_x_test
