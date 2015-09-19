@@ -124,6 +124,16 @@ for i in range(no_of_runs):
 
 mlab_pca=mlabPCA(subset_All_temp3)
 scores=mlab_pca.Y
+loadings=mlab_pca.Wt
+
+#### load testing data set
+testing_set_subfolder=os.path.join(testing_set_folder,subfolder)
+files_in_testing_folder = os.listdir(testing_set_subfolder)
+single_testing_file_path=os.path.join(testing_set_subfolder,files_in_testing_folder[0])    
+Test_temp=pd.read_csv(single_testing_file_path)
+intersect_sensor_list2
+
+
   
 cc=list(range(scores.shape[0]))
 cm=plt.cm.get_cmap('RdYlBu')
