@@ -48,24 +48,28 @@ def ensure_dir(f):
         
 def PCA_module(training_data,testing_data):
 #    from matplotlib.mlab import PCA as mlabPCA
+#    import numpy as np
+#    import time
+    tstart = time.time()
     mlab_pca=mlabPCA(training_data)
 #    scores=mlab_pca.Y
     loadings=mlab_pca.Wt
-    training_mean=np.mean(training_data)
-    training_std=np.std(training_data)
+    training_mean=np.mean(training_data,axis=0)
+    training_std=np.std(training_data,axis=0)
 
     normalized_testing=(testing_data-training_mean)/training_std
+    print('PCA TIME: %.2f secs' % (time.time()-tstart))
     return np.dot(normalized_testing,loadings)
 #########################################################################################################
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
 training_set_folder="C://Users//A30123.ITRI//Desktop//Tasks//FPC//processed data//IO timeout processed//leave_one_out_cross_validation//train//"
 testing_set_folder="C://Users//A30123.ITRI//Desktop//Tasks//FPC//processed data//IO timeout processed//leave_one_out_cross_validation//test//"
-subfolder="set 5"
+subfolder="set 1"
 
 trip_folder="C://Users//A30123.ITRI//Desktop//Tasks//FPC//Index//trip point//"
 #flat_region_folder="C://Users//A30123.ITRI//Desktop//Tasks//FPC//Index//flat region//"
-output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//FPC//Try_20150916_PCA_module_leave_one_out//output//"
+output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//FPC//Try_20150920_PCA_module_leave_one_out//output//"
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
