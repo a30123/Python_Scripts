@@ -44,16 +44,28 @@ def ensure_dir(f):
     d=os.path.abspath(f)
     if not os.path.exists(d):
         os.makedirs(d)
+        
+        
+def PCA_module(training_data,testing_data):
+#    from matplotlib.mlab import PCA as mlabPCA
+    mlab_pca=mlabPCA(training_data)
+#    scores=mlab_pca.Y
+    loadings=mlab_pca.Wt
+    training_mean=np.mean(training_data)
+    training_std=np.std(training_data)
+
+    normalized_testing=(testing_data-training_mean)/training_std
+    return np.dot(normalized_testing,loadings)
 #########################################################################################################
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
 training_set_folder="C://Users//A30123.ITRI//Desktop//Tasks//FPC//processed data//IO timeout processed//leave_one_out_cross_validation//train//"
 testing_set_folder="C://Users//A30123.ITRI//Desktop//Tasks//FPC//processed data//IO timeout processed//leave_one_out_cross_validation//test//"
 subfolder="set 5"
-#folder_to_read_from="C://Users//A30123.ITRI//Desktop//Tasks//FPC//data//sensor_csv"
+
 trip_folder="C://Users//A30123.ITRI//Desktop//Tasks//FPC//Index//trip point//"
 #flat_region_folder="C://Users//A30123.ITRI//Desktop//Tasks//FPC//Index//flat region//"
-output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//FPC//Try_20150916_PCA_leave_one_out//output//"
+output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//FPC//Try_20150916_PCA_module_leave_one_out//output//"
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
@@ -123,13 +135,6 @@ for i in range(no_of_runs):
     
 #subset_All_temp3=subset_All_temp3.loc[:,subset_All_temp3.apply(pd.Series.nunique)!=1]
 
-mlab_pca=mlabPCA(subset_training_temp3)
-scores=mlab_pca.Y
-loadings=mlab_pca.Wt
-training_mean=np.mean(subset_training_temp3)
-training_std=np.std(subset_training_temp3)
-
-
 #### load testing data set
 testing_set_subfolder=os.path.join(testing_set_folder,subfolder)
 files_in_testing_folder = os.listdir(testing_set_subfolder)
@@ -139,9 +144,10 @@ testing_time_column=testing_data_temp[:][time_column]
 testing_data_temp=testing_data_temp.convert_objects(convert_numeric=True)
 testing_data_temp2=testing_data_temp[intersect_sensor_list2].astype('float32')
     
-normalized_testing=(testing_data_temp2-training_mean)/training_std
-transformed_coords_testing=np.dot(normalized_testing,loadings)
 
+transformed_coords_testing=PCA_module(subset_training_temp3,testing_data_temp2)
+
+#####plotting and saving
 PC1_coords=transformed_coords_testing[:,0]
 PC2_coords=transformed_coords_testing[:,1]
 cc=list(range(PC1_coords.shape[0]))
