@@ -85,7 +85,7 @@ def PCA_module(training_data,testing_data):
 #########################################################################################################
 training_set_folder="C://Users//A30123.ITRI//Documents//Safebox//Tasks//FPC//processed data//IO timeout processed//leave_one_out_cross_validation//train//"
 testing_set_folder="C://Users//A30123.ITRI//Documents//Safebox//Tasks//FPC//processed data//IO timeout processed//leave_one_out_cross_validation//test//"
-subfolder="set 3"
+subfolder="set 5"
 
 trip_folder="C://Users//A30123.ITRI//Documents//Safebox//Tasks//FPC//Index//trip point//"
 #flat_region_folder="C://Users//A30123.ITRI//Desktop//Tasks//FPC//Index//flat region//"
