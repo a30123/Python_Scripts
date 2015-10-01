@@ -37,7 +37,27 @@ def get_single_column_from_csv(csvpathfilename):
         for row in contents:
             thelist.append(float(row[0]))
         
-    return np.array(thelist)   
+    return np.array(thelist)  
+    
+def write_array_to_csv(filename_path,listname):
+    import csv
+     
+    runnumberfile=open(filename_path,'w',newline='')
+    wr=csv.writer(runnumberfile,quoting=csv.QUOTE_MINIMAL,delimiter=',')
+    if type(listname)==list:
+        for item in listname:
+            wr.writerow([item])
+    elif type(listname)==np.ndarray:
+        if len(listname.shape)==1:
+            for item in listname:
+                wr.writerow([item])
+        else:
+            for item in listname:
+                wr.writerow(item)
+    else:
+        print("the structure you are writing is neither a list nor an np.ndarray")
+		
+    runnumberfile.close()
     
 def ensure_dir(f):
 #    import os
@@ -63,13 +83,13 @@ def PCA_module(training_data,testing_data):
 #########################################################################################################
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
-training_set_folder="C://Users//A30123.ITRI//Desktop//Tasks//FPC//processed data//IO timeout processed//leave_one_out_cross_validation//train//"
-testing_set_folder="C://Users//A30123.ITRI//Desktop//Tasks//FPC//processed data//IO timeout processed//leave_one_out_cross_validation//test//"
-subfolder="set 1"
+training_set_folder="C://Users//A30123.ITRI//Documents//Safebox//Tasks//FPC//processed data//IO timeout processed//leave_one_out_cross_validation//train//"
+testing_set_folder="C://Users//A30123.ITRI//Documents//Safebox//Tasks//FPC//processed data//IO timeout processed//leave_one_out_cross_validation//test//"
+subfolder="set 3"
 
-trip_folder="C://Users//A30123.ITRI//Desktop//Tasks//FPC//Index//trip point//"
+trip_folder="C://Users//A30123.ITRI//Documents//Safebox//Tasks//FPC//Index//trip point//"
 #flat_region_folder="C://Users//A30123.ITRI//Desktop//Tasks//FPC//Index//flat region//"
-output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//FPC//Try_20150920_PCA_module_leave_one_out//output//"
+output_folder="C://Users//A30123.ITRI//Documents//Python Scripts//FPC//Try_20151001_PCA_leave_one_out_export_csv//output//"
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
@@ -171,9 +191,14 @@ output_subfolder=output_folder+subfolder
 ensure_dir(output_subfolder)
 complete_path_to_save_figure=output_subfolder+"//"+subfolder+"_"+files_in_testing_folder[0].replace(".csv",".png")
 
+
 plt.show
 plt.savefig(complete_path_to_save_figure,dpi=200)
 plt.clf()
+
+complete_path_to_save_csv=output_subfolder+"//"+subfolder+"_"+files_in_testing_folder[0]
+final_result=np.column_stack((testing_time_column,PC1_coords,PC2_coords))
+write_array_to_csv(complete_path_to_save_csv,final_result)
 #    
 print('RUN TIME: %.2f secs' % (time.time()-tstart))
 
