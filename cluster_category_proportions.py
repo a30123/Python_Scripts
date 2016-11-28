@@ -63,7 +63,7 @@ def write_array_to_csv(filename_path,listname):
         print("the structure you are writing is neither a list nor an np.ndarray")
 		
     runnumberfile.close()
-#########################################################################################################
+ #########################################################################################################
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
 file_path="C://Users//Mary//Music//Documents//Python Scripts//Try_20150516_portion_of_each_segment//output.csv"
